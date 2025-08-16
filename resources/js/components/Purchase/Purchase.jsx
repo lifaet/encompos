@@ -408,7 +408,7 @@ export default function Purchase() {
                                                 }
                                                 style={{ cursor: "pointer" }}
                                             >
-                                                {product.name} - $
+                                                {product.name} - ৳
                                                 {product.price}
                                             </li>
                                         ))}

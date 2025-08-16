@@ -31,4 +31,4 @@ migrate-fresh-seed:
 	docker exec encompos-app bash -c "php artisan migrate:fresh --seed"
 
 restore-database:
-	cd database-manager && bash -c "bash restore.sh"
+	cd personal && bash -c "bash restore.sh"
