@@ -1,0 +1,34 @@
+
+curl -L -o /usr/local/bin/cloudflared https://github.com/cloudflare/cloudflared/releases/download/2025.8.0/cloudflared-linux-amd64
+chmod +x /usr/local/bin/cloudflared
+/usr/local/bin/cloudflared --version
+
+test
+
+cloudflared tunnel --url http://127.0.0.1:80
+
+
+login
+cloudflared tunnel login
+
+create
+cloudflared tunnel create encompos
+
+create config
+mkdir -p /root/.cloudflared && cat > /root/.cloudflared/config.yml <<EOF
+tunnel: 0ae799ed-6914-44c1-a4ae-e201c2285b24
+credentials-file: /root/.cloudflared/0ae799ed-6914-44c1-a4ae-e201c2285b24.json
+
+ingress:
+  - hostname: pos.harinakundumobilegoldenlinecounter.com
+    service: http://127.0.0.1:80
+  - service: http_status:404
+EOF
+
+
+point dns
+cloudflared tunnel route dns 0ae799ed-6914-44c1-a4ae-e201c2285b24 pos.harinakundumobilegoldenlinecounter.com
+
+run 
+cloudflared tunnel run encompos-tunnel
+cloudflared tunnel delete encompos-tunnel

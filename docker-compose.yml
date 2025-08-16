@@ -16,6 +16,7 @@ services:
       - encompos-network
     depends_on:
       - db
+
   db:
     image: mariadb:10.11
     container_name: encompos-db
@@ -30,7 +31,6 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - encompos-network
-
 
   nginx:
     image: nginx:alpine
