@@ -1,0 +1,274 @@
+/* ========= theme ========== */
+.sidebar-dark-lightblue .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-lightblue .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #71c55d !important;
+}
+
+.text-lightblue {
+    color: #71c55d !important;
+}
+
+.bg-gradient-primary {
+    background: #71c55d !important;
+}
+
+.bg-gradient-primary.btn:hover {
+    background: #71c55d linear-gradient(180deg, #71c55d, #9eca93) repeat-x !important;
+    border-color: #71c55d !important;
+}
+
+.bg-primary {
+    background: #71c55d !important;
+}
+
+.btn-lightblue {
+    color: #71c55d !important;
+}
+
+a {
+    color: #070808;
+}
+
+.btn-lightblue:hover {
+    background: #71c55d linear-gradient(180deg, #9eca93, #9eca93) repeat-x !important;
+    border-color: #070808 !important;
+}
+
+.sidebar-light-lightblue {
+    background-color: #f1f6f1 !important;
+    box-shadow: none !important;
+}
+
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+    background-color: aliceblue !important;
+}
+
+.elevation-3 {
+    background: aliceblue !important;
+}
+
+.preloader {
+    background-color: aliceblue !important;
+}
+
+/* ========= theme end ========== */
+
+.site-logo-placeholder {
+    width: auto;
+    max-width: 260px;
+    max-height: 80px;
+}
+
+.user-cart {
+    .card {
+        height: 400px;
+    }
+
+    .qty {
+        width: 45px;
+        float: left;
+    }
+}
+
+.order-product {
+    .item {
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background: #fff;
+        margin: 0 2px 4px 2px;
+
+        img {
+            width: 100px;
+            height: 100px;
+            max-width: 100%;
+        }
+
+        h5 {
+            font-size: 13px;
+            text-align: center;
+        }
+    }
+}
+
+.product-list {
+    .product-img {
+        max-width: 70px;
+        max-height: 70px;
+    }
+}
+/* for fixing select2 input field desgine issue */
+ .select2-container--default .select2-selection--single {
+     height: calc(1.5em + 0.75rem + 2px) !important;
+ }
+
+
+/* Custom large size for the switch toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    /* Decreased width */
+    height: 20px;
+    /* Decreased height */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    /* Decreased size */
+    width: 16px;
+    /* Decreased size */
+    left: 2px;
+    /* Adjusted position */
+    bottom: 2px;
+    /* Adjusted position */
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #71c55d;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #71c55d;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(20px);
+    /* Adjusted for new size */
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 20px;
+    /* Adjusted for new size */
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.brand-link {
+    text-align: center;
+    padding: 5px 0;
+}
+
+.brand-text {
+    font-weight: 700 !important;
+    font-size: 30px !important;
+    display: inline-block;
+}
+
+.brand-text-accent {
+    color: #71c55d;
+}
+
+/* Dashboard Specific Styles */
+.content-wrapper {
+    background-color: #f8fafc !important;
+}
+
+/* Card Styles */
+.small-box {
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+    border: none !important;
+    transition: transform 0.2s ease;
+}
+
+.small-box:hover {
+    transform: translateY(-2px);
+}
+
+.small-box .icon {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dashboard Card Colors */
+.bg-info {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa) !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #22c55e, #4ade80) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+}
+
+.bg-danger {
+    background: linear-gradient(135deg, #ef4444, #f87171) !important;
+}
+
+/* Dashboard Charts */
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Dashboard Stats Text */
+.inner h3 {
+    font-weight: 600;
+    color: #fff;
+}
+
+.inner p {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+/* Chart Container */
+.chart {
+    padding: 1rem;
+}
+
+/* Table in Dashboard */
+.table-responsive {
+    border-radius: 8px;
+    background: white;
+}
+
+.table thead th {
+    border-bottom: 2px solid #e5e7eb;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+/* Dashboard Section Headings */
+.content-header h1 {
+    font-weight: 600;
+    color: #1e293b;
+}

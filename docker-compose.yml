@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: encompos-app
+    container_name: encompos-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:cached
+      - ./docker-compose/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - encompos-network
+    depends_on:
+      - db
+  db:
+    image: mariadb:10.11
+    container_name: encompos-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+    command: --innodb-buffer-pool-size=128M --max-connections=50
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - encompos-network
+
+
+  nginx:
+    image: nginx:alpine
+    container_name: encompos-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www:cached
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - encompos-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: encompos-phpmyadmin
+    environment:
+      PMA_HOST: encompos-db
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+    ports:
+      - "8080:80"
+    networks:
+      - encompos-network
+    depends_on:
+      - db
+    restart: "no"
+
+networks:
+  encompos-network:
+    driver: bridge
+
+volumes:
+  db-data:
