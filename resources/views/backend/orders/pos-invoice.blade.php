@@ -10,7 +10,7 @@
       <img src="{{ assetImage(readconfig('site_logo')) }}" height="30" width="70" alt="Logo">
       @endif
       @if(readConfig('is_show_site_invoice'))
-      <h3>{{ readConfig('site_name') }}</h3>
+      <h3>Harinakundu Mobile House</h3>
       @endif
       @if(readConfig('is_show_address_invoice')){{ readConfig('contact_address') }}<br>@endif
       @if(readConfig('is_show_phone_invoice')){{ readConfig('contact_phone') }}<br>@endif
