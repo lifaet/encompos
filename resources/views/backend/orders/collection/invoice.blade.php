@@ -38,7 +38,7 @@
         <div class="col-sm-4 invoice-col">
           From
           <address>
-            @if(readConfig('is_show_site_invoice'))<strong>Name:{{ readConfig('site_name') }}</strong><br> @endif
+            @if(readConfig('is_show_site_invoice'))<strong>Name: {{ readConfig('site_name_extended') }}</strong><br> @endif
             @if(readConfig('is_show_address_invoice'))Address: {{ readConfig('contact_address') }}<br>@endif
             @if(readConfig('is_show_phone_invoice'))Phone: {{ readConfig('contact_phone') }}<br>@endif
             @if(readConfig('is_show_email_invoice'))Email: {{ readConfig('contact_email') }}<br>@endif

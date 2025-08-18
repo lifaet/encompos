@@ -4,13 +4,13 @@
 
 <div class="card">
   <!-- Main content -->
-  <div class="receipt-container mt-0" id="printable-section" style="max-width: {{ $maxWidth}}; font-size: 12px; font-family: 'Courier New', Courier, monospace;">
+  <div class="receipt-container mt-0" id="printable-section" style="max-width: {{ $maxWidth}}; font-size: 15px; font-family:arial, sans-serif; font-weight: bold;">
     <div class="text-center">
       @if(readConfig('is_show_logo_invoice'))
       <img src="{{ assetImage(readconfig('site_logo')) }}" height="30" width="70" alt="Logo">
       @endif
       @if(readConfig('is_show_site_invoice'))
-      <h3>Harinakundu Mobile House</h3>
+      <h3> {{ readConfig('site_name_extended') }}</h3>
       @endif
       @if(readConfig('is_show_address_invoice')){{ readConfig('contact_address') }}<br>@endif
       @if(readConfig('is_show_phone_invoice')){{ readConfig('contact_phone') }}<br>@endif
