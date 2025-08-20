@@ -423,39 +423,32 @@ export default function Pos() {
                                 {products.length > 0 &&
                                     products.map((product, index) => (
                                         <div
-                                            onClick={() =>
-                                                addProductToCart(product.id)
-                                            }
-                                            className="col-6 col-md-4 col-lg-3 mb-3"
-                                            key={index}
-                                            style={{ cursor: "pointer" }}
+                                        onClick={() => addProductToCart(product.id)}
+                                        className="col-6 col-md-4 col-lg-3 mb-3 product-card"
+                                        key={index}
+                                        style={{ cursor: "pointer" }}
                                         >
-                                            <div className="text-center">
-                                                {/* <img
-                                                    src={`${fullDomainWithPort}/storage/${product.image}`}
-                                                    alt={product.name}
-                                                    className="mr-2 img-thumb"
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src = `${fullDomainWithPort}/assets/images/no-image.png`;
-                                                    }}
-                                                    width={120}
-                                                    height={100}
-                                                /> */}
-                                                <div className="product-details">
-                                                    <p className="mb-0 text-bold product-name">
-                                                        {product.name} (
-                                                        {product.quantity})
-                                                    </p>
-                                                    <p>
-                                                        Price:{" "}
-                                                        {
-                                                            product?.discounted_price
-                                                        }
-                                                    </p>
-                                                </div>
+                                        <div className="text-center">
+                                            {/* <img
+                                            src={`${fullDomainWithPort}/storage/${product.image}`}
+                                            alt={product.name}
+                                            className="mr-2 img-thumb"
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = `${fullDomainWithPort}/assets/images/no-image.png`;
+                                            }}
+                                            width={120}
+                                            height={100}
+                                            /> */}
+                                            <div className="product-details">
+                                            <p className="mb-0 text-bold product-name">
+                                                {product.name} ({product.quantity})
+                                            </p>
+                                            <p>Price: {product?.discounted_price}</p>
                                             </div>
                                         </div>
+                                        </div>
+
                                     ))}
                             </div>
                             {loading && (

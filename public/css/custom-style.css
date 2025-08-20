@@ -99,10 +99,11 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-head
         max-height: 70px;
     }
 }
+
 /* for fixing select2 input field desgine issue */
- .select2-container--default .select2-selection--single {
-     height: calc(1.5em + 0.75rem + 2px) !important;
- }
+.select2-container--default .select2-selection--single {
+    height: calc(1.5em + 0.75rem + 2px) !important;
+}
 
 
 /* Custom large size for the switch toggle */
@@ -271,4 +272,22 @@ input:checked+.slider:before {
 .content-header h1 {
     font-weight: 600;
     color: #1e293b;
+}
+
+.product-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 5px;
+    /* rounded corners */
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.product-card:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
