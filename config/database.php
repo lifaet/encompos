@@ -48,7 +48,38 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
+            'database' => (function () {
+                $databases = [];
+                foreach ($_ENV as $key => $value) {
+                    if (str_starts_with($key, 'DB_DATABASE')) {
+                        $databases[] = $value;
+                    }
+                }
+                if (empty($databases)) {
+                    return 'hmhc';
+                }
+                $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+                $uri  = $_SERVER['REQUEST_URI'] ?? '/';
+
+                // Option A: subdomain mapping
+                foreach ($databases as $i => $db) {
+                    if (str_contains($host, 'shop'.($i + 1))) {
+                        return $db;
+                    }
+                }
+
+                // Option B: path mapping (fallback)
+                foreach ($databases as $i => $db) {
+                    if (str_starts_with($uri, '/shop'.($i + 1))) {
+                        return $db;
+                    }
+                }
+
+                // Fallback to first database
+                return $databases[0];
+            })(),
+
+
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),

@@ -4,6 +4,15 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+
+
+        @if ($current_db === 'hmhc' || $current_db === 'hmhc-2' || $current_db === 'hmhc-3')
+            <li style="text-shadow: 2px 2px 2px #9b9b9bff; color: red; font-size: 25px; font-weight: bold;">
+                {{ $current_db === 'hmhc' ? 'SHOP 1' : ($current_db === 'hmhc-2' ? 'SHOP 2' : ($current_db === 'hmhc-3' ? 'SHOP 3' : 'Unknown Shop')) }}
+            </li>
+        @endif
+        
+        
         {{-- <li class="nav-item d-none d-sm-inline-block">
             <a href="index3.html" class="nav-link">Home</a>
         </li> --}}
@@ -11,10 +20,9 @@
             <a href="#" class="nav-link">Contact</a>
         </li> --}}
     </ul>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-
+            
         @can('sale_create')
         <li class="nav-item dropdown">
             <a class="nav-link btn bg-gradient-primary text-white" href="{{route('backend.admin.cart.index')}}">
