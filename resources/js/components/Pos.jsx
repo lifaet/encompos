@@ -431,7 +431,7 @@ export default function Pos() {
                                             style={{ cursor: "pointer" }}
                                         >
                                             <div className="text-center">
-                                                <img
+                                                {/* <img
                                                     src={`${fullDomainWithPort}/storage/${product.image}`}
                                                     alt={product.name}
                                                     className="mr-2 img-thumb"
@@ -441,7 +441,7 @@ export default function Pos() {
                                                     }}
                                                     width={120}
                                                     height={100}
-                                                />
+                                                /> */}
                                                 <div className="product-details">
                                                     <p className="mb-0 text-bold product-name">
                                                         {product.name} (

@@ -117,7 +117,7 @@
             <input type="number" step="0.01" min="0" class="form-control"
               placeholder="Enter discount" name="discount" value="{{ old('discount') }}">
           </div>
-          <div class="mb-3 col-md-6">
+          <!-- <div class="mb-3 col-md-6">
             <label for="thumbnailInput" class="form-label">
               Image
             </label>
@@ -132,7 +132,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="mb-3 col-md-12">
             <label for="description" class="form-label">

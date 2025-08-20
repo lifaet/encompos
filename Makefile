@@ -12,7 +12,7 @@ docker-stop:
 	docker compose stop
 
 setup-env:
-	cp .env.docker .env
+	cp .env.example .env
 
 docker-up-build:
 	docker compose up -d --build
@@ -23,6 +23,7 @@ composer-install:
 set-permissions:
 	docker exec encompos-app bash -c "chmod -R 777 /var/www/storage"
 	docker exec encompos-app bash -c "chmod -R 777 /var/www/bootstrap"
+	docker exec encompos-app bash -c "chmod -R 777 /var/www/config"
 
 generate-key:
 	docker exec encompos-app bash -c "php artisan key:generate"
