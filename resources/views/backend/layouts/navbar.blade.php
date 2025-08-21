@@ -6,9 +6,9 @@
         </li>
 
 
-        @if ($current_db === 'hmhc' || $current_db === 'hmhc-2' || $current_db === 'hmhc-3')
+        @if ($current_db === 'encompos' || $current_db === 'encompos-2')
             <li style="text-shadow: 2px 2px 2px #9b9b9bff; color: red; font-size: 25px; font-weight: bold;">
-                {{ $current_db === 'hmhc' ? 'SHOP 1' : ($current_db === 'hmhc-2' ? 'SHOP 2' : ($current_db === 'hmhc-3' ? 'SHOP 3' : 'Unknown Shop')) }}
+                {{ $current_db === 'encompos' ? 'SHOP 1' : 'SHOP 2' }}
             </li>
         @endif
         
