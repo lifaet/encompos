@@ -35,9 +35,7 @@ services:
     container_name: encompos-nginx
     restart: unless-stopped
     ports:
-      - "80:80"    # primary app
-      - "81:81"    # secondary app
-      - "82:82"  # tertiary app
+      - "80:80"
     volumes:
       - ./:/var/www:cached
       - ./docker-compose/nginx:/etc/nginx/conf.d
