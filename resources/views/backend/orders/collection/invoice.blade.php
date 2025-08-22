@@ -10,7 +10,7 @@
         <div class="col-4">
           <h2 class="page-header">
             <img src="{{ assetImage(readconfig('site_logo')) }}" height="40" width="40" alt="Logo"
-              class="brand-image img-circle elevation-3" style="opacity: .8"> {{ readConfig('site_name') }}
+              class="brand-image img-circle elevation-3" style="opacity: .8"> {{ readConfig('site_name_extended') }}
           </h2>
         </div>
         <div class="col-4">

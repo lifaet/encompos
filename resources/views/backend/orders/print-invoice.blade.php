@@ -13,7 +13,7 @@
             <img src="{{ assetImage(readconfig('site_logo')) }}" height="40" width="40" alt="Logo"
               class="brand-image img-circle elevation-3" style="opacity: .8">
             @endif
-            @if(readConfig('is_show_site_invoice')){{ readConfig('site_name') }} @endif
+            @if(readConfig('is_show_site_invoice')){{ readConfig('site_name_extended') }} @endif
           </h2>
         </div>
         <div class="col-4">
