@@ -80,3 +80,15 @@ drop-databases:
 
 restore-database:
 	cd personal && bash -c "bash restore.sh"
+
+clear-cache:
+	docker compose exec app bash -c "\
+	php artisan cache:clear && \
+	php artisan config:clear && \
+	php artisan route:clear && \
+	php artisan view:clear && \
+	php artisan event:clear && \
+	composer dump-autoload && \
+	php -r 'opcache_reset();'\
+	"
+
