@@ -2,7 +2,7 @@
   'is_live' => '0',
   'close_msg' => 'Down for maintenance',
   'site_url' => 'http://localhost/ENCOMPOS/public',
-  'site_name' => 'HMHCPOS',
+  'site_name' => 'ENCOMPOS',
   'site_name_extended' => 'Harinakundu Mobile House',
   'site_logo' => '/assets/images/logo/1725962670_66e019ae94ca7_default.png',
   'app_name' => 'ENCOMPOS',
