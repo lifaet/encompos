@@ -4,7 +4,6 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-
         <li style="text-shadow: 2px 2px 2px #9b9b9bff; color: red; font-size: 25px; font-weight: bold;">
             {{ strtoupper(str_replace('-', ' ', $current_db)) }} 
         </li>

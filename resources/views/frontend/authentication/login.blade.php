@@ -32,22 +32,26 @@
                 </div>
 
                 <div class="authentication-form-content">
-                    <!-- Shop Selector -->
-                    @if(count($databases) > 1)
-                        <div class="col-sm-6 col-lg-12 col-xl-6 py-3">
-                            <div class="form-group">
-                                <label for="db_select" class="form-label">Select Database</label>
-                                <select name="db_select" required class="form-control">
-                                    @foreach ($databases as $db)
-                                        <option value="{{ $db }}">{{ $db }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please select a shop.
-                                </div>
+                <!-- Shop Selector -->
+                @if(count($databases) > 1)
+                    <div class="col-sm-6 col-lg-12 col-xl-6 py-3">
+                        <div class="form-group">
+                            <label for="db_select" class="form-label">Select Database</label>
+                            <select name="db_select" required class="form-control">
+                                @foreach ($databases as $db)
+                                    <option value="{{ $db }}">{{ $db }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a shop.
                             </div>
                         </div>
-                    @endif
+                    </div>
+                @elseif(count($databases) === 1)
+                    <!-- Single database: set as hidden input -->
+                    <input type="hidden" name="db_select" value="{{ $databases[0] }}">
+                @endif
+
                     <div class="row g-4">                
                         <!-- Email -->
                         <div class="col-sm-6 col-lg-12 col-xl-6">

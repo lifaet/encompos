@@ -12,33 +12,47 @@ set -a; source "$ENV_FILE"; set +a
 # Config
 CONTAINER="$DB_HOST"
 DB_USER="$DB_USERNAME"
-DB_NAME="$DB_DATABASE"
 DB_PASS="$DB_PASSWORD"
 REMOTE="hmhc"
-GDRIVE_FOLDER="Databases/ENCOMPOS-HMHC"
+GDRIVE_FOLDER="Databases/ENCOMPOS/HMHC"
 
-# Find latest backup
-echo "→ Fetching latest backup from Google Drive..."
-LATEST_BACKUP=$(rclone lsf "$REMOTE:$GDRIVE_FOLDER" --files-only | sort | tail -n 1)
-if [[ -z "$LATEST_BACKUP" ]]; then
-    echo "❌ No backup found!"
+# Fetch all DB_DATABASE* variables from .env
+DB_LIST=$(grep -E '^DB_DATABASE[0-9]*' "$ENV_FILE" | cut -d '=' -f2)
+
+if [[ -z "$DB_LIST" ]]; then
+    echo "❌ No databases defined in .env!"
     exit 1
 fi
-echo "→ Latest backup: $LATEST_BACKUP"
 
-# Confirm restore
-read -p "⚠️ Restore '$DB_NAME' from '$LATEST_BACKUP'? (yes/no): " CONFIRM
-if [[ "$CONFIRM" != "yes" ]]; then
-    echo "Restore cancelled."
-    exit 0
-fi
+for DB_NAME in $DB_LIST; do
+    echo "→ Processing database: $DB_NAME"
 
-# Download backup
-TMP_FILE="/tmp/$LATEST_BACKUP"
-rclone copy "$REMOTE:$GDRIVE_FOLDER/$LATEST_BACKUP" "/tmp/"
+    # Find latest backup for this database
+    LATEST_BACKUP=$(rclone lsf "$REMOTE:$GDRIVE_FOLDER/$DB_NAME" --files-only | sort | tail -n 1)
+    if [[ -z "$LATEST_BACKUP" ]]; then
+        echo "⚠️ No backup found for $DB_NAME! Skipping."
+        continue
+    fi
+    echo "→ Latest backup for $DB_NAME: $LATEST_BACKUP"
 
-# Restore
-cat "$TMP_FILE" | docker exec -i "$CONTAINER" mysql -u"$DB_USER" -p"$DB_PASS" "$DB_NAME"
+    # Confirm restore
+    read -p "⚠️ Restore '$DB_NAME' from '$LATEST_BACKUP'? (yes/no): " CONFIRM
+    if [[ "$CONFIRM" != "yes" ]]; then
+        echo "Restore cancelled for $DB_NAME."
+        continue
+    fi
 
-rm "$TMP_FILE"
-echo "✓ Restore completed successfully."
+    # Download backup
+    TMP_FILE="/tmp/$LATEST_BACKUP"
+    rclone copy "$REMOTE:$GDRIVE_FOLDER/$DB_NAME/$LATEST_BACKUP" "/tmp/"
+
+    # Restore database
+    echo "→ Restoring $DB_NAME..."
+    cat "$TMP_FILE" | docker exec -i "$CONTAINER" mysql -u"$DB_USER" -p"$DB_PASS" "$DB_NAME"
+
+    # Cleanup
+    rm "$TMP_FILE"
+    echo "✓ $DB_NAME restored successfully."
+done
+
+echo "🎉 All available databases restored successfully!"
