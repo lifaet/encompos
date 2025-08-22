@@ -12,32 +12,42 @@ set -a; source "$ENV_FILE"; set +a
 # Config
 CONTAINER="$DB_HOST"
 DB_USER="$DB_USERNAME"
-DB_NAME="$DB_DATABASE"
 DB_PASS="$DB_PASSWORD"
 REMOTE="hmhc"
-GDRIVE_FOLDER="Databases/ENCOMPOS-HMHC"
-KEEP_LAST=7
+BASE_FOLDER="Databases/ENCOMPOS/HMHC"
+KEEP_LAST=5
+
 
 # Timestamp
 TIMESTAMP=$(date +"_%Y%m%d_%H%M%S")
-BACKUP_FILE="${DB_NAME}${TIMESTAMP}.sql"
 
-echo "→ Creating backup from container $CONTAINER..."
-docker exec -i "$CONTAINER" mysqldump -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" > "/tmp/$BACKUP_FILE"
+echo "→ Fetching database list from container $CONTAINER..."
+DATABASES=$(docker exec -i "$CONTAINER" mysql -u"$DB_USER" -p"$DB_PASS" -e "SHOW DATABASES;" \
+  | grep -Ev "Database|information_schema|performance_schema|mysql|sys")
 
-echo "→ Uploading backup to Google Drive..."
-rclone copy "/tmp/$BACKUP_FILE" "$REMOTE:$GDRIVE_FOLDER"
+for DB in $DATABASES; do
+    BACKUP_FILE="${DB}${TIMESTAMP}.sql"
+    DB_FOLDER="$BASE_FOLDER/$DB"
 
-# Cleanup old backups
-BACKUPS=$(rclone lsf "$REMOTE:$GDRIVE_FOLDER" --files-only | sort)
-TOTAL=$(echo "$BACKUPS" | wc -l)
-if [ "$TOTAL" -gt "$KEEP_LAST" ]; then
-    REMOVE=$(echo "$BACKUPS" | head -n $(($TOTAL - $KEEP_LAST)))
-    for f in $REMOVE; do
-        echo "→ Removing old backup: $f"
-        rclone delete "$REMOTE:$GDRIVE_FOLDER/$f"
-    done
-fi
+    echo "→ Backing up database: $DB"
+    docker exec -i "$CONTAINER" mysqldump -u"$DB_USER" -p"$DB_PASS" "$DB" > "/tmp/$BACKUP_FILE"
 
-rm "/tmp/$BACKUP_FILE"
-echo "✓ Backup completed successfully."
+    echo "→ Uploading $BACKUP_FILE to Google Drive ($REMOTE:$DB_FOLDER)..."
+    rclone mkdir "$REMOTE:$DB_FOLDER" || true
+    rclone copy "/tmp/$BACKUP_FILE" "$REMOTE:$DB_FOLDER"
+
+    # Cleanup old backups in Drive
+    BACKUPS=$(rclone lsf "$REMOTE:$DB_FOLDER" --files-only | sort)
+    TOTAL=$(echo "$BACKUPS" | wc -l)
+    if [ "$TOTAL" -gt "$KEEP_LAST" ]; then
+        REMOVE=$(echo "$BACKUPS" | head -n $(($TOTAL - $KEEP_LAST)))
+        for f in $REMOVE; do
+            echo "→ Removing old backup: $f"
+            rclone delete "$REMOTE:$DB_FOLDER/$f"
+        done
+    fi
+
+    rm "/tmp/$BACKUP_FILE"
+    echo "✓ $DB backup completed successfully."
+done
+echo "🎉 All databases backed up successfully!"
