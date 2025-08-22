@@ -19,7 +19,7 @@ class StartUpSeeder extends Seeder
     {
 
         $user = User::create([
-            'name' => 'Admin',
+            'name' => 'SuperAdmin',
             'email' => 'admin@encomgrid.com',
             'password' => bcrypt(123456),
             'username' => uniqid()
@@ -32,7 +32,7 @@ class StartUpSeeder extends Seeder
             'name' => "Own Supplier",
             'phone' => "012345678",
         ]);
-        $role = Role::create(['name' => 'Admin']);
+        $role = Role::create(['name' => 'SuperAdmin']);
         $user->syncRoles($role);
         $this->call([
             UnitSeeder::class,
