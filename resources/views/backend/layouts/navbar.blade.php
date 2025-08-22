@@ -5,14 +5,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
 
+        <li style="text-shadow: 2px 2px 2px #9b9b9bff; color: red; font-size: 25px; font-weight: bold;">
+            {{ strtoupper(str_replace('-', ' ', $current_db)) }} 
+        </li>
 
-        @if ($current_db === 'encompos' || $current_db === 'encompos-2')
-            <li style="text-shadow: 2px 2px 2px #9b9b9bff; color: red; font-size: 25px; font-weight: bold;">
-                {{ $current_db === 'encompos' ? 'SHOP 1' : 'SHOP 2' }}
-            </li>
-        @endif
-        
-        
         {{-- <li class="nav-item d-none d-sm-inline-block">
             <a href="index3.html" class="nav-link">Home</a>
         </li> --}}
