@@ -19,7 +19,7 @@
             <input type="text" class="form-control" placeholder="Enter title" name="name"
               value="{{ old('name', $category->name) }}" required>
           </div>
-          <div class="mb-3 col-md-6">
+          <!-- <div class="mb-3 col-md-6">
             <label for="thumbnailInput" class="form-label">
               Image
             </label>
@@ -34,7 +34,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="mb-3 col-md-12">
             <label for="description" class="form-label">
