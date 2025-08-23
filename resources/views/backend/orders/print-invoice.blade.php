@@ -27,8 +27,8 @@
       <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
           <div style="width:48%;">
               <strong>Bill To:</strong>
-              <div>{{ $order->customer->name ?? "N/A" }}</div>
-              <div>{{ $order->customer->address ?? "N/A" }}</div>
+              <div>Name: {{ $order->customer->name ?? "N/A" }}</div>
+              <div>Address: {{ $order->customer->address ?? "N/A" }}</div>
               <div>Phone: {{ $order->customer->phone ?? "N/A" }}</div>
           </div>
           <div style="width:48%; text-align:right;">
