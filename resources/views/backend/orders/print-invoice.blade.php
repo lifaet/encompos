@@ -62,10 +62,10 @@
                       {{ (float) ($item->quantity ?? 0) }} {{ optional($item->product->unit)->short_name }}
                   </td>
                   <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">
-                      {{ number_format((float) ($item->discounted_price ?? 0), 2) }}
+                      {{ number_format((float) str_replace(',', '', $item->discounted_price ?? 0), 2) }}
                   </td>
                   <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">
-                      {{ number_format((float) ($item->total ?? 0), 2) }}
+                      {{ number_format((float) str_replace(',', '', $item->total ?? 0), 2) }}
                   </td>
               </tr>
               @endforeach
