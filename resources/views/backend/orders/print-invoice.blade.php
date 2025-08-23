@@ -42,21 +42,21 @@
       <table style="width:100%; border-collapse:collapse;">
           <thead style="background:#f5f5f5;">
               <tr>
-                  <th style="width:5%; border:1px solid #dee2e6; padding:2px;">#</th>
-                  <th style="width:45%; border:1px solid #dee2e6; padding:2px;">Product</th>
-                  <th style="width:10%; border:1px solid #dee2e6; padding:2px; text-align:center;">Qty</th>
-                  <th style="width:20%; border:1px solid #dee2e6; padding:2px; text-align:center;">Unit Price ({{currency()->symbol??''}})</th>
-                  <th style="width:20%; border:1px solid #dee2e6; padding:2px; text-align:center;">Subtotal ({{currency()->symbol??''}})</th>
+                  <th style="width:5%; border:1px solid #dee2e6; padding:3px;">#</th>
+                  <th style="width:45%; border:1px solid #dee2e6; padding:3px;">Product</th>
+                  <th style="width:10%; border:1px solid #dee2e6; padding:3px; text-align:center;">Qty</th>
+                  <th style="width:20%; border:1px solid #dee2e6; padding:3px; text-align:center;">Unit Price ({{currency()->symbol??''}})</th>
+                  <th style="width:20%; border:1px solid #dee2e6; padding:3px; text-align:center;">Subtotal ({{currency()->symbol??''}})</th>
               </tr>
           </thead>
           <tbody>
               @foreach ($order->products as $item)
               <tr>
-                  <td style="border:1px solid #dee2e6; padding:2px; text-align:center;">{{ $loop->iteration }}</td>
-                  <td style="border:1px solid #dee2e6; padding:2px;">{{ $item->product->name }}</td>
-                  <td style="border:1px solid #dee2e6; padding:2px; text-align:center;">{{ $item->quantity }} {{ optional($item->product->unit)->short_name }}</td>
-                  <td style="border:1px solid #dee2e6; padding:2px; text-align:right;">{{ number_format((float) ($item->discounted_price ?? 0), 2) }} </td>
-                  <td style="border:1px solid #dee2e6; padding:2px; text-align:right;">{{ number_format($item->total, 2) }}</td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:center;">{{ $loop->iteration }}</td>
+                  <td style="border:1px solid #dee2e6; padding:3px;">{{ $item->product->name }}</td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:center;">{{ $item->quantity }} {{ optional($item->product->unit)->short_name }}</td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">{{ number_format((float) ($item->discounted_price ?? 0), 2) }} </td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">{{ number_format($item->total, 2) }}</td>
               </tr>
               @endforeach
           </tbody>
@@ -67,24 +67,24 @@
           <div style="width:40%;">
               <table style="width:100%; border-collapse:collapse;">
                   <!-- <tr>
-                      <th style="text-align:right; padding:2px;">Subtotal:</th>
-                      <td style="text-align:right; padding:2px;">{{ currency()->symbol.' '.number_format($order->sub_total,2) }}</td>
+                      <th style="text-align:right; padding:3px;">Subtotal:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->sub_total,2) }}</td>
                   </tr> -->
                   <tr>
-                      <th style="text-align:right; padding:2px;">Discount:</th>
-                      <td style="text-align:right; padding:2px;">{{ currency()->symbol.' '.number_format($order->discount,2) }}</td>
+                      <th style="text-align:right; padding:3px;">Discount:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->discount,2) }}</td>
                   </tr>
                   <tr>
-                      <th style="text-align:right; padding:2px;">Total:</th>
-                      <td style="text-align:right; padding:2px;">{{ currency()->symbol.' '.number_format($order->total,2) }}</td>
+                      <th style="text-align:right; padding:3px;">Total:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->total,2) }}</td>
                   </tr>
                   <tr>
-                      <th style="text-align:right; padding:2px;">Paid:</th>
-                      <td style="text-align:right; padding:2px;">{{ currency()->symbol.' '.number_format($order->paid,2) }}</td>
+                      <th style="text-align:right; padding:3px;">Paid:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->paid,2) }}</td>
                   </tr>
                   <tr>
-                      <th style="text-align:right; padding:2px;">Due:</th>
-                      <td style="text-align:right; padding:2px;">{{ currency()->symbol.' '.number_format($order->due,2) }}</td>
+                      <th style="text-align:right; padding:3px;">Due:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->due,2) }}</td>
                   </tr>
               </table>
           </div>
