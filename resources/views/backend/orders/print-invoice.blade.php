@@ -45,22 +45,33 @@
                   <th style="width:5%; border:1px solid #dee2e6; padding:3px;">#</th>
                   <th style="width:45%; border:1px solid #dee2e6; padding:3px;">Product</th>
                   <th style="width:10%; border:1px solid #dee2e6; padding:3px; text-align:center;">Qty</th>
-                  <th style="width:20%; border:1px solid #dee2e6; padding:3px; text-align:center;">Unit Price ({{currency()->symbol??''}})</th>
-                  <th style="width:20%; border:1px solid #dee2e6; padding:3px; text-align:center;">Subtotal ({{currency()->symbol??''}})</th>
+                  <th style="width:20%; border:1px solid #dee2e6; padding:3px; text-align:center;">Unit Price ({{ currency()->symbol ?? '' }})</th>
+                  <th style="width:20%; border:1px solid #dee2e6; padding:3px; text-align:center;">Subtotal ({{ currency()->symbol ?? '' }})</th>
               </tr>
           </thead>
           <tbody>
               @foreach ($order->products as $item)
               <tr>
-                  <td style="border:1px solid #dee2e6; padding:3px; text-align:center;">{{ $loop->iteration }}</td>
-                  <td style="border:1px solid #dee2e6; padding:3px;">{{ $item->product->name }}</td>
-                  <td style="border:1px solid #dee2e6; padding:3px; text-align:center;">{{ $item->quantity }} {{ optional($item->product->unit)->short_name }}</td>
-                  <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">{{ number_format((float) ($item->discounted_price ?? 0), 2) }} </td>
-                  <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">{{ number_format($item->total, 2) }}</td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:center;">
+                      {{ $loop->iteration }}
+                  </td>
+                  <td style="border:1px solid #dee2e6; padding:3px;">
+                      {{ $item->product->name }}
+                  </td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:center;">
+                      {{ (float) ($item->quantity ?? 0) }} {{ optional($item->product->unit)->short_name }}
+                  </td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">
+                      {{ number_format((float) ($item->discounted_price ?? 0), 2) }}
+                  </td>
+                  <td style="border:1px solid #dee2e6; padding:3px; text-align:right;">
+                      {{ number_format((float) ($item->total ?? 0), 2) }}
+                  </td>
               </tr>
               @endforeach
           </tbody>
       </table>
+
 
       <!-- TOTALS -->
       <div style="display:flex; justify-content:flex-end;">
