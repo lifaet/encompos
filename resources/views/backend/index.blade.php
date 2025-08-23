@@ -142,7 +142,7 @@
         <!-- /.row -->
 
 
-        <div class="row">
+        <div class="row sales_graph">
             <div class="col-6">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
