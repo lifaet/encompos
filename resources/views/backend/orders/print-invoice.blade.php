@@ -55,7 +55,7 @@
                   <td style="border:1px solid #dee2e6; padding:2px; text-align:center;">{{ $loop->iteration }}</td>
                   <td style="border:1px solid #dee2e6; padding:2px;">{{ $item->product->name }}</td>
                   <td style="border:1px solid #dee2e6; padding:2px; text-align:center;">{{ $item->quantity }} {{ optional($item->product->unit)->short_name }}</td>
-                  <td style="border:1px solid #dee2e6; padding:2px; text-align:right;">{{ number_format($item->discounted_price, 2) }}</td>
+                  <td style="border:1px solid #dee2e6; padding:2px; text-align:right;">{{ number_format((float) ($item->discounted_price ?? 0), 2) }} </td>
                   <td style="border:1px solid #dee2e6; padding:2px; text-align:right;">{{ number_format($item->total, 2) }}</td>
               </tr>
               @endforeach
