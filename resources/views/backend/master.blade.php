@@ -128,7 +128,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar elevation-4 sidebar-light-lightblue">
             <!-- Brand Logo -->
-            <a href="{{ route('frontend.home') }}" class="brand-link">
+            <a href="{{ route('frontend.home') }}/admin" class="brand-link">
                 <span class="brand-text">
                     <span class="brand-text-accent">{{ substr(readConfig('site_name'), 0, 5) }}</span>{{ substr(readConfig('site_name'), 5) }}
                 </span>
