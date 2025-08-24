@@ -1,17 +1,3 @@
-# 🚀 POS system in Laravel & React  
-
-<div style="display: flex;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/170px-Laravel.svg.png" width="50px" height="50px" alt="Laravel" class="icon">
-    <img src="https://w7.pngwing.com/pngs/187/112/png-transparent-responsive-web-design-html-computer-icons-css3-world-wide-web-consortium-css-angle-text-rectangle-thumbnail.png" width="50px" height="50px" alt="html" class="icon">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="50px" height="50px" alt="Vue.js" class="icon">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png" alt="JavaScript" width="50px" height="50px" class="icon">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/2560px-Bootstrap_logo.svg.png" width="50px" height="50px"  alt="Bootstrap" class="icon">
-</div>
-
-<br>
-
-Our POS system streamlines sales and inventory management. It features a **Dashboard** for key metrics, **POS** for easy transactions, and **Customer & Supplier Management** for tracking. **Product Management** allows bulk imports and organization. **Sale & Purchase Management** tracks transactions, while **Reports** provide business insights. **Inventory Management** includes low-stock alerts, and **Discount & Pricing Control** enables flexible pricing. **User Roles & Permissions** control access, and **Settings** customize preferences. Efficient, reliable, and ready to scale your business. 🚀
-
 ## ✨ Features  
 
 
@@ -43,8 +29,6 @@ Our POS system streamlines sales and inventory management. It features a **Dashb
 - Configure system preferences, tax rates, and other business settings.
 
 ## 📦 Installation
-
-Welcome to the setup guide for the **POS system in Laravel & React**. This document provides comprehensive steps to install, configure, and run the project in your local environment, using both Docker and a native setup. Follow these instructions to ensure proper configuration.
 
 ## 📝 Prerequisites
 
