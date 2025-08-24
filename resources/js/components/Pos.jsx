@@ -442,12 +442,14 @@ export default function Pos() {
                                             /> */}
                                             <div className="product-card p-2 border rounded text-center" style={{ cursor: "pointer", background: "#fff" }}>
                                                 <div className="product-details">
-                                                    <p className="mb-1 fw-bold text-truncate" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} title={product.name}>
-                                                        <span className="text-truncate">{product.name}</span>
-                                                        <span style={{ color: "#931a4dff"}}>
+                                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "4px", overflow: "hidden" }} title={`${product.name} (${product.quantity})`}>
+                                                        <span style={{ whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden", maxWidth: "70%" }}>
+                                                            {product.name}
+                                                        </span>
+                                                        <span style={{ color: "#8a0665ff", fontWeight: "bold", flexShrink: 0 }}>
                                                             ({product.quantity})
                                                         </span>
-                                                    </p>
+                                                    </div>
                                                     {product.brand_name && (
                                                         <p className="mb-1 text-muted text-truncate" title={product.brand_name} style={{ fontSize: "0.85rem" }}>
                                                             Brand: {product.brand_name}
