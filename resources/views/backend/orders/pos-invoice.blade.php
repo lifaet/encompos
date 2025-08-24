@@ -16,7 +16,7 @@
       @if(readConfig('is_show_phone_invoice')){{ readConfig('contact_phone') }}<br>@endif
       @if(readConfig('is_show_email_invoice')){{ readConfig('contact_email') }}<br>@endif
     </div>
-    {{ 'User: '.auth()->user()->name}}<br>
+    {{ 'Seller: '.($order->seller->name ?? 'N/A') }}<br>
     {{ 'Order: #'.$order->id}}<br>
     <hr>
     <div class="row justify-content-between mx-auto">
