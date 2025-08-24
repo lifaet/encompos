@@ -461,11 +461,11 @@ export default function Pos() {
                                                         </p>
                                                     )}
                                                     <p className="mb-0 fw-bold" style={{ color: "#1f7a8c" }}>
-                                                        ${product.discounted_price.toFixed(2)}
+                                                        ৳{product.discounted_price.toFixed(2)}
                                                     </p>
                                                     {product.discount && product.discount > 0 && (
                                                         <p className="mb-0 text-muted" style={{ fontSize: "0.8rem", textDecoration: "line-through" }}>
-                                                            ${product.price.toFixed(2)}
+                                                            ৳{product.price.toFixed(2)}
                                                         </p>
                                                     )}
                                                 </div>
