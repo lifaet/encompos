@@ -1,6 +1,6 @@
 @extends('backend.master')
 
-@section('title', 'Sale Report')
+@section('title', 'Summary Report')
 
 @section('content')
 <div class="card">
@@ -21,16 +21,13 @@
           <section class="invoice">
             <!-- info row -->
             <div class="row invoice-info">
-              <div class="col-sm-4">
-              </div>
-              <!-- /.col -->
+              <div class="col-sm-4"></div>
               <div class="col-sm-4">
                 <address>
-                  <strong>Sale Summary ({{$start_date}} - {{$end_date}})</strong><br>
+                  <strong>Purchase & Sale Summary ({{$start_date}} - {{$end_date}})</strong><br>
                 </address>
               </div>
-              <div class="col-sm-2">
-              </div>
+              <div class="col-sm-2"></div>
             </div>
             <!-- /.row -->
 
@@ -40,28 +37,36 @@
                 <div class="table-responsive">
                   <table class="table">
                     <tr>
-                      <th style="width:50%">Subtotal:</th>
-                      <td class="text-right">{{currency()->symbol??''}} {{number_format($sub_total,2)}}</td>
-                    </tr>
-                    <tr>
-                      <th>Total Discount:</th>
-                      <td class="text-right">{{currency()->symbol??''}} {{number_format($discount,2)}}</td>
+                      <th>Total Purchase:</th>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($total_purchase,2)}}</td>
                     </tr>
                     <tr>
                       <th>Total Sold:</th>
-                      <td class="text-right">{{currency()->symbol??''}} {{number_format($total,2)}}</td>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($sub_total,2)}}</td>
                     </tr>
                     <tr>
-                      <th>Customer Paid:</th>
-                      <td class="text-right">{{currency()->symbol??''}} {{number_format($paid,2)}}</td>
+                      <th>Total Discount:</th>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($discount,2)}}</td>
                     </tr>
                     <tr>
-                      <th>Net Profit:</th>
-                      <td class="text-right">{{currency()->symbol??''}} {{number_format($net_profit,2)}}</td>
+                      <th>Total Sold (After Discount):</th>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($total,2)}}</td>
                     </tr>
                     <tr>
-                      <th>Customer Due:</th>
-                      <td class="text-right">{{currency()->symbol??''}} {{number_format($due,2)}}</td>
+                      <th>Total Paid by Customer:</th>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($paid,2)}}</td>
+                    </tr>
+                    <tr>
+                      <th>Total Due:</th>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($due,2)}}</td>
+                    </tr>
+                    <tr>
+                      <th>Net Profit (Including Due):</th>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($net_profit_including_due,2)}}</td>
+                    </tr>
+                    <tr>
+                      <th>Net Profit (Excluding Due):</th>
+                      <td class="text-right">{{currency()->symbol ?? ''}} {{number_format($net_profit_excluding_due,2)}}</td>
                     </tr>
                   </table>
                 </div>

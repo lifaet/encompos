@@ -223,9 +223,9 @@ $route = request()->route()->getName();
             </li>
             @endif
             @if (auth()->user()->hasAnyPermission([
-            'reports_summary',
-            'reports_sales',
             'reports_inventory',
+            'reports_sales',
+            'reports_summary',
             ]))
             <li class="nav-item">
                 <a href="#" class="nav-link {{ request()->routeIs(['backend.admin.sale.report','backend.admin.sale.summery']) ? 'menu-open' : '' }}">
@@ -236,12 +236,12 @@ $route = request()->route()->getName();
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    @can('reports_summary')
+                    @can('reports_inventory')
                     <li class="nav-item">
-                        <a href="{{route('backend.admin.sale.summery')}}"
-                            class="nav-link {{ request()->routeIs(['backend.admin.sale.summery']) ? 'active' : '' }}">
+                        <a href="{{route('backend.admin.inventory.report')}}"
+                            class="nav-link {{ request()->routeIs(['backend.admin.inventory.report']) ? 'active' : '' }}">
                             <i class="fas fa-circle nav-icon"></i>
-                            <p>Sales Summary</p>
+                            <p>Inventory</p>
                         </a>
                     </li>
                     @endcan
@@ -254,12 +254,12 @@ $route = request()->route()->getName();
                         </a>
                     </li>
                     @endcan
-                    @can('reports_inventory')
+                    @can('reports_summary')
                     <li class="nav-item">
-                        <a href="{{route('backend.admin.inventory.report')}}"
-                            class="nav-link {{ request()->routeIs(['backend.admin.inventory.report']) ? 'active' : '' }}">
+                        <a href="{{route('backend.admin.sale.summery')}}"
+                            class="nav-link {{ request()->routeIs(['backend.admin.sale.summery']) ? 'active' : '' }}">
                             <i class="fas fa-circle nav-icon"></i>
-                            <p>Inventory</p>
+                            <p>Summary</p>
                         </a>
                     </li>
                     @endcan

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Report;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -41,7 +42,7 @@ class ReportController extends Controller
         return view('backend.reports.sale-report', $data);
     }
 
-    // Sale Summary (totals)
+    // Sale Summary (totals including purchases and net profit)
     public function saleSummery(Request $request)
     {
         abort_if(!auth()->user()->can('reports_summary'), 403);
@@ -52,7 +53,16 @@ class ReportController extends Controller
         $start_date = Carbon::createFromFormat('Y-m-d', $start_date_input)->startOfDay();
         $end_date = Carbon::createFromFormat('Y-m-d', $end_date_input)->endOfDay();
 
+        // Orders within date range
         $orders = Order::whereBetween('created_at', [$start_date, $end_date])->get();
+
+        // Total purchases within date range
+        $total_purchase = Purchase::whereBetween('created_at', [$start_date, $end_date])
+                                  ->sum('grand_total');
+
+        // Net profit calculations
+        $net_profit_including_due = $orders->sum('profit');          
+        $net_profit_excluding_due = $orders->sum('profit') - $orders->sum('due'); 
 
         $data = [
             'sub_total' => $orders->sum('sub_total'),
@@ -60,9 +70,11 @@ class ReportController extends Controller
             'paid' => $orders->sum('paid'),
             'due' => $orders->sum('due'),
             'total' => $orders->sum('total'),
-            'net_profit' => $orders->sum('profit'), // total profit for selected range
-            'start_date' => $start_date->format('Y-m-d'), // date only
-            'end_date' => $end_date->format('Y-m-d'),     // date only
+            'total_purchase' => $total_purchase,
+            'net_profit_including_due' => $net_profit_including_due,
+            'net_profit_excluding_due' => $net_profit_excluding_due,
+            'start_date' => $start_date->format('Y-m-d'),
+            'end_date' => $end_date->format('Y-m-d'),
         ];
 
         return view('backend.reports.sale-summery', $data);
