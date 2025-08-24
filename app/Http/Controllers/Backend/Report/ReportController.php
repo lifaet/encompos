@@ -12,7 +12,7 @@ use Yajra\DataTables\DataTables;
 
 class ReportController extends Controller
 {
-    // Sale Report (list of orders)
+    // Sale Report
     public function saleReport(Request $request)
     {
         abort_if(!auth()->user()->can('reports_sales'), 403);
@@ -34,15 +34,15 @@ class ReportController extends Controller
             'paid' => $orders->sum('paid'),
             'due' => $orders->sum('due'),
             'total' => $orders->sum('total'),
-            'net_profit' => $orders->sum('profit'), // total profit for selected range
-            'start_date' => $start_date->format('Y-m-d'), // date only
-            'end_date' => $end_date->format('Y-m-d'),     // date only
+            'net_profit' => $orders->sum('profit'),
+            'start_date' => $start_date->format('Y-m-d'),
+            'end_date' => $end_date->format('Y-m-d'),
         ];
 
         return view('backend.reports.sale-report', $data);
     }
 
-    // Sale Summary (totals including purchases and net profit)
+    // Sale Summary
     public function saleSummery(Request $request)
     {
         abort_if(!auth()->user()->can('reports_summary'), 403);
@@ -53,14 +53,9 @@ class ReportController extends Controller
         $start_date = Carbon::createFromFormat('Y-m-d', $start_date_input)->startOfDay();
         $end_date = Carbon::createFromFormat('Y-m-d', $end_date_input)->endOfDay();
 
-        // Orders within date range
         $orders = Order::whereBetween('created_at', [$start_date, $end_date])->get();
+        $total_purchase = Purchase::whereBetween('created_at', [$start_date, $end_date])->sum('grand_total');
 
-        // Total purchases within date range
-        $total_purchase = Purchase::whereBetween('created_at', [$start_date, $end_date])
-                                  ->sum('grand_total');
-
-        // Net profit calculations
         $net_profit_including_due = $orders->sum('profit');          
         $net_profit_excluding_due = $orders->sum('profit') - $orders->sum('due'); 
 
@@ -87,19 +82,18 @@ class ReportController extends Controller
 
         if ($request->ajax()) {
             $products = Product::latest()->active()->get();
+
             return DataTables::of($products)
                 ->addIndexColumn()
                 ->addColumn('name', fn($data) => $data->name)
                 ->addColumn('sku', fn($data) => $data->sku)
-                ->addColumn(
-                    'price',
-                    fn($data) => $data->discounted_price .
-                        ($data->price > $data->discounted_price
-                            ? '<br><del>' . $data->price . '</del>'
-                            : '')
-                )
+                ->addColumn('purchase_price', fn($data) => number_format($data->purchase_price ?? 0, 2))
+                ->addColumn('sale_price', fn($data) => number_format($data->discounted_price ?? 0, 2))
+                ->addColumn('expire_date', function($data) {
+                    return $data->expire_date ? Carbon::parse($data->expire_date)->format('Y-m-d') : '-';
+                })
                 ->addColumn('quantity', fn($data) => $data->quantity . ' ' . optional($data->unit)->short_name)
-                ->rawColumns(['name', 'sku', 'price', 'quantity'])
+                ->rawColumns(['name', 'sku', 'purchase_price', 'sale_price', 'expire_date', 'quantity'])
                 ->toJson();
         }
 
