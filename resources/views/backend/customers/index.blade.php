@@ -15,7 +15,7 @@
   <div class="card-body p-2 p-md-4 pt-0">
     <div class="row g-4">
       <div class="col-md-12">
-        <div class="card-body table-responsive p-0" id="table_data">
+        <div class="card-body table-responsive" id="table_data">
           <table id="datatables" class="table table-hover">
             <thead>
               <tr>
