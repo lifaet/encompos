@@ -42,11 +42,24 @@ const CustomerSelect = ({ setCustomerId }) => {
       cancelButtonText: "Cancel",
       focusConfirm: false,
       didOpen: () => {
-        document.getElementById("swal-name").focus();
-        ["swal-name", "swal-phone", "swal-address"].forEach((id) => {
-          document.getElementById(id).addEventListener("keydown", (e) => {
-            if (e.key === "Enter") Swal.clickConfirm();
-          });
+        const nameInput = document.getElementById("swal-name");
+        const phoneInput = document.getElementById("swal-phone");
+        const addressInput = document.getElementById("swal-address");
+
+        // Start focus on phone
+        phoneInput.focus();
+
+        // Enter = move to next field or save
+        nameInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") phoneInput.focus();
+        });
+
+        phoneInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") addressInput.focus();
+        });
+
+        addressInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") Swal.clickConfirm();
         });
       },
       preConfirm: () => ({
