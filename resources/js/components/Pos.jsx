@@ -451,12 +451,12 @@ export default function Pos() {
                                                         </span>
                                                     </div>
                                                     {product.brand_name && (
-                                                        <p className="mb-1 text-muted text-truncate" title={product.brand_name} style={{ fontSize: "0.85rem" }}>
+                                                        <p className="text-muted text-truncate" title={product.brand_name} style={{ fontSize: "0.85rem" }}>
                                                             Brand: {product.brand_name}
                                                         </p>
                                                     )}
                                                     {product.category_name && (
-                                                        <p className="mb-1 text-muted text-truncate" title={product.category_name} style={{ fontSize: "0.85rem" }}>
+                                                        <p className="text-muted text-truncate" title={product.category_name} style={{ fontSize: "0.85rem" }}>
                                                             Category: {product.category_name}
                                                         </p>
                                                     )}
