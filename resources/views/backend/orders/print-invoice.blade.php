@@ -33,7 +33,7 @@
           </div>
           <div style="width:48%; text-align:right;">
               <strong>Sale Info:</strong>
-              <div>Sale Date: {{ date('d/m/Y', strtotime($order->created_at)) }}</div>
+              <div>{{ 'Seller: '.($order->seller->name ?? 'N/A') }}<br>Sale Date: {{ date('d/m/Y', strtotime($order->created_at)) }}</div>
               @if($order->note)<div><em>{{ $order->note }}</em></div>@endif
           </div>
       </div>
