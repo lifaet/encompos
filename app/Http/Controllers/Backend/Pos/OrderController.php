@@ -45,6 +45,7 @@ class OrderController extends Controller
                 ->rawColumns(['saleId', 'customer', 'item', 'sub_total', 'discount', 'total', 'profit', 'paid', 'due', 'status', 'action'])
                 ->toJson();
         }
+
         return view('backend.orders.index');
     }
 
@@ -86,8 +87,18 @@ class OrderController extends Controller
             'status' => round($dueAmount, 2) <= 0,
         ]);
 
-        // Deduct stock
+        // Deduct stock and save order products
         foreach ($carts as $cart) {
+            $order->products()->create([
+                'product_id' => $cart->product->id,
+                'quantity' => $cart->quantity,
+                'price' => $cart->product->price,
+                'purchase_price' => $cart->product->purchase_price,
+                'sub_total' => $cart->product->price * $cart->quantity,
+                'discount' => ($cart->product->price - $cart->product->discounted_price) * $cart->quantity,
+                'total' => $cart->product->discounted_price * $cart->quantity,
+            ]);
+
             $cart->product->quantity -= $cart->quantity;
             $cart->product->save();
         }
@@ -107,19 +118,28 @@ class OrderController extends Controller
         return response()->json(['message' => 'Order completed successfully', 'order' => $order], 200);
     }
 
+    /**
+     * Invoice view.
+     */
     public function invoice($id)
     {
-        $order = Order::with('customer')->findOrFail($id);
+        $order = Order::with(['customer', 'products.product'])->findOrFail($id);
         return view('backend.orders.print-invoice', compact('order'));
     }
 
+    /**
+     * POS Invoice view.
+     */
     public function posInvoice($id)
     {
-        $order = Order::with('customer')->findOrFail($id);
+        $order = Order::with(['customer', 'products.product'])->findOrFail($id);
         $maxWidth = readConfig('receiptMaxwidth') ?? '300px';
         return view('backend.orders.pos-invoice', compact('order', 'maxWidth'));
     }
 
+    /**
+     * Due collection.
+     */
     public function collection(Request $request, $id)
     {
         $order = Order::findOrFail($id);
@@ -145,6 +165,9 @@ class OrderController extends Controller
         return view('backend.orders.collection.create', compact('order'));
     }
 
+    /**
+     * Collection invoice by transaction.
+     */
     public function collectionInvoice($id)
     {
         $transaction = OrderTransaction::findOrFail($id);
@@ -153,6 +176,9 @@ class OrderController extends Controller
         return view('backend.orders.collection.invoice', compact('order', 'collection_amount', 'transaction'));
     }
 
+    /**
+     * Order transactions.
+     */
     public function transactions($id)
     {
         $order = Order::with('transactions')->findOrFail($id);
