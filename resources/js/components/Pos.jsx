@@ -446,7 +446,7 @@ export default function Pos() {
                                                         <span style={{ whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden", maxWidth: "70%" }}>
                                                             {product.name}
                                                         </span>
-                                                        <span style={{ color: "#8a0665ff", fontWeight: "bold", flexShrink: 0 }}>
+                                                        <span style={{ color: "#8a0665ff", flexShrink: 0 }}>
                                                             ({product.quantity})
                                                         </span>
                                                     </div>
