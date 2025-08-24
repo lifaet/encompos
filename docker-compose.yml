@@ -56,7 +56,7 @@ services:
       - encompos-network
     depends_on:
       - db
-    restart: "no"
+    restart: "unless-stopped"
 
 networks:
   encompos-network:
