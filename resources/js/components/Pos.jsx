@@ -8,7 +8,6 @@ import CustomerSelect from "./CutomerSelect";
 import SuccessSound from "../sounds/beep-07a.mp3";
 import WarningSound from "../sounds/beep-02.mp3";
 import playSound from "../utils/playSound";
-
 export default function Pos() {
     const [products, setProducts] = useState([]);
     const [carts, setCarts] = useState([]);
@@ -461,11 +460,11 @@ export default function Pos() {
                                                         </p>
                                                     )}
                                                     <p className="mb-0 fw-bold" style={{ color: "#1f7a8c" }}>
-                                                        ৳{product.discounted_price.toFixed(2)}
+                                                        BDT{product.discounted_price.toFixed(2)}
                                                     </p>
                                                     {product.discount && product.discount > 0 && (
                                                         <p className="mb-0 text-muted" style={{ fontSize: "0.8rem", textDecoration: "line-through" }}>
-                                                            ৳{product.price.toFixed(2)}
+                                                            BDT{product.price.toFixed(2)}
                                                         </p>
                                                     )}
                                                 </div>
