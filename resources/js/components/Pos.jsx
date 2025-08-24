@@ -424,7 +424,7 @@ export default function Pos() {
                                     products.map((product, index) => (
                                         <div
                                         onClick={() => addProductToCart(product.id)}
-                                        className="col-6 col-md-4 col-lg-3 mb-3 product-card"
+                                        className="col-6 col-md-4 col-lg-3 mb-2 product-card"
                                         key={index}
                                         style={{ cursor: "pointer" }}
                                         >
@@ -440,12 +440,32 @@ export default function Pos() {
                                             width={120}
                                             height={100}
                                             /> */}
-                                            <div className="product-details">
-                                            <p className="mb-0 text-bold product-name">
-                                                {product.name} ({product.quantity})
-                                            </p>
-                                            <p>Price: {product?.discounted_price}</p>
+                                            <div className="product-card p-2 border rounded text-center" style={{ cursor: "pointer", background: "#fff" }}>
+                                                <div className="product-details">
+                                                    <p className="mb-1 fw-bold text-truncate" title={product.name}>
+                                                        {product.name} ({product.quantity})
+                                                    </p>
+                                                    {product.brand_name && (
+                                                        <p className="mb-1 text-muted text-truncate" title={product.brand_name} style={{ fontSize: "0.85rem" }}>
+                                                            Brand: {product.brand_name}
+                                                        </p>
+                                                    )}
+                                                    {product.category_name && (
+                                                        <p className="mb-1 text-muted text-truncate" title={product.category_name} style={{ fontSize: "0.85rem" }}>
+                                                            Category: {product.category_name}
+                                                        </p>
+                                                    )}
+                                                    <p className="mb-0 fw-bold" style={{ color: "#1f7a8c" }}>
+                                                        ${product.discounted_price.toFixed(2)}
+                                                    </p>
+                                                    {product.discount && product.discount > 0 && (
+                                                        <p className="mb-0 text-muted" style={{ fontSize: "0.8rem", textDecoration: "line-through" }}>
+                                                            ${product.price.toFixed(2)}
+                                                        </p>
+                                                    )}
+                                                </div>
                                             </div>
+
                                         </div>
                                         </div>
 
