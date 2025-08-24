@@ -26,13 +26,11 @@
               <!-- /.col -->
               <div class="col-sm-4">
                 <address>
-                  <strong>Sale Summery ({{$start_date}} - {{$end_date}})</strong><br>
+                  <strong>Sale Summary ({{$start_date}} - {{$end_date}})</strong><br>
                 </address>
               </div>
-              <!-- /.col -->
               <div class="col-sm-2">
               </div>
-              <!-- /.col -->
             </div>
             <!-- /.row -->
 
@@ -58,19 +56,22 @@
                       <td class="text-right">{{currency()->symbol??''}} {{number_format($paid,2)}}</td>
                     </tr>
                     <tr>
+                      <th>Net Profit:</th>
+                      <td class="text-right">{{currency()->symbol??''}} {{number_format($net_profit,2)}}</td>
+                    </tr>
+                    <tr>
                       <th>Customer Due:</th>
                       <td class="text-right">{{currency()->symbol??''}} {{number_format($due,2)}}</td>
                     </tr>
                   </table>
                 </div>
               </div>
-              <!-- /.col -->
             </div>
             <!-- /.row -->
+
             <div class="row no-print">
               <div class="col-12">
-                <button type="button" onclick="window.print()" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</a>
-                </button>
+                <button type="button" onclick="window.print()" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</button>
               </div>
             </div>
             <!-- /.row -->
@@ -89,14 +90,14 @@
   }
 </style>
 @endpush
+
 @push('script')
 <script>
   $(function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const startDate = urlParams.get('start_date') || moment().subtract(29, 'days').format('YYYY-MM-DD'); // Default to last 30 days if not present
-    const endDate = urlParams.get('end_date') || moment().format('YYYY-MM-DD'); // Default to today if not present
+    const startDate = urlParams.get('start_date') || moment().subtract(29, 'days').format('YYYY-MM-DD');
+    const endDate = urlParams.get('end_date') || moment().format('YYYY-MM-DD');
 
-    //Date range as a button
     $('#daterange-btn').daterangepicker({
         ranges: {
           'Today': [moment(), moment()],
@@ -110,10 +111,10 @@
         endDate: moment(endDate, "YYYY-MM-DD")
       },
       function(start, end) {
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         window.location.href = '{{ route("backend.admin.sale.summery") }}?start_date=' + start.format('YYYY-MM-DD') + '&end_date=' + end.format('YYYY-MM-DD');
       }
-    )
-  })
+    );
+  });
 </script>
 @endpush

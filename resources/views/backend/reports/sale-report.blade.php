@@ -23,18 +23,14 @@
             <div class="row invoice-info">
               <div class="col-sm-4">
               </div>
-              <!-- /.col -->
               <div class="col-sm-4">
                 <address>
                   <strong>Sale Report ({{$start_date}} - {{$end_date}})</strong><br>
                 </address>
               </div>
-              <!-- /.col -->
               <div class="col-sm-2">
               </div>
-              <!-- /.col -->
             </div>
-            <!-- /.row -->
 
             <!-- Table row -->
             <div class="row justify-content-center">
@@ -52,6 +48,7 @@
                       <th>Total {{currency()->symbol??''}}</th>
                       <th>Paid {{currency()->symbol??''}}</th>
                       <th>Due {{currency()->symbol??''}}</th>
+                      <th>Profit {{currency()->symbol??''}}</th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -68,6 +65,7 @@
                       <td>{{number_format($order->total,2,'.',',')}}</td>
                       <td>{{number_format($order->paid,2,'.',',')}}</td>
                       <td>{{number_format($order->due,2,'.',',')}}</td>
+                      <td>{{number_format($order->profit,2,'.',',')}}</td>
                       <td>
                         @if ($order->status)
                         Paid
@@ -78,22 +76,21 @@
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="7" class="text-center">No sells found.</td>
+                      <td colspan="12" class="text-center">No sells found.</td>
                     </tr>
                     @endforelse
                   </tbody>
                 </table>
               </div>
-              <!-- /.col -->
             </div>
-            <!-- /.row -->
+
             <div class="row no-print">
               <div class="col-12">
-                <button type="button" onclick="window.print()" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</a>
+                <button type="button" onclick="window.print()" class="btn btn-success float-right">
+                  <i class="fas fa-print"></i> Print
                 </button>
               </div>
             </div>
-            <!-- /.row -->
           </section>
         </div>
       </div>
@@ -109,15 +106,14 @@
   }
 </style>
 @endpush
+
 @push('script')
 <script>
   $(function() {
-    // Extract start and end dates from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const startDate = urlParams.get('start_date') || moment().subtract(29, 'days').format('YYYY-MM-DD'); // Default to last 30 days if not present
-    const endDate = urlParams.get('end_date') || moment().format('YYYY-MM-DD'); // Default to today if not present
+    const startDate = urlParams.get('start_date') || moment().subtract(29, 'days').format('YYYY-MM-DD');
+    const endDate = urlParams.get('end_date') || moment().format('YYYY-MM-DD');
 
-    // Initialize the date range picker
     $('#daterange-btn').daterangepicker({
         ranges: {
           'Today': [moment(), moment()],
@@ -131,15 +127,11 @@
         endDate: moment(endDate, "YYYY-MM-DD")
       },
       function(start, end) {
-        // Update the button text with the selected range
         $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-
-        // Redirect with selected start and end dates
         window.location.href = '{{ route("backend.admin.sale.report") }}?start_date=' + start.format('YYYY-MM-DD') + '&end_date=' + end.format('YYYY-MM-DD');
       }
     );
 
-    // Set the initial display text for the date range button
     $('#daterange-btn span').html(moment(startDate, "YYYY-MM-DD").format('MMMM D, YYYY') + ' - ' + moment(endDate, "YYYY-MM-DD").format('MMMM D, YYYY'));
   });
 </script>
