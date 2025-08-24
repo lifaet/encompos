@@ -14,18 +14,20 @@
                 <th data-orderable="false">#</th>
                 <th>Name</th>
                 <th>SKU</th>
-                <th>Price</th>
+                <th>Purchase Price</th>
+                <th>Sale Price</th>
                 <th>Stock</th>
+                <th>Expire Date</th>
               </tr>
             </thead>
           </table>
-          <!-- Pagination Links -->
         </div>
       </div>
     </div>
   </div>
 </div>
 @endsection
+
 @push('style')
 <style>
   .dataTables_length select {
@@ -33,13 +35,13 @@
     height: 37px !important;
     border: 1px solid rgba(0, 0, 0, 0.3);
   }
-
   .dataTables_length label {
     display: flex;
     align-items: center;
   }
 </style>
 @endpush
+
 @push('script')
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
@@ -55,56 +57,28 @@
       processing: true,
       serverSide: true,
       ordering: true,
-      order: [
-        [1, 'desc']
-      ],
-      lengthMenu: [
-        [10, 25, 50, 100, -1],
-        [10, 25, 50, 100, "All"]
-      ],
+      order: [[1, 'desc']],
+      lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
       ajax: {
         url: "{{ route('backend.admin.inventory.report') }}"
       },
       lengthChange: true,
-      columns: [{
-          data: 'DT_RowIndex',
-          name: 'DT_RowIndex'
-        },
-        {
-          data: 'name',
-          name: 'name'
-        },
-        {
-          data: 'sku',
-          name: 'sku'
-        }, {
-          data: 'price',
-          name: 'price'
-        },
-        {
-          data: 'quantity',
-          name: 'quantity'
-        },
+      columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+        { data: 'name', name: 'name' },
+        { data: 'sku', name: 'sku' },
+        { data: 'purchase_price', name: 'purchase_price' },
+        { data: 'sale_price', name: 'sale_price' },
+        { data: 'quantity', name: 'quantity' },
+        { data: 'expire_date', name: 'expire_date' },
       ],
-      dom: 'lBfrtip', // Enables the buttons
-      buttons: [{
-          extend: 'excel',
-          text: 'Export to Excel',
-          className: 'btn'
-        },
-        {
-          extend: 'pdf',
-          text: 'Export to PDF',
-          className: 'btn'
-        },
-        {
-          extend: 'print',
-          text: 'Print',
-          className: 'btn'
-        }
+      dom: 'lBfrtip',
+      buttons: [
+        { extend: 'excel', text: 'Export to Excel', className: 'btn' },
+        { extend: 'pdf', text: 'Export to PDF', className: 'btn' },
+        { extend: 'print', text: 'Print', className: 'btn' }
       ],
       initComplete: function() {
-        // Hide the "entries" text length changes button
         $('.dataTables_length label').contents().filter(function() {
           return this.nodeType === 3;
         }).remove();
