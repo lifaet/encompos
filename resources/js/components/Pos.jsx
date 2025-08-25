@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cart from "./Cart";
@@ -25,9 +25,8 @@ export default function Pos() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(false);
-    const fullDomainWithPort = `${protocol}//${hostname}${
-        port ? `:${port}` : ""
-    }`;
+    const fullDomainWithPort = `${protocol}//${hostname}${port ? `:${port}` : ""
+        }`;
     const getProducts = useCallback(
         async (search = "", page = 1, barcode = "") => {
             setLoading(true);
@@ -60,6 +59,21 @@ export default function Pos() {
             console.error("Error fetching products:", error);
         }
     }, []);
+
+    const [currency, setCurrency] = useState({ symbol: "$", code: "USD" });
+
+    useEffect(() => {
+        axios.get("/api/currencies/default")
+            .then(res => {
+                if (res.data) {
+                    setCurrency(res.data); // save currency from API
+                }
+            })
+            .catch(err => {
+                console.error("Error fetching currency:", err);
+            });
+    }, []);
+
     useEffect(() => {
         getUpdatedProducts();
     }, [productUpdated]);
@@ -109,7 +123,7 @@ export default function Pos() {
     useEffect(() => {
         if (searchBarcode) {
             setProducts([]);
-           getProducts("", currentPage, searchBarcode);
+            getProducts("", currentPage, searchBarcode);
         }
     }, [searchBarcode]);
 
@@ -290,7 +304,7 @@ export default function Pos() {
                                                         e.target.value;
                                                     if (
                                                         parseFloat(value) >
-                                                            total ||
+                                                        total ||
                                                         parseFloat(value) < 0
                                                     ) {
                                                         return;
@@ -347,7 +361,7 @@ export default function Pos() {
                                                     if (
                                                         parseFloat(value) < 0 ||
                                                         parseFloat(value) >
-                                                            updateTotal
+                                                        updateTotal
                                                     ) {
                                                         return;
                                                     }
@@ -422,13 +436,13 @@ export default function Pos() {
                                 {products.length > 0 &&
                                     products.map((product, index) => (
                                         <div
-                                        onClick={() => addProductToCart(product.id)}
-                                        className="col-6 col-md-4 col-lg-3 mb-2 product-card"
-                                        key={index}
-                                        style={{ cursor: "pointer" }}
+                                            onClick={() => addProductToCart(product.id)}
+                                            className="col-6 col-md-4 col-lg-3 mb-2 product-card"
+                                            key={index}
+                                            style={{ cursor: "pointer" }}
                                         >
-                                        <div className="text-center">
-                                            {/* <img
+                                            <div className="text-center">
+                                                {/* <img
                                             src={`${fullDomainWithPort}/storage/${product.image}`}
                                             alt={product.name}
                                             className="mr-2 img-thumb"
@@ -439,38 +453,38 @@ export default function Pos() {
                                             width={120}
                                             height={100}
                                             /> */}
-                                            <div className="product-card p-2 border rounded text-center" style={{ cursor: "pointer", background: "#fff" }}>
-                                                <div className="product-details">
-                                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "4px", overflow: "hidden" }} title={`${product.name} (${product.quantity})`}>
-                                                        <span style={{ whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden", maxWidth: "70%" }}>
-                                                            {product.name}
-                                                        </span>
-                                                        <span style={{ color: "#8a0665ff", flexShrink: 0 }}>
-                                                            ({product.quantity})
-                                                        </span>
+                                                <div className="product-card p-2 border rounded text-center" style={{ cursor: "pointer", background: "#fff" }}>
+                                                    <div className="product-details">
+                                                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "4px", overflow: "hidden" }} title={`${product.name} (${product.quantity})`}>
+                                                            <span style={{ whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden", maxWidth: "70%" }}>
+                                                                {product.name}
+                                                            </span>
+                                                            <span style={{ color: "#8a0665ff", flexShrink: 0 }}>
+                                                                ({product.quantity})
+                                                            </span>
+                                                        </div>
+                                                        {product.brand_name && (
+                                                            <p className="text-muted text-truncate" title={product.brand_name} style={{ fontSize: "0.85rem" }}>
+                                                                Brand: {product.brand_name}
+                                                            </p>
+                                                        )}
+                                                        {product.category_name && (
+                                                            <p className="text-muted text-truncate" title={product.category_name} style={{ fontSize: "0.85rem" }}>
+                                                                Category: {product.category_name}
+                                                            </p>
+                                                        )}
+                                                        <p className="mb-0 fw-bold" style={{ color: "#1f7a8c" }}>
+                                                            {currency?.symbol}{product.discounted_price.toFixed(2)}
+                                                        </p>
+                                                        {product.discount && product.discount > 0 && (
+                                                            <p className="mb-0 text-muted" style={{ fontSize: "0.8rem", textDecoration: "line-through" }}>
+                                                                {currency?.symbol}{product.price.toFixed(2)}
+                                                            </p>
+                                                        )}
                                                     </div>
-                                                    {product.brand_name && (
-                                                        <p className="text-muted text-truncate" title={product.brand_name} style={{ fontSize: "0.85rem" }}>
-                                                            Brand: {product.brand_name}
-                                                        </p>
-                                                    )}
-                                                    {product.category_name && (
-                                                        <p className="text-muted text-truncate" title={product.category_name} style={{ fontSize: "0.85rem" }}>
-                                                            Category: {product.category_name}
-                                                        </p>
-                                                    )}
-                                                    <p className="mb-0 fw-bold" style={{ color: "#1f7a8c" }}>
-                                                        BDT{product.discounted_price.toFixed(2)}
-                                                    </p>
-                                                    {product.discount && product.discount > 0 && (
-                                                        <p className="mb-0 text-muted" style={{ fontSize: "0.8rem", textDecoration: "line-through" }}>
-                                                            BDT{product.price.toFixed(2)}
-                                                        </p>
-                                                    )}
                                                 </div>
-                                            </div>
 
-                                        </div>
+                                            </div>
                                         </div>
 
                                     ))}
