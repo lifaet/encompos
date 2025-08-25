@@ -21,6 +21,7 @@ class OrderController extends Controller
             return DataTables::of($orders)
                 ->addIndexColumn()
                 ->addColumn('saleId', fn($data) => "#" . $data->id)
+                ->addColumn('saleDate', fn($data) => $data->created_at->format('Y-m-d H:i:s'))
                 ->addColumn('customer', fn($data) => $data->customer->name ?? '-')
                 ->addColumn('item', fn($data) => $data->total_item)
                 ->addColumn('sub_total', fn($data) => number_format($data->sub_total, 2, '.', ','))

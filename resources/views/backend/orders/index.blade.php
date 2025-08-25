@@ -13,6 +13,7 @@
               <tr>
                 <th data-orderable="false">#</th>
                 <th>SaleId</th>
+                <th>SaleDate</th>
                 <th>Customer</th>
                 <th>Item</th>
                 <th>Sub Total {{currency()->symbol??''}}</th>
@@ -54,6 +55,9 @@
         {
           data: 'saleId',
           name: 'saleId'
+        },        {
+          data: 'saleDate',
+          name: 'saleDate'
         },
         {
           data: 'customer',
