@@ -21,7 +21,9 @@ class OrderController extends Controller
             return DataTables::of($orders)
                 ->addIndexColumn()
                 ->addColumn('saleId', fn($data) => "#" . $data->id)
-                ->addColumn('saleDate', fn($data) => $data->created_at->format('Y-m-d H:i:s'))
+                ->addColumn('saleDate', function($data) {
+                    return $data->created_at->format('Y-m-d') . '<br>' . $data->created_at->format('H:i:s');
+                })                
                 ->addColumn('customer', fn($data) => $data->customer->name ?? '-')
                 ->addColumn('item', fn($data) => $data->total_item)
                 ->addColumn('sub_total', fn($data) => number_format($data->sub_total, 2, '.', ','))
@@ -43,7 +45,7 @@ class OrderController extends Controller
                     $buttons .= '<a class="btn btn-primary btn-sm" href="' . route('backend.admin.orders.transactions', $data->id) . '"><i class="fas fa-exchange-alt"></i> Transactions</a>';
                     return $buttons;
                 })
-                ->rawColumns(['saleId', 'customer', 'item', 'sub_total', 'discount', 'total', 'profit', 'paid', 'due', 'status', 'action'])
+                ->rawColumns(['saleId','saleDate', 'customer', 'item', 'sub_total', 'discount', 'total', 'profit', 'paid', 'due', 'status', 'action'])
                 ->toJson();
         }
 

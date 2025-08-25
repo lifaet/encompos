@@ -23,7 +23,7 @@
       <table id="datatables" class="table table-hover mb-0 w-100"><!-- 🔹 full width, no bottom margin -->
         <thead class="table-light"><!-- 🔹 optional: light background for header -->
           <tr>
-            <th data-orderable="false">#</th>
+            <!-- <th data-orderable="false">#</th> -->
             <th>SaleId</th>
             <th>SaleDate</th>
             <th>Customer</th>
@@ -58,7 +58,7 @@
         url: "{{ route('backend.admin.orders.index') }}"
       },
       columns: [
-        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+        // { data: 'DT_RowIndex', name: 'DT_RowIndex' },
         { data: 'saleId', name: 'saleId' },
         { data: 'saleDate', name: 'saleDate' },
         { data: 'customer', name: 'customer' },
