@@ -283,8 +283,8 @@ input:checked+.slider:before {
 }
 
 .product-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.03);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .product-card:active {
