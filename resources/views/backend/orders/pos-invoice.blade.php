@@ -36,8 +36,14 @@
       @if(readConfig('is_show_customer_invoice'))
         <strong>Customer:</strong><br>
         {{ $order->customer->name ?? 'N/A' }}<br>
-        {{ $order->customer->address ?? 'N/A' }}<br>
-        {{ $order->customer->phone ?? 'N/A' }}
+
+        @if(!empty($order->customer->address))
+          {{ $order->customer->address }}<br>
+        @endif
+
+        @if(!empty($order->customer->phone))
+          {{ $order->customer->phone }}
+        @endif
       @endif
     </div>
     <div class="date-info" style="text-align: right;">
