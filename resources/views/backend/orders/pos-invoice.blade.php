@@ -10,6 +10,11 @@
   <div class="text-center" style="margin-bottom: 10px;">
     @if(readConfig('is_show_site_invoice'))
       <h5 style="margin: 0;"><strong>{{ readConfig('site_name_extended') }}</strong></h5>
+      @if(!empty($current_db))
+        <p style="margin: 2px 0; font-size: 13px; color: #333;">
+          Branch: {{ str_replace('-', ' ', $current_db) }}
+        </p>
+      @endif
     @endif
     @if(readConfig('is_show_address_invoice'))
       <p style="margin: 2px 0;">{{ readConfig('contact_address') }}</p>
