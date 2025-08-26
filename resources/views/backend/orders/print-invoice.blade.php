@@ -12,7 +12,7 @@
               <div>
                   <h2 style="margin:0; font-size:24px;">{{ readConfig('site_name_extended') }}</h2>
                     <p style="margin: 2px 0; color: #333;">
-                       Branch: {{ str_replace('-', ' ', $current_db) }}
+                       Branch: {{$current_db}}
                    </p>
                   @if(readConfig('is_show_address_invoice'))<div>{{ readConfig('contact_address') }}</div>@endif
                   @if(readConfig('is_show_phone_invoice'))<div>Phone: {{ readConfig('contact_phone') }}</div>@endif
