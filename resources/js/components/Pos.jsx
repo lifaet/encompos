@@ -437,7 +437,7 @@ export default function Pos() {
                                     products.map((product, index) => (
                                         <div
                                             onClick={() => addProductToCart(product.id)}
-                                            className="col-6 col-md-4 col-lg-3 mb-2 product-card"
+                                            className="col-6 col-md-4 col-lg-3 mb-2"
                                             key={index}
                                             style={{ cursor: "pointer" }}
                                         >
