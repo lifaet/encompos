@@ -31,7 +31,7 @@
       </div>
       <div class="text-right">
         <address class="text-right">
-          <p>{{ date('d/M/Y') }}</p>
+          <p>{{ date('d-M-Y') }}</p>
           <p>{{ date('h:i:s A') }}</p>
         </address>
       </div>
