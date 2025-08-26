@@ -22,7 +22,7 @@ class OrderController extends Controller
                 ->addIndexColumn()
                 ->addColumn('saleId', fn($data) => "#" . $data->id)
                 ->addColumn('saleDate', function($data) {
-                    return $data->created_at->format('d-m-Y') . '<br>' . $data->created_at->format('H:i:s');
+                    return $data->created_at->format('d-M-Y') . '<br>' . $data->created_at->format('H:i:s');
                 })                
                 ->addColumn('customer', fn($data) => $data->customer->name ?? '-')
                 ->addColumn('item', fn($data) => $data->total_item)
