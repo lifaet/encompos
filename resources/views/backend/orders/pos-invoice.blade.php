@@ -67,7 +67,7 @@
       @foreach ($order->products as $item)
       <tr>
         <td style="padding: 5px 0;">{{ $item->product->name }}</td>
-        <td style="text-align: center; padding: 5px 0;">{{ $item->quantity }} x {{ number_format($item->discounted_price, 2) }}</td>
+        <td style="text-align: center; padding: 5px 0;">{{ $item->quantity }} x {{ number_format((float)$item->discounted_price, 2) }}</td>
         <td style="text-align: right; padding: 5px 0;">{{ number_format($item->total, 2) }}</td>
       </tr>
       @endforeach
