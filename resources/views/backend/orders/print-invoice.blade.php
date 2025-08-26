@@ -18,7 +18,7 @@
           </div>
           <div class="invoice-title" style="text-align:right;">
               <h3 style="margin:0;">Invoice</h3>
-              <div>Date: {{ date('d/m/Y') }}</div>
+              <div>Date: {{ date('d-M-Y') }}</div>
               <div>Invoice #: {{ $order->id }}</div>
           </div>
       </div>
