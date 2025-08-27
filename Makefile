@@ -12,6 +12,11 @@ setup:
 #	@make backup-bd
 
 docker-stop:
+	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	if [ "$$answer" != "y" ]; then \
+		echo "Aborted."; \
+		exit 1; \
+	fi
 	-docker stop $$(docker ps -aq)
 	-docker rm $$(docker ps -aq)
 	-docker rmi -f $$(docker images -q)
@@ -36,6 +41,11 @@ gen-key:
 	docker exec encompos-app bash -c "php artisan key:generate"
 
 create-db:
+	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	if [ "$$answer" != "y" ]; then \
+		echo "Aborted."; \
+		exit 1; \
+	fi
 	@DB_CONTAINER=$$(grep '^DB_HOST' .env | cut -d '=' -f2); \
 	DB_USER=$$(grep '^DB_USERNAME' .env | cut -d '=' -f2); \
 	DB_PASS=$$(grep '^DB_PASSWORD' .env | cut -d '=' -f2); \
@@ -53,6 +63,11 @@ create-db:
 	echo "✓ All databases created!"
 
 fresh-db:
+	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	if [ "$$answer" != "y" ]; then \
+		echo "Aborted."; \
+		exit 1; \
+	fi
 	@DB_CONTAINER=$$(grep '^DB_HOST' .env | cut -d '=' -f2); \
 	DB_LIST=$$(grep -E '^DB_DATABASE[0-9]*' .env | cut -d '=' -f2); \
 	echo "→ Running migrations & seeds for all databases..."; \
@@ -63,6 +78,11 @@ fresh-db:
 	echo "✓ Migrations & seeds completed for all databases!"
 
 drop-db:
+	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	if [ "$$answer" != "y" ]; then \
+		echo "Aborted."; \
+		exit 1; \
+	fi
 	@DB_CONTAINER=$$(grep '^DB_HOST' .env | cut -d '=' -f2); \
 	DB_USER=$$(grep '^DB_USERNAME' .env | cut -d '=' -f2); \
 	DB_PASS=$$(grep '^DB_PASSWORD' .env | cut -d '=' -f2); \
