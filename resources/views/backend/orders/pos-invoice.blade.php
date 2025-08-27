@@ -4,7 +4,7 @@
 
 <div class="card">
   <!-- Main content -->
-<div class="receipt-container" id="printable-section" style="max-width: {{ $maxWidth }}; font-family: Arial, sans-serif; font-size: 14px; font-weight: normal; border: 1px solid #ccc; padding: 15px; margin: 2px;">
+<div class="receipt-container" id="printable-section" style="max-width: {{ $maxWidth }}; font-family: Arial, sans-serif; font-size: 14px; font-weight: normal; text-shadow: 0 0 0.5px; border: 1px solid #ccc; padding: 15px; margin: 2px;">
   
   <!-- Header -->
   <div class="text-center" style="margin-bottom: 10px;">
@@ -163,7 +163,7 @@
 @endpush
 
 @push('script')
-<script>
+<!-- <script>
   window.print();
-</script>
+</script> -->
 @endpush
