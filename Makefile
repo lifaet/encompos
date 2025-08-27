@@ -12,7 +12,7 @@ setup:
 #	@make backup-bd
 
 docker-stop:
-	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	@read -p ""Are you sure you want to stop and remove any container with all its volumes and networks!!! (y/n) " answer; \
 	if [ "$$answer" != "y" ]; then \
 		echo "Aborted."; \
 		exit 1; \
@@ -41,7 +41,7 @@ gen-key:
 	docker exec encompos-app bash -c "php artisan key:generate"
 
 create-db:
-	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	@read -p "Create databases using .env name? (y/n) " answer; \
 	if [ "$$answer" != "y" ]; then \
 		echo "Aborted."; \
 		exit 1; \
@@ -63,7 +63,7 @@ create-db:
 	echo "✓ All databases created!"
 
 fresh-db:
-	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	@read -p "Are you sure you want to Drop All Database and Create Fresh seed? (y/n) " answer; \
 	if [ "$$answer" != "y" ]; then \
 		echo "Aborted."; \
 		exit 1; \
@@ -78,7 +78,7 @@ fresh-db:
 	echo "✓ Migrations & seeds completed for all databases!"
 
 drop-db:
-	@read -p "Are you sure you want to deploy? (y/n) " answer; \
+	@read -p "Are you sure you want to Drop all databases? (y/n) " answer; \
 	if [ "$$answer" != "y" ]; then \
 		echo "Aborted."; \
 		exit 1; \
