@@ -1,10 +1,13 @@
 @extends('backend.master')
 @section('title', 'Receipt_'.$order->id)
 @section('content')
-
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</noscript>
 <div class="card">
   <!-- Main content -->
-<div class="receipt-container" id="printable-section" style="max-width: {{ $maxWidth }}; font-family: Arial, sans-serif; font-size: 14px; font-weight: normal; text-shadow: 0 0 0.5px; border: 1px solid #ccc; padding: 15px; margin: 2px;">
+<div class="receipt-container" id="printable-section" style="max-width: {{ $maxWidth }}; font-family:'Roboto', sans-serif !important; font-size: 15px; font-weight: 500; border: 1px solid #ccc; padding: 15px; margin: 2px;">
   
   <!-- Header -->
   <div class="text-center" style="margin-bottom: 10px;">
