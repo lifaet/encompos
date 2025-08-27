@@ -4,18 +4,19 @@ setup:
 	@make docker-up-build
 	@make composer-install
 	@make set-permissions
-	@make generate-key
-# 	@make create-databases
-# 	@make migrate-fresh-seed
-#	@make drop-databases
-# 	@make restore-database
+	@make gen-key
+	@make create-db
+	@make fresh-db
+#	@make drop-db
+# 	@make restore-db
+#	@make backup-bd
 
 docker-stop:
-	docker stop $(docker ps -aq) 2>/dev/null && \
-	docker rm $(docker ps -aq) 2>/dev/null && \
-	docker rmi -f $(docker images -q) 2>/dev/null && \
-	docker volume rm $(docker volume ls -q) 2>/dev/null && \
-	docker network rm $(docker network ls -q) 2>/dev/null
+	-docker stop $$(docker ps -aq)
+	-docker rm $$(docker ps -aq)
+	-docker rmi -f $$(docker images -q)
+	-docker volume rm $$(docker volume ls -q)
+	-docker network rm $$(docker network ls -q)
 
 setup-env:
 	cp -n .env.example .env || true
@@ -31,10 +32,10 @@ set-permissions:
 	docker exec encompos-app bash -c "chmod -R 777 /var/www/bootstrap"
 	docker exec encompos-app bash -c "chmod -R 777 /var/www/config"
 
-generate-key:
+gen-key:
 	docker exec encompos-app bash -c "php artisan key:generate"
 
-create-databases:
+create-db:
 	@DB_CONTAINER=$$(grep '^DB_HOST' .env | cut -d '=' -f2); \
 	DB_USER=$$(grep '^DB_USERNAME' .env | cut -d '=' -f2); \
 	DB_PASS=$$(grep '^DB_PASSWORD' .env | cut -d '=' -f2); \
@@ -51,7 +52,7 @@ create-databases:
 	done; \
 	echo "✓ All databases created!"
 
-migrate-fresh-seed:
+fresh-db:
 	@DB_CONTAINER=$$(grep '^DB_HOST' .env | cut -d '=' -f2); \
 	DB_LIST=$$(grep -E '^DB_DATABASE[0-9]*' .env | cut -d '=' -f2); \
 	echo "→ Running migrations & seeds for all databases..."; \
@@ -61,7 +62,7 @@ migrate-fresh-seed:
 	done; \
 	echo "✓ Migrations & seeds completed for all databases!"
 
-drop-databases:
+drop-db:
 	@DB_CONTAINER=$$(grep '^DB_HOST' .env | cut -d '=' -f2); \
 	DB_USER=$$(grep '^DB_USERNAME' .env | cut -d '=' -f2); \
 	DB_PASS=$$(grep '^DB_PASSWORD' .env | cut -d '=' -f2); \
@@ -78,9 +79,10 @@ drop-databases:
 	done; \
 	echo "✓ All databases dropped successfully!"
 
-restore-database:
+restore-db:
 	cd personal && bash -c "bash restore.sh"
-
+backup-db:
+	cd personal && bash -c "bash restore.sh"
 clear-cache:
 	docker compose exec app bash -c "\
 	php artisan cache:clear && \
