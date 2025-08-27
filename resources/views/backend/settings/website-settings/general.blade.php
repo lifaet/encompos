@@ -141,16 +141,6 @@
                                 value="{{ readConfig('contact_phone') }}">
                         </div>
                         <div class="form-group">
-                            <label>Fax</label>
-                            <input placeholder="Fax" class="form-control" name="contact_fax" type="tel"
-                                value="{{ readConfig('contact_fax') }}">
-                        </div>
-                        <div class="form-group">
-                            <label>Mobile</label>
-                            <input placeholder="Mobile" class="form-control" name="contact_mobile" type="tel"
-                                value="{{ readConfig('contact_mobile') }}">
-                        </div>
-                        <div class="form-group">
                             <label>Email</label>
                             <input placeholder="Email" class="form-control" name="contact_email" type="email"
                                 value="{{ readConfig('contact_email') }}">
@@ -225,34 +215,6 @@
                             <input placeholder="Instagram" class="form-control" name="instagram_link" type="url"
                                 value="{{ readConfig('instagram_link') }}">
                         </div>
-
-                        <div class="form-group">
-                            <label>
-                                <i class="fab fa-pinterest"></i>
-                                &nbsp; Pinterest
-                            </label>
-                            <input placeholder="Pinterest" class="form-control" name="pinterest_link" type="url"
-                                value="{{ readConfig('pinterest_link') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label>
-                                <i class="fab fa-tumblr"></i>
-                                &nbsp; Tumblr
-                            </label>
-                            <input placeholder="Tumblr" class="form-control" name="tumblr_link" type="url"
-                                value="{{ readConfig('tumblr_link') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label>
-                                <i class="fab fa-snapchat"></i>
-                                &nbsp; Snapchat
-                            </label>
-                            <input placeholder="Snapchat" class="form-control" name="snapchat_link" type="url"
-                                value="{{ readConfig('snapchat_link') }}">
-                        </div>
-
                         <div class="form-group">
                             <label>
                                 <i class="fab fa-whatsapp"></i>

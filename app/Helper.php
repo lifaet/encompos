@@ -2,9 +2,9 @@
 
 use App\Models\Currency;
 use App\Models\Page;
-use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 if (!function_exists('imageRecover')) {
@@ -60,22 +60,37 @@ if (!function_exists('terms')) {
     }
 }
 
-if (!function_exists('writeConfig')) {
-    function writeConfig($key, $value)
-    {
-        config(['system.' . $key => $value]);
-        $fp = fopen(base_path() . '/config/system.php', 'w');
-        fwrite($fp, '<?php return ' . var_export(config('system'), true) . ';');
-        fclose($fp);
-
-        return @$value;
-    }
-}
-
 if (!function_exists('readConfig')) {
     function readConfig($key)
     {
-        return @config('system.' . $key);
+        $settings = Cache::rememberForever('system_settings', function () {
+            try {
+                return DB::table('system_settings')->pluck('value', 'key')->toArray();
+            } catch (\Exception $e) {
+                return [];
+            }
+        });
+
+        return $settings[$key] ?? null;
+    }
+}
+
+if (!function_exists('updateConfig')) {
+    function updateConfig($key, $value)
+    {
+        DB::table('system_settings')->updateOrInsert(
+            ['key' => $key],
+            ['value' => $value, 'updated_at' => now()]
+        );
+
+        Cache::forget('system_settings');
+    }
+}
+
+if (!function_exists('writeConfig')) {
+    function writeConfig($key, $value)
+    {
+        return updateConfig($key, $value);
     }
 }
 
@@ -114,6 +129,7 @@ if (!function_exists('nullImg')) {
         return "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
     }
 }
+
 if (!function_exists('currency')) {
     function currency()
     {
