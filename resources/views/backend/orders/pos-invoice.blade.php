@@ -163,7 +163,7 @@
 @endpush
 
 @push('script')
-<!-- <script>
+<script>
   window.print();
-</script> -->
+</script>
 @endpush
