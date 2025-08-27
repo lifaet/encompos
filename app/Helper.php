@@ -63,13 +63,16 @@ if (!function_exists('terms')) {
 if (!function_exists('readConfig')) {
     function readConfig($key)
     {
-        $settings = Cache::rememberForever('system_settings', function () {
-            try {
-                return DB::table('system_settings')->pluck('value', 'key')->toArray();
-            } catch (\Exception $e) {
-                return [];
-            }
-        });
+        $connection = session('db_connection') ?? DB::getDefaultConnection();
+
+        try {
+            $settings = DB::connection($connection)
+                ->table('system_settings')
+                ->pluck('value', 'key')
+                ->toArray();
+        } catch (\Exception $e) {
+            $settings = [];
+        }
 
         return $settings[$key] ?? null;
     }
@@ -78,12 +81,15 @@ if (!function_exists('readConfig')) {
 if (!function_exists('updateConfig')) {
     function updateConfig($key, $value)
     {
-        DB::table('system_settings')->updateOrInsert(
+        $connection = session('db_connection') ?? DB::getDefaultConnection();
+
+        DB::connection($connection)->table('system_settings')->updateOrInsert(
             ['key' => $key],
             ['value' => $value, 'updated_at' => now()]
         );
 
-        Cache::forget('system_settings');
+        Cache::forget("system_settings_{$connection}");
+
     }
 }
 
