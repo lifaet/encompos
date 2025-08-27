@@ -130,7 +130,7 @@
             <!-- Brand Logo -->
             <a href="{{ route('frontend.home') }}/admin" class="brand-link">
                 <span class="brand-text">
-                    <span class="brand-text-accent">{{ substr(readConfig('site_name'), 0, 5) }}</span>{{ substr(readConfig('site_name'), 5) }}
+                    <span class="brand-text-accent">{{ substr(readConfig('site_name'), 0, strlen(readConfig('site_name')) - 3) }}</span>{{ substr(readConfig('site_name'), -3) }}
                 </span>
             </a>
 
