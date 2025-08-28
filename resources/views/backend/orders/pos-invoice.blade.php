@@ -7,7 +7,7 @@
 </noscript>
 <div class="card">
   <!-- Main content -->
-<div class="receipt-container" id="printable-section" style="max-width: {{ $maxWidth }}; font-family:'Roboto', sans-serif !important; font-size: 15px; font-weight: 500; border: 1px solid #ccc; padding: 15px; margin: 5px;">
+<div class="receipt-container" id="printable-section" style="max-width: {{ $maxWidth }}; font-family:'Roboto', sans-serif !important; font-size: 16px; font-weight: 500; border: 1px solid #ccc; padding: 15px; margin: 5px;">
   
   <!-- Header -->
   <div class="text-center" style="margin-bottom: 10px;">
