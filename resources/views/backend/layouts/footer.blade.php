@@ -13,7 +13,6 @@
 </style>
 <footer class="main-footer">
     <strong>© {{date('Y')}} {{ readConfig('site_name') }}</strong>
-    All rights reserved.
     <div class="float-right d-sm-inline-block">
         <div class="credits">Maintenance by <a href="#">ENCOM<span>GRID</span></a>
         </div>
