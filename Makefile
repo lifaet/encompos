@@ -11,12 +11,12 @@ setup:
 # 	@make restore-db
 #	@make backup-bd
 #	@$(MAKE) undoc-setup-env
-	@$(MAKE) undoc-composer-install
-	@$(MAKE) undoc-set-permissions
-	@$(MAKE) undoc-gen-key
-	@$(MAKE) undoc-create-db
+# 	@$(MAKE) undoc-composer-install
+# 	@$(MAKE) undoc-set-permissions
+# 	@$(MAKE) undoc-gen-key
+# 	@$(MAKE) undoc-create-db
 # 	@$(MAKE) undoc-drop-db
-	@$(MAKE) undoc-freshseed-db
+# 	@$(MAKE) undoc-freshseed-db
 
 docker-stop:
 	@read -p ""Are you sure you want to stop and remove any container with all its volumes and networks!!! (y/n) " answer; \
