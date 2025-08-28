@@ -18,3 +18,5 @@ yarn-error.log
 /.idea
 /.vscode
 /~
+/personal/backup.sh
+/personal/restore.sh
