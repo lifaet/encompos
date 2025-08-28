@@ -134,9 +134,9 @@ undoc-composer-install:
 	composer install --no-interaction --optimize-autoloader
 
 undoc-set-permissions:
-	chmod -R 777 /storage
-	chmod -R 777 /bootstrap
-	chmod -R 777 /config
+	chmod -R 777 storage
+	chmod -R 777 bootstrap
+	chmod -R 777 config
 
 undoc-gen-key:
 	php artisan key:generate
