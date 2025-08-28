@@ -110,7 +110,7 @@
 
   <!-- Footer / Note -->
   @if(readConfig('is_show_note_invoice'))
-    <div class="text-center" style="font-size: 12px; color: #666;">
+    <div class="text-center" style="font-size: 13px; color: #2d2d2dff;">
       {{ readConfig('note_to_customer_invoice') }}
     </div>
   @endif
