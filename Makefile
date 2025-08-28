@@ -122,13 +122,9 @@ clear-cache:
 	"
 
 
-@undoc-setup-env
-@undoc-composer-install
-@undoc-set-permissions
-@undoc-gen-key
-@undoc-create-db
-@undoc-drop-db
-@undoc-freshseed-db
+
+
+
 
 #For Without Docker
 undoc-setup-env:
