@@ -526,9 +526,9 @@
                     <div class="form-group">
                         <label class="">Pos Invoice Width</label>
                         <select name="receiptMaxwidth" class="form-control col-6">
-                            <option value="310px" {{ readConfig('receiptMaxwidth') == '310px' ? 'selected' : '' }}>Small</option>
-                            <option value="410px" {{ readConfig('receiptMaxwidth') == '410px' ? 'selected' : '' }}>Medium</option>
-                            <option value="510px" {{ readConfig('receiptMaxwidth') == '510px' ? 'selected' : '' }}>Large</option>
+                            <option value="300px" {{ readConfig('receiptMaxwidth') == '300px' ? 'selected' : '' }}>Small</option>
+                            <option value="400px" {{ readConfig('receiptMaxwidth') == '400px' ? 'selected' : '' }}>Medium</option>
+                            <option value="500px" {{ readConfig('receiptMaxwidth') == '500px' ? 'selected' : '' }}>Large</option>
                         </select>
                     </div>
 
