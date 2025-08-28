@@ -14,29 +14,34 @@ CONTAINER="$DB_HOST"
 DB_USER="$DB_USERNAME"
 DB_PASS="$DB_PASSWORD"
 REMOTE="hmhc"
-BASE_FOLDER="Databases/ENCOMPOS/TEST"
+GDRIVE_FOLDER="Databases/ENCOMPOS/TEST"
 KEEP_LAST=5
 
+# Fetch all DB_DATABASE* variables from .env
+DB_LIST=$(grep -E '^DB_DATABASE[0-9]*' "$ENV_FILE" | cut -d '=' -f2)
+
+if [[ -z "$DB_LIST" ]]; then
+    echo "❌ No databases defined in .env!"
+    exit 1
+fi
 
 # Timestamp
 TIMESTAMP=$(date +"_%Y%m%d_%H%M%S")
 
-echo "→ Fetching database list from container $CONTAINER..."
-DATABASES=$( mysql -u"$DB_USER" -p"$DB_PASS" -e "SHOW DATABASES;" \
-  | grep -Ev "Database|information_schema|performance_schema|mysql|sys")
+for DB_NAME in $DB_LIST; do
+    echo "→ Backing up database: $DB_NAME"
 
-for DB in $DATABASES; do
-    BACKUP_FILE="${DB}${TIMESTAMP}.sql"
-    DB_FOLDER="$BASE_FOLDER/$DB"
+    BACKUP_FILE="${DB_NAME}${TIMESTAMP}.sql"
+    DB_FOLDER="$GDRIVE_FOLDER/$DB_NAME"
 
-    echo "→ Backing up database: $DB"
-    mysqldump -u"$DB_USER" -p"$DB_PASS" "$DB" > "/tmp/$BACKUP_FILE"
+    # Dump DB
+    mysqldump -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" > "/tmp/$BACKUP_FILE"
 
-    echo "→ Uploading $BACKUP_FILE to Google Drive ($REMOTE:$DB_FOLDER)..."
+    # Upload to Google Drive
     rclone mkdir "$REMOTE:$DB_FOLDER" || true
     rclone copy "/tmp/$BACKUP_FILE" "$REMOTE:$DB_FOLDER"
 
-    # Cleanup old backups in Drive
+    # Cleanup old backups
     BACKUPS=$(rclone lsf "$REMOTE:$DB_FOLDER" --files-only | sort)
     TOTAL=$(echo "$BACKUPS" | wc -l)
     if [ "$TOTAL" -gt "$KEEP_LAST" ]; then
@@ -48,6 +53,7 @@ for DB in $DATABASES; do
     fi
 
     rm "/tmp/$BACKUP_FILE"
-    echo "✓ $DB backup completed successfully."
+    echo "✓ $DB_NAME backup completed successfully."
 done
-echo "🎉 All databases backed up successfully!"
+
+echo "🎉 All available databases backed up successfully!"
