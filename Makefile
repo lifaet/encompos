@@ -1,15 +1,22 @@
 setup:
 #	@make docker-stop
-	@make setup-env
-	@make docker-up-build
-	@make composer-install
-	@make set-permissions
-	@make gen-key
-	@make create-db
-	@make fresh-db
+# 	@make setup-env
+# 	@make docker-up-build
+# 	@make composer-install
+# 	@make set-permissions
+# 	@make gen-key
+# 	@make create-db
+# 	@make fresh-db
 #	@make drop-db
 # 	@make restore-db
 #	@make backup-bd
+	@undoc-setup-env
+	@undoc-composer-install
+	@undoc-set-permissions
+	@undoc-gen-key
+	@undoc-create-db
+# 	@undoc-drop-db
+	@undoc-freshseed-db
 
 docker-stop:
 	@read -p ""Are you sure you want to stop and remove any container with all its volumes and networks!!! (y/n) " answer; \
@@ -113,3 +120,88 @@ clear-cache:
 	composer dump-autoload && \
 	php -r 'opcache_reset();'\
 	"
+
+
+@undoc-setup-env
+@undoc-composer-install
+@undoc-set-permissions
+@undoc-gen-key
+@undoc-create-db
+@undoc-drop-db
+@undoc-freshseed-db
+
+#For Without Docker
+undoc-setup-env:
+	cp -n .env.example .env || true
+
+undoc-composer-install:
+	composer install --no-interaction --optimize-autoloader
+
+undoc-set-permissions:
+	chmod -R 777 /storage
+	chmod -R 777 /bootstrap
+	chmod -R 777 /config
+
+undoc-gen-key:
+	php artisan key:generate
+
+undoc-create-db:
+	@echo "→ Creating all databases..."
+	@DB_USER=$$(grep '^DB_USERNAME' .env | cut -d '=' -f2); \
+	DB_PASS=$$(grep '^DB_PASSWORD' .env | cut -d '=' -f2); \
+	grep -E '^DB_DATABASE' .env | while IFS='=' read -r var db; do \
+		db=$$(echo $$db | tr -d '[:space:]'); \
+		if [ -n "$$db" ]; then \
+			echo "   → Creating database $$db if not exists..."; \
+			mysql -u"$$DB_USER" -p"$$DB_PASS" -e "CREATE DATABASE IF NOT EXISTS \`$$db\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"; \
+		fi; \
+	done
+	@echo "✓ All databases created."
+
+
+undoc-drop-db:
+	@read -p "Are you sure you want to drop all databases? (y/n) " answer; \
+	if [ "$$answer" != "y" ]; then \
+		echo "Aborted."; \
+		exit 1; \
+	fi; \
+	echo "→ Dropping all databases..."; \
+	DB_USER=$$(grep '^DB_USERNAME' .env | cut -d '=' -f2); \
+	DB_PASS=$$(grep '^DB_PASSWORD' .env | cut -d '=' -f2); \
+	grep -E '^DB_DATABASE' .env | while IFS='=' read -r var db; do \
+		db=$$(echo $$db | tr -d '[:space:]'); \
+		if [ -n "$$db" ]; then \
+			echo "   → Dropping database $$db..."; \
+			mysql -u"$$DB_USER" -p"$$DB_PASS" -e "DROP DATABASE IF EXISTS \`$$db\`;"; \
+		fi; \
+	done; \
+	echo "✓ All databases dropped."
+
+
+undoc-freshseed-db:
+	@echo "→ Running fresh migrations and seed for all databases..."
+	DB_USER=$$(grep '^DB_USERNAME' .env | cut -d '=' -f2); \
+	DB_PASS=$$(grep '^DB_PASSWORD' .env | cut -d '=' -f2); \
+	grep -E '^DB_DATABASE' .env | while IFS='=' read -r var db; do \
+		db=$$(echo $$db | tr -d '[:space:]'); \
+		if [ -n "$$db" ]; then \
+			echo "   → Dropping database $$db if exists..."; \
+			mysql -u"$$DB_USER" -p"$$DB_PASS" -e "DROP DATABASE IF EXISTS \`$$db\`;"; \
+			echo "   → Creating database $$db..."; \
+			mysql -u"$$DB_USER" -p"$$DB_PASS" -e "CREATE DATABASE \`$$db\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"; \
+			echo "   → Migrating & seeding $$db..."; \
+			DB_DATABASE="$$db" php artisan migrate:fresh --seed --force; \
+		fi; \
+	done; \
+	echo "✓ All databases migrated & seeded."
+
+undoc-clear-cache:
+	@echo "→ Clearing Laravel caches..."
+	php artisan cache:clear && \
+	php artisan config:clear && \
+	php artisan route:clear && \
+	php artisan view:clear && \
+	php artisan event:clear && \
+	composer dump-autoload && \
+	php -r 'opcache_reset();'
+	@echo "✓ All caches cleared."
