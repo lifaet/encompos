@@ -14,7 +14,7 @@ CONTAINER="$DB_HOST"
 DB_USER="$DB_USERNAME"
 DB_PASS="$DB_PASSWORD"
 REMOTE="hmhc"
-GDRIVE_FOLDER="Databases/ENCOMPOS/HMHC"
+GDRIVE_FOLDER="Databases/ENCOMPOS/TEST"
 
 # Fetch all DB_DATABASE* variables from .env
 DB_LIST=$(grep -E '^DB_DATABASE[0-9]*' "$ENV_FILE" | cut -d '=' -f2)
