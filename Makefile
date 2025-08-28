@@ -128,7 +128,7 @@ clear-cache:
 
 #For Without Docker
 undoc-setup-env:
-	cp -n .env.example .env || true
+	cp .env.example .env || true
 
 undoc-composer-install:
 	composer install --no-interaction --optimize-autoloader
