@@ -10,7 +10,7 @@ setup:
 #	@make drop-db
 # 	@make restore-db
 #	@make backup-bd
-	@$(MAKE) undoc-setup-env
+#	@$(MAKE) undoc-setup-env
 	@$(MAKE) undoc-composer-install
 	@$(MAKE) undoc-set-permissions
 	@$(MAKE) undoc-gen-key
