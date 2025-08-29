@@ -1,0 +1,136 @@
+Packages Installed
+sudo apt update && sudo apt upgrade -y && \
+sudo apt install -y software-properties-common ca-certificates lsb-release apt-transport-https curl unzip git make nano && \
+sudo add-apt-repository ppa:ondrej/php -y && \
+sudo apt update && \
+sudo apt install -y \
+  php8.2 php8.2-fpm php8.2-cli php8.2-mysql php8.2-intl \
+  php8.2-xml php8.2-mbstring php8.2-curl \
+  php8.2-zip php8.2-gd php8.2-bcmath && \
+sudo apt install php-xml php-curl php-mbstring php-zip php-intl && \
+sudo apt install -y nginx && \
+sudo systemctl enable nginx && sudo systemctl start nginx && \
+sudo apt install -y mariadb-server mariadb-client && \
+sudo systemctl enable mariadb && sudo systemctl start mariadb && \
+sudo apt install -y composer && \
+sudo apt install -y phpmyadmin && \
+sudo apt install -y rclone
+
+
+mysql password sites
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourStrongPass';
+FLUSH PRIVILEGES;
+EXIT;
+
+
+multiple app dir
+sudo mkdir -p /var/www/app1 /var/www/app2 /var/www/app3
+sudo chown -R $USER:$USER /var/www/app*
+sudo chmod -R 755 /var/www
+
+git clone for all of the apps
+
+
+pma nginx config
+# /etc/nginx/sites-available/pma.encomgrid.com
+sudo nano /etc/nginx/sites-available/pma.conf
+sudo ln -s /etc/nginx/sites-available/pma.conf /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+
+server {
+    listen 80;
+    server_name pma.encomgrid.com;
+
+    root /usr/share/phpmyadmin;
+    index index.php;
+
+    access_log /var/log/nginx/pma.access.log;
+    error_log /var/log/nginx/pma.error.log;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+app nginx config
+
+sudo nano /etc/nginx/sites-available/apps.conf
+sudo ln -s /etc/nginx/sites-available/apps.conf /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+
+# App 1
+server {
+    listen 80;
+    server_name app1.encomgrid.com;
+    root /var/www/app1/public;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+# App 2
+server {
+    listen 80;
+    server_name app2.encomgrid.com;
+    root /var/www/app2/public;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+# App 3
+server {
+    listen 80;
+    server_name app3.encomgrid.com;
+    root /var/www/app3/public;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
