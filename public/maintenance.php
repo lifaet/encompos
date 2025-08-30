@@ -5,68 +5,88 @@ header('Retry-After: 3600');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Site Under Maintenance</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #111;
-            color: #eee;
-            font-family: 'Segoe UI', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Site Under Maintenance</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Segoe UI", sans-serif;
+      background: #f5f6f8;
+      color: #333;
+    }
 
-        .container {
-            text-align: center;
-            padding: 30px;
-            border-radius: 12px;
-            background: #1a1a1a;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
+    .container {
+      text-align: center;
+      padding: 20px;
+    }
 
-        h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            color: #00ffc6;
-        }
+    .icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
 
-        p {
-            font-size: 1.1em;
-            color: #bbb;
-        }
+    h1 {
+      font-size: 2.2em;
+      margin: 0 0 10px;
+      color: #2c3e50;
+    }
 
-        .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            margin: 0 2px;
-            border-radius: 50%;
-            background: #00ffc6;
-            animation: blink 1.4s infinite both;
-        }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
+    p {
+      font-size: 1.1em;
+      color: #6c757d;
+      margin-bottom: 25px;
+    }
 
-        @keyframes blink {
-            0%, 80%, 100% { opacity: 0; }
-            40% { opacity: 1; }
-        }
-    </style>
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1em;
+      border: 2px solid transparent;
+      transition: 0.2s;
+    }
+
+    .btn-primary {
+      background: #1e293b;
+      color: #fff;
+      border-color: #1e293b;
+    }
+    .btn-primary:hover {
+      background: #0f172a;
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: #1e293b;
+      border-color: #1e293b;
+    }
+    .btn-outline:hover {
+      background: #f1f5f9;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>We'll Be Back Soon</h1>
-        <p>Our site is under maintenance. Please check back later</p>
-        <div>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
+  <div class="container">
+    <div class="icon">⚙️</div>
+    <h1>Site is under maintenance</h1>
+    <p>We’re working hard to improve the user experience. Stay tuned!</p>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="location.href='mailto:support@example.com'">Contact Us</button>
+      <button class="btn btn-outline" onclick="location.reload()">Reload</button>
     </div>
+  </div>
 </body>
 </html>
