@@ -16,25 +16,8 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-// Quick parse of .env manually
-$envFile = __DIR__ . '/../.env';
-if (file_exists($envFile)) {
-    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos($line, 'MAINTENANCE=') === 0) {
-            list($key, $value) = explode('=', $line, 2);
-            $value = trim($value, "\"' ");
-            if (strtolower($value) === 'true') {
-                http_response_code(503);
-                ?>
-                <!DOCTYPE html>
-                <html><head><title>Maintenance</title></head>
-                <body><h1>Site Under Maintenance</h1></body></html>
-                <?php
-                exit;
-            }
-        }
-    }
+if (file_exists($maintenance = __DIR__.'/maintenance.php')) {
+    require $maintenance;
 }
 
 /*
