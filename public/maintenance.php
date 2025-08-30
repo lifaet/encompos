@@ -82,7 +82,6 @@ header('Retry-After: 3600');
   <div class="container">
     <div class="icon">⚙️</div>
     <h1>Site is under maintenance</h1>
-    <p>We’re working hard to improve the user experience. Stay tuned!</p>
     <div class="btn-group">
       <a class="btn btn-primary" href="mailto:support@example.com">Contact Us</a>
       <a class="btn btn-outline" href="" onclick="location.reload(); return false;">Reload</a>
