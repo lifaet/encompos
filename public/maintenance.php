@@ -84,8 +84,8 @@ header('Retry-After: 3600');
     <h1>Site is under maintenance</h1>
     <p>We’re working hard to improve the user experience. Stay tuned!</p>
     <div class="btn-group">
-      <button class="btn btn-primary" onclick="location.href='mailto:support@example.com'">Contact Us</button>
-      <button class="btn btn-outline" onclick="location.reload()">Reload</button>
+      <a class="btn btn-primary" href="mailto:support@example.com">Contact Us</a>
+      <a class="btn btn-outline" href="" onclick="location.reload(); return false;">Reload</a>
     </div>
   </div>
 </body>
