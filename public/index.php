@@ -16,12 +16,8 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-// Load .env variables
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
-
-// Custom maintenance mode check
-if (!empty($_ENV['MAINTENANCE']) && $_ENV['MAINTENANCE'] === 'true') {
+// Custom maintenance mode check (using environment variable directly)
+if (getenv('MAINTENANCE') === 'true') {
     http_response_code(503);
     header('Retry-After: 3600');
     ?>
@@ -60,7 +56,7 @@ if (!empty($_ENV['MAINTENANCE']) && $_ENV['MAINTENANCE'] === 'true') {
         <h1>Site is under maintenance</h1>
         <p>We’re working hard to improve the user experience. Stay tuned!</p>
         <div class="btn-group">
-          <button class="btn btn-primary" onclick="location.href='mailto:support@encomgrid.com'">Contact Us</button>
+          <button class="btn btn-primary" onclick="location.href='mailto:support@example.com'">Contact Us</button>
           <button class="btn btn-outline" onclick="location.reload()">Reload</button>
         </div>
       </div>
