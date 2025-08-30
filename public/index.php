@@ -18,6 +18,7 @@ define('LARAVEL_START', microtime(true));
 
 if (file_exists($maintenance = __DIR__.'/maintenance.php')) {
     require $maintenance;
+    exit;
 }
 
 /*
