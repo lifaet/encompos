@@ -19,7 +19,7 @@ sudo apt install -y rclone
 
 mysql password sites
 sudo mysql
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourStrongPass';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '3NC0MP0S!!';
 FLUSH PRIVILEGES;
 EXIT;
 
