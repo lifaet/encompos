@@ -1,8 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-# Load .env from parent directory
-ENV_FILE="../.env"
+# Resolve directory of this script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load .env from parent directory of the script
+ENV_FILE="$SCRIPT_DIR/../.env"
 if [ ! -f "$ENV_FILE" ]; then
     echo "❌ .env not found!"
     exit 1
