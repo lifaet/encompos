@@ -21,7 +21,7 @@ class StartUpSeeder extends Seeder
         $user = User::create([
             'name' => 'SuperAdmin',
             'email' => 'admin@encomgrid.com',
-            'password' => bcrypt(123456),
+            'password' => bcrypt('Enc0mp0s!!'),
             'username' => uniqid()
         ]);
         Customer::create([
