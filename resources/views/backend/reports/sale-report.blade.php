@@ -34,7 +34,7 @@
 
             <!-- Table row -->
             <div class="row justify-content-center">
-              <div class="col-12">
+              <div class="col-12 table-responsive">
                 <table id="datatables" class="table table-hover">
                   <thead>
                     <tr>
