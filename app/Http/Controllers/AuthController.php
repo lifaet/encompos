@@ -216,7 +216,7 @@ class AuthController extends Controller
 
         return view('frontend.authentication.new-password');
     }
-
+    // Profile Update
     public function update(Request $request)
     {
         $user = Auth::user();
