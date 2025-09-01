@@ -53,7 +53,7 @@
       responsive: true,   // ✅ auto adjust
       scrollX: true,      // ✅ allow horizontal scroll if needed
       autoWidth: false,
-      order: [[1, 'desc']],
+      order: [[0, 'desc']],
       ajax: {
         url: "{{ route('backend.admin.orders.index') }}"
       },
