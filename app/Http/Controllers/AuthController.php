@@ -134,6 +134,35 @@ class AuthController extends Controller
         return view('frontend.authentication.forget-password');
     }
 
+    
+    public function resendOtp()
+    {
+        $findUser = ForgetPassword::where('user_id', session('user_id'))
+            ->where('email', session('reset-email'))
+            ->first();
+
+        if ($findUser) {
+            $user = User::find(session('user_id'));
+            $otp = rand(11111, 99999);
+
+            $findUser->otp = $otp;
+            $findUser->resent_count++;
+            $findUser->suspend_duration = now()->addMinutes(5);
+            $findUser->save();
+
+            $mailData = [
+                'title' => readConfig('site_name'),
+                'otp' => $otp,
+                'name' => $user->name,
+            ];
+            Mail::to($findUser->email)->send(new PasswordReset($mailData));
+
+            return back()->with('success', 'Otp resent successfully');
+        } else {
+            return back()->with('error', 'Something went wrong');
+        }
+    }
+
     // Reset Password OTP
     public function resetPassword(Request $request)
     {
@@ -186,5 +215,42 @@ class AuthController extends Controller
         }
 
         return view('frontend.authentication.new-password');
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'current_password' => 'nullable|required_with:new_password|string',
+            'new_password' => 'nullable|string|confirmed|min:6',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        // Profile image upload
+        if ($request->hasFile('profile_image')) {
+            if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+            $path = $request->file('profile_image')->store('profile', 'public');
+            $user->profile_image = $path;
+        }
+
+        // Password change
+        if ($request->filled('new_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Current password is incorrect']);
+            }
+            $user->password = Hash::make($request->new_password);
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 }
