@@ -58,21 +58,27 @@
             </a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="fas fa-user-circle"></i>
-                <i class="fas fa-angle-double-down"></i>
+            <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#">
+                @if(Auth::user()->profile_image)
+                    <img src="{{ asset('storage/' . Auth::user()->profile_image) }}"
+                        alt="Profile"
+                        class="rounded-circle"
+                        style="width:32px; height:32px; object-fit:cover; border:2px solid #ccc;">
+                @else
+                    <i class="fas fa-user-circle" style="font-size: 28px;"></i>
+                @endif
+                <i class="fas fa-angle-double-down ml-1"></i>
             </a>
-            <div class="dropdown-menu ">
-                <a href="{{ route('backend.admin.profile') }}" class="dropdown-item dropdown-footer">
-                    <i class="fas fa-address-card"></i>
-                    Profile
+            <div class="dropdown-menu dropdown-menu-right">
+                <a href="{{ route('backend.admin.profile') }}" class="dropdown-item">
+                    <i class="fas fa-address-card"></i> Profile
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="{{ route('logout') }}" class="dropdown-item dropdown-footer">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
+                <a href="{{ route('logout') }}" class="dropdown-item">
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
         </li>
+
     </ul>
 </nav>
