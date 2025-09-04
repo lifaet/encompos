@@ -25,7 +25,6 @@
                 <th style="width:60px;">ID</th>
                 <th style="min-width:150px;">Name</th>
                 <th style="min-width:120px;">SKU</th>
-                <th style="min-width:200px;">Description</th>
                 <th style="min-width:120px;">Category</th>
                 <th style="min-width:120px;">Brand</th>
                 <th style="min-width:100px;">Unit</th>
@@ -62,7 +61,6 @@
         { data: 'id', name: 'id' },
         { data: 'name', name: 'name' },
         { data: 'sku', name: 'sku' },
-        { data: 'description', name: 'description' },
         { data: 'category_name', name: 'category_name' },
         { data: 'brand_name', name: 'brand_name' },
         { data: 'unit_name', name: 'unit_name' },
