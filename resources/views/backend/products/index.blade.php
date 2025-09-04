@@ -30,7 +30,6 @@
                 <th style="min-width:100px;">Unit</th>
                 <th style="min-width:100px;">Price {{ currency()->symbol ?? '' }}</th>
                 <th style="min-width:100px;">Discount</th>
-                <th style="min-width:120px;">Discount Type</th>
                 <th style="min-width:130px;">Purchase Price</th>
                 <th style="min-width:100px;">Quantity</th>
                 <th style="min-width:130px;">Expire Date</th>
@@ -66,7 +65,6 @@
         { data: 'unit_name', name: 'unit_name' },
         { data: 'price', name: 'price' },
         { data: 'discount', name: 'discount' },
-        { data: 'discount_type', name: 'discount_type' },
         { data: 'purchase_price', name: 'purchase_price' },
         { data: 'quantity', name: 'quantity' },
         { data: 'expire_date', name: 'expire_date' },
