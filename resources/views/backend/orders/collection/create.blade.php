@@ -37,7 +37,7 @@
             <label for="title" class="form-label">
               Collection Amount <span class="text-danger">*</span>
             </label>
-            <input type="number" class="form-control" placeholder="Enter amount" value="{{$order->due}}" name="amount" required min="1" max="{{$order->due}}">
+            <input type="number" class="form-control" placeholder="Enter amount" value="{{$order->due}}" name="amount" step="any" required min="0.01" max="{{$order->due}}">
           </div>
         </div>
         <div class="row">

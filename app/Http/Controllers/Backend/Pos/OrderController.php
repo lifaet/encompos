@@ -148,7 +148,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         if ($request->isMethod('post')) {
-            $data = $request->validate(['amount' => 'required|numeric|min:1']);
+            $data = $request->validate(['amount' => 'required|numeric|min:0.01']);
 
             $order->paid += $data['amount'];
             $order->due -= $data['amount'];
@@ -162,7 +162,8 @@ class OrderController extends Controller
                 'paid_by' => 'cash',
             ]);
 
-            return to_route('backend.admin.collectionInvoice', $transaction->id);
+            return to_route('backend.admin.orders.pos-invoice', $order->id);
+
         }
 
         return view('backend.orders.collection.create', compact('order'));
