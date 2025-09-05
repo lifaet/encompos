@@ -68,7 +68,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.customers.index')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.customers.index','backend.admin.customers.edit','backend.admin.customers.create']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-id-badge nav-icon"></i>
                             <p>Customer</p>
                         </a>
                     </li>
@@ -79,7 +79,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.suppliers.index')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.suppliers.index','backend.admin.suppliers.edit','backend.admin.suppliers.create']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-truck nav-icon"></i>
                             <p>Supplier</p>
                         </a>
                     </li>
@@ -109,7 +109,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.products.index')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.products.index', 'backend.admin.products.edit']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-clipboard-list nav-icon"></i>
                             <p>Product List</p>
                         </a>
                     </li>
@@ -118,7 +118,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.products.create')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.products.create']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-plus-square nav-icon"></i>
                             <p>Product Create</p>
                         </a>
                     </li>
@@ -128,7 +128,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.products.import')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.products.import']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-file-import nav-icon"></i>
                             <p>Product Import</p>
                         </a>
                     </li>
@@ -137,7 +137,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.brands.index')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.brands.index', 'backend.admin.brands.create', 'backend.admin.brands.edit']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-tags nav-icon"></i>
                             <p>Brand</p>
                         </a>
                     </li>@endif
@@ -145,7 +145,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.categories.index')}}"
                             class="nav-link {{ request()->routeIs([ 'backend.admin.categories.index', 'backend.admin.categories.create', 'backend.admin.categories.edit']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-list nav-icon"></i>
                             <p>Category</p>
                         </a>
                     </li>@endif
@@ -153,7 +153,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.units.index')}}"
                             class="nav-link {{ request()->routeIs([ 'backend.admin.units.index', 'backend.admin.units.create', 'backend.admin.units.edit']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-balance-scale nav-icon"></i>
                             <p>Unit</p>
                         </a>
                     </li>
@@ -167,7 +167,7 @@ $route = request()->route()->getName();
             ]))
             <li class="nav-item">
                 <a href="#" class="nav-link {{ request()->routeIs(['backend.admin.orders.index', 'backend.admin.orders.create', 'backend.admin.orders.edit']) ? 'menu-open' : '' }}">
-                    <i class="fas fa-tags nav-icon"></i>
+                    <i class="fas fa-shopping-cart nav-icon"></i>
                     <p>
                         Sale
                         <i class="fas fa-angle-left right"></i>
@@ -178,7 +178,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.orders.index')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.orders.index']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-receipt nav-icon"></i>
                             <p>Sale List</p>
                         </a>
                     </li>
@@ -205,7 +205,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.purchase.index')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.purchase.index']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-clipboard-check nav-icon"></i>
                             <p>Purchase List</p>
                         </a>
                     </li>
@@ -214,7 +214,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.purchase.create')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.purchase.create']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-truck-loading nav-icon"></i>   <!-- represents incoming stock -->
                             <p>Purchase Create</p>
                         </a>
                     </li>
@@ -240,7 +240,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.inventory.report')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.inventory.report']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-warehouse nav-icon"></i>
                             <p>Inventory</p>
                         </a>
                     </li>
@@ -249,7 +249,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.sale.report')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.sale.report']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-chart-line nav-icon"></i>
                             <p>Sales</p>
                         </a>
                     </li>
@@ -258,7 +258,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{route('backend.admin.sale.summery')}}"
                             class="nav-link {{ request()->routeIs(['backend.admin.sale.summery']) ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-file-alt nav-icon"></i>
                             <p>Summary</p>
                         </a>
                     </li>
@@ -300,7 +300,7 @@ $route = request()->route()->getName();
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="fas fa-cog nav-icon"></i>
+                    <i class="fas fa-cogs nav-icon"></i>
                     <p>
                         Website Settings
                         <i class="fas fa-angle-left right"></i>
@@ -320,7 +320,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{ route('backend.admin.settings.website.general') }}?active-tab=website-info"
                             class="nav-link {{ $route === 'backend.admin.settings.website.general' ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-sliders-h nav-icon"></i>
                             <p>General Settings</p>
                         </a>
                     </li>
@@ -341,7 +341,25 @@ $route = request()->route()->getName();
                     'role_delete',
                     'permission_view',
                     ]))
+                    @can('role_view')
                     <li class="nav-item">
+                        <a href="{{ route('backend.admin.roles') }}"
+                            class="nav-link {{ $route === 'backend.admin.roles' ? 'active' : '' }}">
+                            <i class="fas fa-lock nav-icon"></i>
+                            <p>Roles</p>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('permission_view')
+                    <li class="nav-item">
+                        <a href="{{ route('backend.admin.permissions') }}"
+                            class="nav-link {{ $route === 'backend.admin.permissions' ? 'active' : '' }}">
+                            <i class="fas fa-key nav-icon"></i>
+                            <p>Permissions</p>
+                        </a>
+                    </li>
+                    @endcan
+                    <!-- <li class="nav-item">
                         <a href="#" class="nav-link d-flex justify-content-between align-items-center">
                             <span>
                                 <i class="fas fa-chevron-circle-right nav-icon"></i>
@@ -371,7 +389,7 @@ $route = request()->route()->getName();
                             </li>
                             @endcan
                         </ul>
-                    </li>
+                    </li> -->
                     @endif
                     @if (auth()->user()->hasAnyPermission([
                     //user
@@ -384,7 +402,7 @@ $route = request()->route()->getName();
                     <li class="nav-item">
                         <a href="{{ route('backend.admin.users') }}"
                             class="nav-link {{ $route === 'backend.admin.users' ? 'active' : '' }}">
-                            <i class="fas fa-circle nav-icon"></i>
+                            <i class="fas fa-user nav-icon"></i>
                             <p>User Management</p>
                         </a>
                     </li>
