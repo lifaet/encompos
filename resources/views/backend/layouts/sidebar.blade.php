@@ -296,7 +296,7 @@ $route = request()->route()->getName();
             'website_status_settings',
             'invoice_settings',
             ]))
-            <li class="nav-header">SETTINGS</li>
+            <!-- <li class="nav-header">SETTINGS</li> -->
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
