@@ -79,23 +79,28 @@
   <hr style="border-top: 1px dashed #999;">
 
   <!-- Summary -->
-  <div style="display:flex; align-items:center; gap:15px;">
-      <!-- Bond-style seal -->
-      <div style="transform:rotate(-10deg); width:60px;height:60px;border-radius:50%;border:3px dashed #000;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;color:#000;text-transform:uppercase;background:#fff;flex-shrink:0;">
-          <span>{{ $order->due <= 0 ? 'PAID' : 'DUE' }}</span>
-      </div>
-
-      <!-- Totals table -->
-      <table style="text-align:right; margin:0;">
-          <tr><td>Subtotal:</td><td>{{ number_format($order->sub_total,2) }}</td></tr>
-          <tr><td>Discount:</td><td>{{ number_format($order->discount,2) }}</td></tr>
-          <tr><td><strong>Total:</strong></td><td><strong>{{ number_format($order->total,2) }}</strong></td></tr>
-          <tr><td>Paid:</td><td>{{ number_format($order->paid,2) }}</td></tr>
-          <tr><td>Due:</td><td>{{ number_format($order->due,2) }}</td></tr>
-      </table>
-  </div>
-
-
+  <table style="width: 100%; margin-bottom: 10px; text-align: right;" >
+    <tr>
+      <td>Subtotal:</td>
+      <td >{{ number_format($order->sub_total, 2) }}</td>
+    </tr>
+    <tr>
+      <td>Discount:</td>
+      <td >{{ number_format($order->discount, 2) }}</td>
+    </tr>
+    <tr>
+      <td><strong>Total:</strong></td>
+      <td ><strong>{{ number_format($order->total, 2) }}</strong></td>
+    </tr>
+    <tr>
+      <td>Paid:</td>
+      <td >{{ number_format($order->paid, 2) }}</td>
+    </tr>
+    <tr >
+      <td>Due:</td>
+      <td >{{ number_format($order->due, 2) }}</td>
+    </tr>
+  </table>
 
   <hr style="border-top: 1px dashed #999;">
 

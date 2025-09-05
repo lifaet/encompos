@@ -77,36 +77,32 @@
 
 
       <!-- TOTALS -->
-<!-- TOTALS WITH SEAL -->
-    <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px;">
-        <!-- Seal -->
-        <div style="transform:rotate(-10deg); width:60px;height:60px;border-radius:50%;border:3px dashed #000;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;color:#000;text-transform:uppercase;background:#fff;flex-shrink:0;">
-            <span>{{ $order->due <= 0 ? 'PAID' : 'DUE' }}</span>
-        </div>
-
-        <!-- Totals table -->
-        <div style="width:40%;">
-            <table style="width:100%; border-collapse:collapse;">
-                <tr>
-                    <th style="text-align:right; padding:3px;">Discount:</th>
-                    <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->discount,2) }}</td>
-                </tr>
-                <tr>
-                    <th style="text-align:right; padding:3px;">Total:</th>
-                    <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->total,2) }}</td>
-                </tr>
-                <tr>
-                    <th style="text-align:right; padding:3px;">Paid:</th>
-                    <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->paid,2) }}</td>
-                </tr>
-                <tr>
-                    <th style="text-align:right; padding:3px;">Due:</th>
-                    <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->due,2) }}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
+      <div style="display:flex; justify-content:flex-end;">
+          <div style="width:40%;">
+              <table style="width:100%; border-collapse:collapse;">
+                  <!-- <tr>
+                      <th style="text-align:right; padding:3px;">Subtotal:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->sub_total,2) }}</td>
+                  </tr> -->
+                  <tr>
+                      <th style="text-align:right; padding:3px;">Discount:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->discount,2) }}</td>
+                  </tr>
+                  <tr>
+                      <th style="text-align:right; padding:3px;">Total:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->total,2) }}</td>
+                  </tr>
+                  <tr>
+                      <th style="text-align:right; padding:3px;">Paid:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->paid,2) }}</td>
+                  </tr>
+                  <tr>
+                      <th style="text-align:right; padding:3px;">Due:</th>
+                      <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->due,2) }}</td>
+                  </tr>
+              </table>
+          </div>
+      </div>
 
       <!-- FOOTER / CUSTOMER NOTE -->
       <div class="invoice-footer" style="text-align:center; font-style:italic; color:#555;">
