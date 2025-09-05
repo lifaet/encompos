@@ -43,14 +43,14 @@
                                 name="password" value="{{ old('password') }}" required>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                         <div class="form-group">
                             <label for="thumbnail">Profile Image</label>
                             <input type="file" class="form-control" name="profile_image"
                                 onchange="previewThumbnail(this)">
                             <img class="img-fluid thumbnail-preview" src="{{ nullImg() }}" alt="preview-image">
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <button type="submit" class="btn btn-block bg-gradient-primary">Create</button>
             </form>
