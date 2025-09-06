@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label for="password" class="form-label">Login password</label>
                             <input type="password" class="form-control" id="password" placeholder="Enter your password"
-                                name="password" value="{{ $user->password }}" required>
+                                name="password" required>
                         </div>
                     </div>
                     <!-- <div class="col-12">
