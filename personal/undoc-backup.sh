@@ -29,7 +29,7 @@ fi
 TIMESTAMP=$(date +"_%Y%m%d_%H%M%S")
 
 for DB_NAME in $DB_LIST; do
-    echo "→ Backing up database: $DB_NAME"
+    echo "→ Backing up database: $DB_NAME" at $(date +"%Y-%m-%d %H:%M:%S")
 
     BACKUP_FILE="${DB_NAME}${TIMESTAMP}.sql"
     DB_FOLDER="$GDRIVE_FOLDER/$DB_NAME"
