@@ -16,7 +16,7 @@ set -a; source "$ENV_FILE"; set +a
 CONTAINER="$DB_HOST"
 DB_USER="$DB_USERNAME"
 DB_PASS="$DB_PASSWORD"
-REMOTE="hmhc"
+REMOTE="encompos"
 BASE_FOLDER="Databases/ENCOMPOS/TEST"
 KEEP_LAST=5
 
