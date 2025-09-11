@@ -39,7 +39,8 @@
                                     <input type="checkbox" class="custom-control-input"
                                         id="customSwitch{{ $data->id }}" name="permissions[]"
                                         value="{{ $data->name }}"
-                                        {{ $data->name == $per_found ? 'checked' : '' }}>
+                                        {{ $role->hasPermissionTo($data->name) ? 'checked' : '' }}>
+                                        
                                     <label class="custom-control-label" for="customSwitch{{ $data->id }}">
                                         {{ snakeToTitle($data->name) }}
                                     </label>

@@ -83,9 +83,9 @@ class RoleController extends Controller
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
         if ($role = Role::findOrFail($id)) {
             // admin role has everything
-            if ($role->name === 'Admin') {
+            if ($role->name === 'SuperAdmin') {
                 $role->syncPermissions(Permission::all());
-                return to_route('backend.admin.roles')->with('warning', 'Admin role has all permissions');
+                return to_route('backend.admin.roles')->with('warning', ']SuperAdmin role has all permissions');
             }
             
             $permissions = $request->get('permissions', []);
