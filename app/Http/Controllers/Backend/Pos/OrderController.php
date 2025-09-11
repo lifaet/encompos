@@ -43,6 +43,12 @@ class OrderController extends Controller
                         $buttons .= '<a class="btn btn-warning btn-sm" href="' . route('backend.admin.due.collection', $data->id) . '"><i class="fas fa-receipt"></i> Due Collection</a>';
                     }
                     $buttons .= '<a class="btn btn-primary btn-sm" href="' . route('backend.admin.orders.transactions', $data->id) . '"><i class="fas fa-exchange-alt"></i> Transactions</a>';
+                    if (auth()->user()->can('sale_delete')) {
+                        $buttons .= '<form action="' . route('backend.admin.orders.destroy', $data->id) . '" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Are you sure you want to delete this order?\')">
+                                        ' . csrf_field() . method_field('DELETE') . '
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </form>';
+                    }
                     return $buttons;
                 })
                 ->rawColumns(['saleId','saleDate', 'customer', 'item', 'sub_total', 'discount', 'total', 'profit', 'paid', 'due', 'status', 'action'])
@@ -50,6 +56,25 @@ class OrderController extends Controller
         }
 
         return view('backend.orders.index');
+    }
+
+    /**
+     * Delete a specific order.
+     */
+    public function destroy($id)
+    {
+        abort_if(!auth()->user()->can('sale_delete'), 403);
+
+        $order = Order::with('products.product')->findOrFail($id);
+        foreach ($order->products as $op) {
+            $op->product->quantity += $op->quantity;
+            $op->product->save();
+        }
+        $order->transactions()->delete();
+        $order->products()->delete();
+        $order->delete();
+
+        return redirect()->route('backend.admin.orders.index')->with('success', 'Order deleted successfully');
     }
 
     /**

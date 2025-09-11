@@ -15,7 +15,7 @@
     @endcan
     <div class="card-body">
         <div class="row">
-            <!-- @if (env('APP_ENV') == 'local')
+            @if (env('APP_ENV') == 'local')
                     <div class="col-md-12">
                         <fieldset>
                             <form action="{{ route('backend.admin.permissions.store') }}" method="post">
@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <button type="submit" class="btn bg-gradient-primary">
-                                            Submit
+                                            ADD
                                         </button>
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@
                         </fieldset>
                         <hr>
                     </div>
-                @endif -->
+                @endif
 
             <div class="col-md-12 table-responsive">
                 <table class="table table-bordered table-striped table-hover">
@@ -56,9 +56,9 @@
                             <th>Name</th>
                             <th>Slug</th>
 
-                            <!-- @if (env('APP_ENV') == 'local')
+                            @if (env('APP_ENV') == 'local')
                                     <th class="text-center">Actions</th>
-                                @endif -->
+                                @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@
                             <td>{{ snakeToTitle($data->name) }}</td>
                             <td>{{ $data->name }}</td>
 
-                            <!-- @if (env('APP_ENV') == 'local')
+                            @if (env('APP_ENV') == 'local')
                                         <td>
                                             <div class="text-center">
                                                 <button title="Edit permission" type="button" class="btn bg-gradient-primary btn-xs"
@@ -99,6 +99,10 @@
                                                         <div class="modal-body">
                                                             <div class="form-group">
                                                                 <label class="control-label">Name:</label>
+                                                                {!! Form::text('name', snakeToTitle($data->name), ['class' => 'form-control', 'placeholder' => 'permission Name']) !!}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label">Slug:</label>
                                                                 {!! Form::text('name', $data->name, ['class' => 'form-control', 'placeholder' => 'permission Name']) !!}
                                                             </div>
                                                         </div>
@@ -116,7 +120,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                    @endif -->
+                                    @endif
                         </tr>
                         @endforeach
                     </tbody>

@@ -350,7 +350,7 @@ $route = request()->route()->getName();
                         </a>
                     </li>
                     @endcan
-                    @can('permission_view')
+                    <!-- @can('permission_view')
                     <li class="nav-item">
                         <a href="{{ route('backend.admin.permissions') }}"
                             class="nav-link {{ $route === 'backend.admin.permissions' ? 'active' : '' }}">
@@ -358,7 +358,7 @@ $route = request()->route()->getName();
                             <p>Permissions</p>
                         </a>
                     </li>
-                    @endcan
+                    @endcan -->
                     <!-- <li class="nav-item">
                         <a href="#" class="nav-link d-flex justify-content-between align-items-center">
                             <span>
