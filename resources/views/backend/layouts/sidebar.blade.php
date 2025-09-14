@@ -359,37 +359,6 @@ $route = request()->route()->getName();
                         </a>
                     </li>
                     @endcan
-                    <!-- <li class="nav-item">
-                        <a href="#" class="nav-link d-flex justify-content-between align-items-center">
-                            <span>
-                                <i class="fas fa-chevron-circle-right nav-icon"></i>
-                                Roles & Permissions
-                            </span>
-                            <span class="d-flex justify-content-between align-items-center">
-                                <i class="fas fa-angle-left right"></i>
-                            </span>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            @can('role_view')
-                            <li class="nav-item">
-                                <a href="{{ route('backend.admin.roles') }}"
-                                    class="nav-link {{ $route === 'backend.admin.roles' ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Roles</p>
-                                </a>
-                            </li>
-                            @endcan
-                            @can('permission_view')
-                            <li class="nav-item">
-                                <a href="{{ route('backend.admin.permissions') }}"
-                                    class="nav-link {{ $route === 'backend.admin.permissions' ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Permissions</p>
-                                </a>
-                            </li>
-                            @endcan
-                        </ul>
-                    </li> -->
                     @endif
                     @if (auth()->user()->hasAnyPermission([
                     //user
