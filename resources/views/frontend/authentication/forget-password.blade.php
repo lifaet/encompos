@@ -33,11 +33,8 @@
                 class="authentication-form px-lg-5 forgot-form needs-validation" novalidate>
                 @csrf
                 <div class="authentication-form-header">
-                    <a href="{{ route('frontend.home') }}" class="logo">
-                        <img src="{{ assetImage(readconfig('site_logo')) }}" width="200px" alt="brand-logo">
-                    </a>
-                    <h3 class="form-title">Forgot Password?</h3>
-                    <p class="form-des">Please enter the email you use to sign in.</p>
+                    <h3 class="form-title my-2">Forgot Password?</h3>
+                    <p class="form-des my-2">Please enter the email you use to sign in.</p>
                 </div>
                 <div class="authentication-form-content">
                     <div class="row g-4">
@@ -60,7 +57,7 @@
 
                     </div>
                 </div>
-                <div class="authentication-form-footer">
+                <div class="authentication-form-footer my-2">
                     <p>Back to <a href="{{ route('login') }}">Log in </a></p>
                 </div>
             </form>

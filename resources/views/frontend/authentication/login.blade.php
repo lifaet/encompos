@@ -116,6 +116,11 @@
                                         <input type="checkbox" id="rememberMe" class="customcheck-box" name="remember_me" hidden>
                                         <label for="rememberMe" class="customcheck-label">Remember me</label>
                                     </div>
+                                    <div class="text-end">
+                                        <a href="{{ route('forget.password') }}" class="text-primary" style="text-decoration: none;">
+                                            Forgot Password?
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
