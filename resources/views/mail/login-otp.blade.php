@@ -18,21 +18,24 @@
                 Thank you for choosing {{ env('WEBSITE_NAME') }}. Use the following OTP to complete your login procedures.
                 OTP is valid for 5 minutes.
             </p>
+            <p>
+                We received a request to log in to your account at <strong>{{ env('WEBSITE_NAME') }}</strong>.
+                Use the OTP below to complete the login. This OTP is valid for 5 minutes.
+            </p>
             <h2
                 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
                 {{ $mailData['otp'] }}
             </h2>
             <p style="font-size:0.9em;">
-                Regards,
-                <br />
-                Your {{ env('WEBSITE_NAME') }}
+                If you did not request this password reset, please ignore this email or contact our support team.
             </p>
             <hr style="border:none;border-top:1px solid #eee" />
             <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-                <p>{{ env('WEBSITE_NAME') }}</p>
+                &copy; {{ date('Y') }} {{ env('WEBSITE_NAME') }}. All rights reserved.
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
