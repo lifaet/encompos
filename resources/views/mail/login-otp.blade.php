@@ -30,7 +30,7 @@
                 If you did not request this password reset, please ignore this email or contact our support team.
             </p>
             <hr style="border:none;border-top:1px solid #eee" />
-            <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+            <div style="padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
                 &copy; {{ date('Y') }} ENCOMGRID. All rights reserved.
             </div>
         </div>
