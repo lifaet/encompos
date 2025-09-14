@@ -19,7 +19,7 @@
                 OTP is valid for 5 minutes.
             </p>
             <p>
-                We received a request to log in to your account at <strong>{{ env('WEBSITE_NAME') }}</strong>.
+                We received a request to log in to your account at <strong>ENCOMPOS</strong>.
                 Use the OTP below to complete the login. This OTP is valid for 5 minutes.
             </p>
             <h2
@@ -31,7 +31,7 @@
             </p>
             <hr style="border:none;border-top:1px solid #eee" />
             <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-                &copy; {{ date('Y') }} {{ env('WEBSITE_NAME') }}. All rights reserved.
+                &copy; {{ date('Y') }} ENCOMGRID. All rights reserved.
             </div>
         </div>
     </div>
