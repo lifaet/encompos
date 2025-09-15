@@ -417,7 +417,7 @@ export default function Purchase() {
                             </div>
                         )}
                         <div className="row">
-                            <div className="col-12">
+                            <div className="col-12 table-responsive">
                                 <table className="table table-sm table-bordered text-center">
                                     <thead>
                                         <tr>
