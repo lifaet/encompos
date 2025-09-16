@@ -31,21 +31,37 @@ class PurchaseController extends Controller
                 ->addColumn('total', fn($data) => $data->grand_total)
                 ->addColumn('created_at', fn($data) => \Carbon\Carbon::parse($data->date)->format('d M, Y')) // Using Carbon for formatting
                 ->addColumn('action', function ($data) {
-                    return '<div class="btn-group">
-                    <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
-                    <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="' . route('backend.admin.purchase.create', ['purchase_id' => $data->id]) . '">
-                    <i class="fas fa-edit"></i> Edit
-                </a> 
-  <a class="dropdown-item" href="' . route('backend.admin.purchase.products', $data->id) . '">
-                <i class="fas fa-eye"></i> View
-            </a>
-                    </div>
-                  </div>';
+                    $actions = '<div class="btn-group">
+                        <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
+                        <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" href="' . route('backend.admin.purchase.create', ['purchase_id' => $data->id]) . '">
+                            <i class="fas fa-edit"></i> Edit
+                        </a> 
+                        <a class="dropdown-item" href="' . route('backend.admin.purchase.products', $data->id) . '">
+                            <i class="fas fa-eye"></i> View
+                        </a>';
+
+                    if (auth()->user()->can('purchase_delete')) {
+                        $actions .= '
+                        <form action="' . route('backend.admin.purchase.delete_purchase', $data->id) . '" 
+                                method="POST" 
+                                onsubmit="return confirm(\'Are you sure you want to delete this purchase?\')" 
+                                style="display:inline;">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>';
+                    }
+
+                    $actions .= '</div></div>';
+
+                    return $actions;
                 })
+
                 ->rawColumns(['supplier', 'id', 'total', 'created_at', 'action'])
                 ->toJson();
         }
@@ -53,7 +69,6 @@ class PurchaseController extends Controller
 
         return view('backend.purchase.index');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -208,12 +223,28 @@ class PurchaseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Purchase $purchase)
+    public function delete_purchase(Purchase $purchase)
     {
-
         abort_if(!auth()->user()->can('purchase_delete'), 403);
-        //
+
+        DB::beginTransaction();
+        try {
+            // Restore stock before deleting
+            foreach ($purchase->items as $item) {
+                $item->product->decrement('quantity', $item->quantity);
+                $item->delete();
+            }
+
+            $purchase->delete();
+            DB::commit();
+
+            return redirect()->route('backend.admin.purchase.index')->with('success', 'Purchase deleted successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to delete purchase: ' . $e->getMessage());
+        }
     }
+    
     // purchaseProducts list by Purchase id
     public function purchaseProducts(Request $request, $id)
     {

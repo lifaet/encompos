@@ -1,6 +1,6 @@
 @extends('backend.master')
 
-@section('title', $role->name . ' Role Permission')
+@section('title', $role->name . ' Permission')
 
 @section('content')
 @can('role_view')
@@ -16,42 +16,44 @@
         <div class="col-md-12">
             <form action="{{ route('backend.admin.update.role-permissions', $role->id) }}" method="post">
                 @csrf
-                <table class="table">
-                    <tbody>
-                        @foreach ($permissions->chunk(4) as $permission)
-                        <tr>
-                            @foreach ($permission as $data)
-                            <td>
-                                <?php
-                                $per_found = null;
+                <div class="col-md-12 table-responsive">
+                    <table class="table">
+                        <tbody>
+                            @foreach ($permissions->chunk(4) as $permission)
+                            <tr>
+                                @foreach ($permission as $data)
+                                <td>
+                                    <?php
+                                    $per_found = null;
 
-                                if (isset($role)) {
-                                    $per_found = $role->hasPermissionTo($data->name) ?? null;
-                                }
+                                    if (isset($role)) {
+                                        $per_found = $role->hasPermissionTo($data->name) ?? null;
+                                    }
 
-                                if (isset($user)) {
-                                    $per_found = $user->hasDirectPermission($data->name);
-                                }
-                                ?>
+                                    if (isset($user)) {
+                                        $per_found = $user->hasDirectPermission($data->name);
+                                    }
+                                    ?>
 
-                                <div
-                                    class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    <input type="checkbox" class="custom-control-input"
-                                        id="customSwitch{{ $data->id }}" name="permissions[]"
-                                        value="{{ $data->name }}"
-                                        {{ $role->hasPermissionTo($data->name) ? 'checked' : '' }}>
-                                        
-                                    <label class="custom-control-label" for="customSwitch{{ $data->id }}">
-                                        {{ snakeToTitle($data->name) }}
-                                    </label>
-                                </div>
+                                    <div
+                                        class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                        <input type="checkbox" class="custom-control-input"
+                                            id="customSwitch{{ $data->id }}" name="permissions[]"
+                                            value="{{ $data->name }}"
+                                            {{ $role->hasPermissionTo($data->name) ? 'checked' : '' }}>
+                                            
+                                        <label class="custom-control-label" for="customSwitch{{ $data->id }}">
+                                            {{ snakeToTitle($data->name) }}
+                                        </label>
+                                    </div>
 
-                            </td>
+                                </td>
+                                @endforeach
+                            </tr>
                             @endforeach
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="text-center mb-3">
                     <button type="submit" class="btn bg-gradient-primary w-25"> Submit </button>
                 </div>

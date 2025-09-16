@@ -58,7 +58,6 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 // ====================== /FRONTEND =====================
 
 // ====================== BACKEND =======================
-
 Route::prefix('admin')->as('backend.admin.')->middleware(['admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', ProductController::class);
@@ -74,6 +73,7 @@ Route::prefix('admin')->as('backend.admin.')->middleware(['admin'])->group(funct
     Route::get('currencies/default/{id}', [CurrencyController::class, 'setDefault'])->name('currencies.setDefault');
     Route::get('customers/orders/{id}', [CustomerController::class, 'orders'])->name('customers.orders');
     Route::get('purchase/products/{id}', [PurchaseController::class, 'purchaseProducts'])->name('purchase.products');
+    Route::delete('purchase/{purchase}', [PurchaseController::class, 'delete_purchase']) ->name('purchase.delete_purchase');
     Route::get('orders/invoice/{id}', [OrderController::class,'invoice'])->name('orders.invoice');
     Route::get('orders/pos-invoice/{id}', [OrderController::class, 'posInvoice'])->name('orders.pos-invoice');
     Route::get('orders/transactions/{id}', [OrderController::class, 'transactions'])->name('orders.transactions');
