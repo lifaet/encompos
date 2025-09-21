@@ -1,17 +1,10 @@
 {
-  "resources/js/app.css": {
-    "file": "assets/app-567829f8.css",
-    "src": "resources/js/app.css"
-  },
   "resources/js/app.jsx": {
     "assets": [
       "assets/beep-07a-24004a82.mp3",
       "assets/beep-02-4c77c523.mp3"
     ],
-    "css": [
-      "assets/app-567829f8.css"
-    ],
-    "file": "assets/app-810db171.js",
+    "file": "assets/app-26831a71.js",
     "isEntry": true,
     "src": "resources/js/app.jsx"
   },
