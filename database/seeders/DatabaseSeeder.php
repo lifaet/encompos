@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
             StartUpSeeder::class,
             SystemSettingsSeeder::class,
            // Please comment out the following seeders when running in production for the client
-            // ProductSeeder::class,
-            // CustomerSeeder::class,
-            // SupplierSeeder::class,
-            // PurchaseSeeder::class,
+            ProductSeeder::class,
+            CustomerSeeder::class,
+            SupplierSeeder::class,
+            PurchaseSeeder::class,
         ]);
     }
 }

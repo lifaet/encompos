@@ -22,7 +22,7 @@ class PurchaseSeeder extends Seeder
             $suppliers = Supplier::all();
             $users = User::all();
 
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 0; $i < 10000; $i++) {
                 // Create a new purchase with random supplier and user
                 $purchase = Purchase::create([
                     'supplier_id' => $suppliers->random()->id,
@@ -40,7 +40,7 @@ class PurchaseSeeder extends Seeder
                 $subTotal = 0;
 
                 // Add items to purchase
-                for ($j = 0; $j < rand(1, 5); $j++) {
+                for ($j = 0; $j < rand(1, 10); $j++) {
                     $product = Product::inRandomOrder()->first();
                     $purchasePrice = $product->purchase_price;
                     $quantity = rand(1, 10);
