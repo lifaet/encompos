@@ -20,57 +20,64 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
-
         abort_if(!auth()->user()->can('purchase_view'), 403);
+
         if ($request->ajax()) {
             $purchases = Purchase::with('supplier')->latest()->get();
+
             return DataTables::of($purchases)
                 ->addIndexColumn()
                 ->addColumn('supplier', fn($data) => $data->supplier->name)
-                ->addColumn('id', function ($data) {
-                    return '#' . $data->id;
-                })
+                ->addColumn('id', fn($data) => '#' . $data->id)
                 ->addColumn('total', fn($data) => $data->grand_total)
-                ->addColumn('created_at', fn($data) => \Carbon\Carbon::parse($data->date)->format('d M, Y')) // Using Carbon for formatting
+                ->addColumn('created_at', fn($data) => \Carbon\Carbon::parse($data->date)->format('d M, Y'))
                 ->addColumn('action', function ($data) {
-                    $actions = '<div class="btn-group">
-                        <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
-                        <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" href="' . route('backend.admin.purchase.create', ['purchase_id' => $data->id]) . '">
-                            <i class="fas fa-edit"></i> Edit
-                        </a> 
-                        <a class="dropdown-item" href="' . route('backend.admin.purchase.products', $data->id) . '">
-                            <i class="fas fa-eye"></i> View
-                        </a>';
+                    $actions = '';
 
-                    if (auth()->user()->can('purchase_delete')) {
+                    // Edit button
+                    // if (auth()->user()->can('purchase_update')) {
+                    //     $actions .= '
+                    //         <a href="' . route('backend.admin.purchase.create', ['purchase_id' => $data->id]) . '" 
+                    //         class="btn btn-sm bg-primary">
+                    //             <i class="fas fa-edit"></i> Edit
+                    //         </a>
+                    //     ';
+                    // }
+
+                    // View button
+                    if (auth()->user()->can('purchase_view')) {
                         $actions .= '
-                        <form action="' . route('backend.admin.purchase.delete_purchase', $data->id) . '" 
-                                method="POST" 
-                                onsubmit="return confirm(\'Are you sure you want to delete this purchase?\')" 
-                                style="display:inline;">
-                            ' . csrf_field() . method_field('DELETE') . '
-                            <button type="submit" class="dropdown-item text-danger">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </form>';
+                            <a href="' . route('backend.admin.purchase.products', $data->id) . '" 
+                            class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        ';
                     }
 
-                    $actions .= '</div></div>';
+                    // Delete button
+                    if (auth()->user()->can('purchase_delete')) {
+                        $actions .= '
+                            <form action="' . route('backend.admin.purchase.delete_purchase', $data->id) . '" 
+                                method="POST" 
+                                style="display:inline;" 
+                                onsubmit="return confirm(\'Are you sure you want to delete this purchase?\')">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        ';
+                    }
 
-                    return $actions;
+                    return $actions ?: '<span class="text-muted">No Action</span>';
                 })
-
                 ->rawColumns(['supplier', 'id', 'total', 'created_at', 'action'])
                 ->toJson();
         }
 
-
         return view('backend.purchase.index');
     }
+
 
     /**
      * Show the form for creating a new resource.

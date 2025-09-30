@@ -14,7 +14,8 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-    abort_if(!auth()->user()->can('supplier_view'), 403);
+        abort_if(!auth()->user()->can('supplier_view'), 403);
+
         if ($request->ajax()) {
             $suppliers = Supplier::latest()->get();
             return DataTables::of($suppliers)
@@ -22,35 +23,52 @@ class SupplierController extends Controller
                 ->addColumn('name', fn($data) => $data->name)
                 ->addColumn('phone', fn($data) => $data->phone)
                 ->addColumn('address', fn($data) => $data->address)
-                ->addColumn('created_at', fn($data) => $data->created_at->format('d M, Y')) // Using Carbon for formatting
+                ->addColumn('created_at', fn($data) => $data->created_at->format('d M, Y'))
                 ->addColumn('action', function ($data) {
-                    return '<div class="btn-group">
-                    <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
-                    <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="' . route('backend.admin.suppliers.edit', $data->id) . '" ' . ($data->id == 1 ? 'onclick="event.preventDefault();"' : '') . ' >
-                    <i class="fas fa-edit"></i> Edit
-                </a> <div class="dropdown-divider"></div>
-<form action="' . route('backend.admin.suppliers.destroy', $data->id) . '"method="POST" style="display:inline;">
-                   ' . csrf_field() . '
-                    ' . method_field("DELETE") . '
-<button type="submit" ' . ($data->id == 1 ? 'disabled' : '') . ' class="dropdown-item" onclick="return confirm(\'Are you sure ?\')"><i class="fas fa-trash"></i> Delete</button>
-                  </form>
-                    </div>
-                  </div>';
+                    $buttons = '';
+
+                    // Edit button
+                    if (auth()->user()->can('supplier_update')) {
+                        $buttons .= '<a href="' . route('backend.admin.suppliers.edit', $data->id) . '" 
+                                        class="btn btn-sm btn-primary ' . ($data->id == 1 ? 'disabled' : '') . '">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a> ';
+                    }
+
+                    // Delete button
+                    if (auth()->user()->can('supplier_delete')) {
+                        $buttons .= '<form action="' . route('backend.admin.suppliers.destroy', $data->id) . '" 
+                                        method="POST" style="display:inline;">
+                                        ' . csrf_field() . method_field("DELETE") . '
+                                        <button type="submit" class="btn btn-sm btn-danger" ' . ($data->id == 1 ? 'disabled' : '') . ' 
+                                            onclick="return confirm(\'Are you sure?\')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form> ';
+                    }
+
+                    // // Purchase button
+                    // if (auth()->user()->can('supplier_purchase')) {
+                    //     $buttons .= '<a href="' . route('backend.admin.purchase.create', ['supplier_id' => $data->id]) . '" 
+                    //                     class="btn btn-sm btn-success">
+                    //                     <i class="fas fa-shopping-basket"></i> Purchase
+                    //                 </a>';
+                    // }
+
+                    return $buttons;
                 })
                 ->rawColumns(['name', 'phone', 'address', 'created_at', 'action'])
                 ->toJson();
         }
+
         if ($request->wantsJson()) {
             return response()->json(Supplier::latest()->get());
         }
 
-
         return view('backend.suppliers.index');
     }
+
+
 
     /**
      * Show the form for creating a new resource.

@@ -14,6 +14,7 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         abort_if(!auth()->user()->can('customer_view'), 403);
+
         if ($request->ajax()) {
             $customers = Customer::latest()->get();
             return DataTables::of($customers)
@@ -21,52 +22,47 @@ class CustomerController extends Controller
                 ->addColumn('name', fn($data) => $data->name)
                 ->addColumn('phone', fn($data) => $data->phone)
                 ->addColumn('address', fn($data) => $data->address)
-                ->addColumn('created_at', fn($data) => $data->created_at->format('d M, Y')) // Using Carbon for formatting
+                ->addColumn('created_at', fn($data) => $data->created_at->format('d M, Y'))
                 ->addColumn('action', function ($data) {
-                    $actionHtml = '<div class="btn-group">
-        <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
-        <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu" role="menu">';
+                    $buttons = '';
 
-                    // Check if the user has permission to update customers
+                    // Edit button
                     if (auth()->user()->can('customer_update')) {
-                        $actionHtml .= '<a class="dropdown-item" href="' . route('backend.admin.customers.edit', $data->id) . '" ' . ($data->id == 1 ? 'onclick="event.preventDefault();"' : '') . '>
-            <i class="fas fa-edit"></i> Edit
-        </a>';
-                        $actionHtml .= '<div class="dropdown-divider"></div>';
+                        $buttons .= '<a href="' . route('backend.admin.customers.edit', $data->id) . '" 
+                                        class="btn btn-sm btn-primary ' . ($data->id == 1 ? 'disabled' : '') . '">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a> ';
                     }
 
-                    // Check if the user has permission to delete customers
+                    // Delete button
                     if (auth()->user()->can('customer_delete')) {
-                        $actionHtml .= '<form action="' . route('backend.admin.customers.destroy', $data->id) . '" method="POST" style="display:inline;">
-            ' . csrf_field() . '
-            ' . method_field("DELETE") . '
-            <button type="submit" ' . ($data->id == 1 ? 'disabled' : '') . ' class="dropdown-item" onclick="return confirm(\'Are you sure?\')">
-                <i class="fas fa-trash"></i> Delete
-            </button>
-        </form>';
-                        $actionHtml .= '<div class="dropdown-divider"></div>';
+                        $buttons .= '<form action="' . route('backend.admin.customers.destroy', $data->id) . '" 
+                                        method="POST" style="display:inline;">
+                                        ' . csrf_field() . method_field("DELETE") . '
+                                        <button type="submit" class="btn btn-sm btn-danger" ' . ($data->id == 1 ? 'disabled' : '') . ' 
+                                            onclick="return confirm(\'Are you sure?\')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form> ';
                     }
 
-                    if (auth()->user()->can('customer_sales')) {
-                        $actionHtml .= '<a class="dropdown-item" href="' . route('backend.admin.customers.orders', $data->id) . '">
-        <i class="fas fa-cart-plus"></i> Sales
-    </a>';
-                    }
+                    // // Sales button
+                    // if (auth()->user()->can('customer_sales')) {
+                    //     $buttons .= '<a href="' . route('backend.admin.customers.orders', $data->id) . '" 
+                    //                     class="btn btn-sm btn-success">
+                    //                     <i class="fas fa-cart-plus"></i> Sales
+                    //                 </a>';
+                    // }
 
-                    $actionHtml .= '</div></div>';
-                    return $actionHtml;
+                    return $buttons;
                 })
-
                 ->rawColumns(['name', 'phone', 'address', 'created_at', 'action'])
                 ->toJson();
         }
 
-
         return view('backend.customers.index');
     }
+
 
     /**
      * Show the form for creating a new resource.

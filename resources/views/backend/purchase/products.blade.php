@@ -1,6 +1,6 @@
 @extends('backend.master')
 
-@section('title', 'Customers')
+@section('title', 'Purchase Details')
 
 @section('content')
 <div class="card">

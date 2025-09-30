@@ -31,70 +31,93 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-
         abort_if(!auth()->user()->can('product_view'), 403);
+
         if ($request->ajax()) {
             $products = Product::latest()->get();
             return DataTables::of($products)
                 ->addIndexColumn()
-                ->addColumn('image', fn($data) => '<img src="' . asset('storage/' . $data->image) . '" loading="lazy" alt="' . $data->name . '" class="img-thumb img-fluid" onerror="this.onerror=null; this.src=\'' . asset('assets/images/no-image.png') . '\';" height="80" width="60" />')
-                ->addColumn('name', fn($data) => $data->name)
-                ->addColumn(
-                    'price',
-                    fn($data) => $data->discounted_price .
-                        ($data->price > $data->discounted_price
-                            ? '<br><del>' . $data->price . '</del>'
-                            : '')
+                ->addColumn('image', fn($data) =>
+                    '<img src="' . asset('storage/' . $data->image) . '" 
+                        loading="lazy" 
+                        alt="' . $data->name . '" 
+                        class="img-thumb img-fluid" 
+                        onerror="this.onerror=null; this.src=\'' . asset('assets/images/no-image.png') . '\';" 
+                        height="80" width="60" />'
                 )
-                ->addColumn('quantity', fn($data) => $data->quantity . ' ' . optional($data->unit)->short_name)
-                ->addColumn('created_at', fn($data) => $data->created_at->format('d M, Y'))
-                ->addColumn('status', fn($data) => $data->status
-                    ? '<span class="badge bg-primary">Active</span>'
-                    : '<span class="badge bg-danger">Inactive</span>')
+                ->addColumn('name', fn($data) => $data->name)
+                ->addColumn('price', fn($data) =>
+                    $data->discounted_price .
+                    ($data->price > $data->discounted_price
+                        ? '<br><del>' . $data->price . '</del>'
+                        : '')
+                )
+                ->addColumn('quantity', fn($data) =>
+                    $data->quantity . ' ' . optional($data->unit)->short_name
+                )
+                ->addColumn('created_at', fn($data) =>
+                    $data->created_at->format('d M, Y')
+                )
+                ->addColumn('status', fn($data) =>
+                    $data->status
+                        ? '<span class="badge bg-primary">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>'
+                )
                 ->addColumn('action', function ($data) {
-                    return '<div class="btn-group">
-                    <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
-                    <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="'.route('backend.admin.products.edit', $data->id). '">
-                    <i class="fas fa-edit"></i> Edit</a> 
-                    <div class="dropdown-divider"></div>
-                            <form action="' . route('backend.admin.products.destroy', $data->id) . '"method="POST" style="display:inline;">
-                                            ' . csrf_field() . '
-                                                ' . method_field("DELETE") . '
-                            <button type="submit" class="dropdown-item" onclick="return confirm(\'Are you sure ?\')"><i class="fas fa-trash"></i> Delete</button>
-                            </form>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="' . route('backend.admin.purchase.create', ['barcode' => $data->sku]) . '">
-                            <i class="fas fa-cart-plus"></i> Purchase </a>
-                    </div>
-                  </div>';
+                    $buttons = '';
+
+                    // Edit button
+                    if (auth()->user()->can('product_update')) {
+                        $buttons .= '<a href="' . route('backend.admin.products.edit', $data->id) . '" 
+                                        class="btn btn-sm btn-primary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a> ';
+                    }
+
+                    // Delete button
+                    if (auth()->user()->can('product_delete')) {
+                        $buttons .= '<form action="' . route('backend.admin.products.destroy', $data->id) . '" 
+                                        method="POST" style="display:inline;">
+                                        ' . csrf_field() . method_field("DELETE") . '
+                                        <button type="submit" class="btn btn-sm btn-danger" 
+                                            onclick="return confirm(\'Are you sure?\')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form> ';
+                    }
+
+                    // // Purchase button
+                    // if (auth()->user()->can('product_purchase')) {
+                    //     $buttons .= '<a href="' . route('backend.admin.purchase.create', ['barcode' => $data->sku]) . '" 
+                    //                     class="btn btn-sm btn-success">
+                    //                     <i class="fas fa-cart-plus"></i> Purchase
+                    //                 </a>';
+                    // }
+
+                    return $buttons;
                 })
                 ->rawColumns(['image', 'name', 'price', 'quantity', 'status', 'created_at', 'action'])
                 ->toJson();
         }
+
         if ($request->wantsJson()) {
             $request->validate([
                 'search' => 'required|string|max:255',
             ]);
 
-            // Initialize the query
-            $products = Product::query();
+            $products = Product::query()
+                ->where(function ($query) use ($request) {
+                    $query->where('name', 'LIKE', "%{$request->search}%")
+                        ->orWhere('sku', $request->search);
+                })
+                ->get();
 
-            // Apply filters based on the search term
-            $products = $products->where(function ($query) use ($request) {
-                $query->where('name', 'LIKE', "%{$request->search}%")
-                    ->orWhere('sku', $request->search);
-            });
-            // Get the results
-            $products = $products->get();
-            // Return the results as a JSON response
             return ProductResource::collection($products);
         }
+
         return view('backend.products.index');
     }
+
 
     /**
      * Show the form for creating a new resource.

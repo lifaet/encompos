@@ -22,37 +22,63 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         abort_if(!auth()->user()->can('category_view'), 403);
+
         if ($request->ajax()) {
             $categories = Category::latest()->get();
+
             return DataTables::of($categories)
                 ->addIndexColumn()
-                ->addColumn('image', fn($data) => '<img src="' . asset('storage/' . $data->image) . '" loading="lazy" alt="' . $data->name . '" class="img-thumb img-fluid" onerror="this.onerror=null; this.src=\'' . asset('assets/images/no-image.png') . '\';" height="80" width="60" />')
+                ->addColumn('image', fn($data) => '
+                    <img src="' . asset('storage/' . $data->image) . '" 
+                        loading="lazy" 
+                        alt="' . $data->name . '" 
+                        class="img-thumb img-fluid" 
+                        onerror="this.onerror=null; this.src=\'' . asset('assets/images/no-image.png') . '\';" 
+                        height="80" width="60" />
+                ')
                 ->addColumn('name', fn($data) => $data->name)
                 ->addColumn('status', fn($data) => $data->status
                     ? '<span class="badge bg-primary">Active</span>'
-                    : '<span class="badge bg-danger">Inactive</span>')
+                    : '<span class="badge bg-danger">Inactive</span>'
+                )
                 ->addColumn('action', function ($data) {
-                    return '<div class="btn-group">
-                    <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
-                    <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="' . route('backend.admin.categories.edit', $data->id) . '" ' . ' >
-                    <i class="fas fa-edit"></i> Edit
-                </a> <div class="dropdown-divider"></div>
-<form action="' . route('backend.admin.categories.destroy', $data->id) . '"method="POST" style="display:inline;">
-                   ' . csrf_field() . '
-                    ' . method_field("DELETE") . '
-<button type="submit" class="dropdown-item" onclick="return confirm(\'Are you sure ?\')"><i class="fas fa-trash"></i> Delete</button>
-                  </form>
-                  </div>';
+                    $actions = '';
+
+                    // Edit button
+                    if (auth()->user()->can('category_update')) {
+                        $actions .= '
+                            <a href="' . route('backend.admin.categories.edit', $data->id) . '" 
+                            class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        ';
+                    }
+
+                    // Delete button
+                    if (auth()->user()->can('category_delete')) {
+                        $actions .= '
+                            <form action="' . route('backend.admin.categories.destroy', $data->id) . '" 
+                                method="POST" style="display:inline;">
+                                ' . csrf_field() . '
+                                ' . method_field("DELETE") . '
+                                <button type="submit" 
+                                        class="btn btn-sm btn-danger" 
+                                        onclick="return confirm(\'Are you sure ?\')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        ';
+                    }
+
+                    return $actions ?: '<span class="text-muted">No Action</span>';
                 })
                 ->rawColumns(['image', 'name', 'status', 'action'])
                 ->toJson();
         }
+
         return view('backend.categories.index');
     }
+
 
     /**
      * Show the form for creating a new resource.
