@@ -30,7 +30,7 @@ class UnitController extends Controller
                     if (auth()->user()->can('unit_update')) {
                         $actions .= '
                             <a href="' . route('backend.admin.units.edit', $data->id) . '" 
-                            class="btn btn-sm bg-gradient-primary btn-flat me-1">
+                            class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                         ';
@@ -44,7 +44,7 @@ class UnitController extends Controller
                                 ' . csrf_field() . '
                                 ' . method_field("DELETE") . '
                                 <button type="submit" 
-                                        class="btn btn-sm bg-gradient-danger btn-flat" 
+                                        class="btn btn-sm btn-danger" 
                                         onclick="return confirm(\'Are you sure ?\')">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
