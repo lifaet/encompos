@@ -40,6 +40,20 @@
                     <div class="row g-4">
                         <div class="col-12">
                             <div class="form-group">
+                                <label for="db_select" class="form-label">Select Database</label>
+                                <select class="form-control" id="db_select" name="db_select" required>
+                                    <option value="">-- Select Database --</option>
+                                    @foreach($databases as $db)
+                                        <option value="{{ $db }}" {{ $current_db == $db ? 'selected' : '' }}>{{ $db }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a database.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" placeholder="Enter email"
                                     autocomplete="off" name="email" required>
@@ -48,7 +62,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-12">
                             <div class="form-group">
                                 <button type="submit" class="create-account-btn w-100">Request password reset</button>

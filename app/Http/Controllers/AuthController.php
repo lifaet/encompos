@@ -101,13 +101,37 @@ class AuthController extends Controller
         return view('frontend.authentication.sign-up');
     }
 
+    // Helper to switch DB connection
+    private function switchDbFromSession(Request $request)
+    {
+        $selectedDb = $request->session()->get('selected_db');
+        if ($selectedDb) {
+            config(['database.connections.mysql.database' => $selectedDb]);
+            DB::purge('mysql');
+        }
+    }
+
     // Forget Password
     public function forgetPassword(Request $request)
     {
+        $databases = [];
+        foreach ($_ENV as $key => $value) {
+            if (str_starts_with($key, 'DB_DATABASE')) {
+                $databases[] = $value;
+            }
+        }
+
         if ($request->isMethod('post')) {
             $request->validate([
                 'email' => 'required|email',
+                'db_select' => 'required',
             ]);
+
+            // Store selected DB in session
+            $request->session()->put('selected_db', $request->db_select);
+
+            // Switch DB connection
+            $this->switchDbFromSession($request);
 
             $user = User::where('email', $request->email)->first();
             if (!$user) {
@@ -132,12 +156,19 @@ class AuthController extends Controller
             return redirect()->route('password.reset')->with('success', 'Check your inbox for OTP');
         }
 
-        return view('frontend.authentication.forget-password');
+        // Show DB selection on forget password page
+        $current_db = session('selected_db', $databases[0] ?? env('DB_DATABASE'));
+        return view('frontend.authentication.forget-password', [
+            'databases' => $databases,
+            'current_db' => $current_db,
+        ]);
     }
 
     
-    public function resendOtp()
+    public function resendOtp(Request $request)
     {
+        $this->switchDbFromSession($request);
+
         $findUser = ForgetPassword::where('user_id', session('user_id'))
             ->where('email', session('reset-email'))
             ->first();
@@ -167,6 +198,8 @@ class AuthController extends Controller
     // Reset Password OTP
     public function resetPassword(Request $request)
     {
+        $this->switchDbFromSession($request);
+
         if ($request->isMethod('post')) {
             $request->validate([
                 'number_1' => 'required',
@@ -199,6 +232,8 @@ class AuthController extends Controller
     // New Password
     public function newPassword(Request $request)
     {
+        $this->switchDbFromSession($request);
+
         if ($request->isMethod('post')) {
             $request->validate(['password' => 'required|confirmed|min:6']);
             $user = User::find(session('user_id'));
