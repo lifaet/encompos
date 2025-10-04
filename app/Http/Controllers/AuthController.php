@@ -37,7 +37,6 @@ class AuthController extends Controller
             $request->session()->put('selected_db', $selectedDb);
             $request->session()->put('current_db', $selectedDb);
 
-            // Switch DB connection
             config(['database.connections.mysql.database' => $selectedDb]);
             DB::purge('mysql');
 
@@ -127,10 +126,8 @@ class AuthController extends Controller
                 'db_select' => 'required',
             ]);
 
-            // Store selected DB in session
             $request->session()->put('selected_db', $request->db_select);
 
-            // Switch DB connection
             $this->switchDbFromSession($request);
 
             $user = User::where('email', $request->email)->first();
