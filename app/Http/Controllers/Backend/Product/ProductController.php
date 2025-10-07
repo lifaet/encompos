@@ -69,7 +69,7 @@ class ProductController extends Controller
                     // Edit button
                     if (auth()->user()->can('product_update')) {
                         $buttons .= '<a href="' . route('backend.admin.products.edit', $data->id) . '" 
-                                        class="btn btn-sm btn-primary">
+                                        class="btn btn-sm bg-primary">
                                         <i class="fas fa-edit"></i> Edit
                                     </a> ';
                     }
@@ -79,7 +79,7 @@ class ProductController extends Controller
                         $buttons .= '<form action="' . route('backend.admin.products.destroy', $data->id) . '" 
                                         method="POST" style="display:inline;">
                                         ' . csrf_field() . method_field("DELETE") . '
-                                        <button type="submit" class="btn btn-sm btn-danger" 
+                                        <button type="submit" class="btn btn-sm bg-danger" 
                                             onclick="return confirm(\'Are you sure?\')">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
@@ -89,7 +89,7 @@ class ProductController extends Controller
                     // // Purchase button
                     // if (auth()->user()->can('product_purchase')) {
                     //     $buttons .= '<a href="' . route('backend.admin.purchase.create', ['barcode' => $data->sku]) . '" 
-                    //                     class="btn btn-sm btn-success">
+                    //                     class="btn btn-sm bg-success">
                     //                     <i class="fas fa-cart-plus"></i> Purchase
                     //                 </a>';
                     // }

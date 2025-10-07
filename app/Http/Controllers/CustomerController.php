@@ -29,7 +29,7 @@ class CustomerController extends Controller
                     // Edit button
                     if (auth()->user()->can('customer_update')) {
                         $buttons .= '<a href="' . route('backend.admin.customers.edit', $data->id) . '" 
-                                        class="btn btn-sm btn-primary ' . ($data->id == 1 ? 'disabled' : '') . '">
+                                        class="btn btn-sm bg-primary ' . ($data->id == 1 ? 'disabled' : '') . '">
                                         <i class="fas fa-edit"></i> Edit
                                     </a> ';
                     }
@@ -39,7 +39,7 @@ class CustomerController extends Controller
                         $buttons .= '<form action="' . route('backend.admin.customers.destroy', $data->id) . '" 
                                         method="POST" style="display:inline;">
                                         ' . csrf_field() . method_field("DELETE") . '
-                                        <button type="submit" class="btn btn-sm btn-danger" ' . ($data->id == 1 ? 'disabled' : '') . ' 
+                                        <button type="submit" class="btn btn-sm bg-danger" ' . ($data->id == 1 ? 'disabled' : '') . ' 
                                             onclick="return confirm(\'Are you sure?\')">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
@@ -49,7 +49,7 @@ class CustomerController extends Controller
                     // // Sales button
                     // if (auth()->user()->can('customer_sales')) {
                     //     $buttons .= '<a href="' . route('backend.admin.customers.orders', $data->id) . '" 
-                    //                     class="btn btn-sm btn-success">
+                    //                     class="btn btn-sm bg-success">
                     //                     <i class="fas fa-cart-plus"></i> Sales
                     //                 </a>';
                     // }

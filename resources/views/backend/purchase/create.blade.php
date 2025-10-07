@@ -3,146 +3,150 @@
 @section('title', 'Product Purchase')
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <form action="{{ route('backend.admin.purchase.store') }}" method="POST">
-            @csrf
+<div class="container">
+    <h4>Create New Purchase</h4>
+    <form action="{{ route('backend.admin.purchase.store') }}" method="POST">
+        @csrf
 
-            {{-- Supplier and Date --}}
-            <div class="row mb-3">
-                <div class="col-md-6 p-1">
-                    <label for="supplier_id" class="form-label">Supplier <span class="text-danger">*</span></label>
-                    <select name="supplier_id" id="supplier_id" class="form-control" required>
-                        <option value="">Select Supplier</option>
-                        @foreach($suppliers as $supplier)
-                            <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
-                                {{ $supplier->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-4 p-1">
-                    <label for="date" class="form-label">Purchase Date</label>
-                    <input type="date" name="date" class="form-control" value="{{ old('date', \Carbon\Carbon::now()->toDateString()) }}">
-                </div>
-            </div>
+        <div class="mb-3">
+            <label for="supplier_id" class="form-label">Supplier <span class="text-danger">*</span></label>
+            <select name="supplier_id" id="supplier_id" class="form-control" required>
+                <option value="">Select Supplier</option>
+                @foreach($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                        {{ $supplier->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-            <hr>
+        <div class="mb-3">
+            <label for="date" class="form-label">Purchase Date</label>
+            <input type="date" name="date" class="form-control" value="{{ old('date', now()->toDateString()) }}">
+        </div>
 
-            {{-- Products --}}
-            <h5>Products</h5>
-            <div id="products-wrapper">
-                <div class="product-row row mb-2">
-                    <div class="col-md-4 p-1">
+        <hr>
+        <h5>Products</h5>
+
+        <table class="table table-bordered" id="productTable">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Purchase Price</th>
+                    <th>Sell Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="productBody">
+                <tr>
+                    <td>
                         <select name="products[0][id]" class="form-control" required>
                             <option value="">Select Product</option>
                             @foreach($products as $product)
                                 <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
-                    </div>
-                    <div class="col-md-2 p-1">
-                        <input type="number" name="products[0][qty]" class="form-control" placeholder="Qty" required>
-                    </div>
-                    <div class="col-md-2 p-1">
-                        <input type="number" name="products[0][purchase_price]" class="form-control" placeholder="Purchase Price" required>
-                    </div>
-                    <div class="col-md-2 p-1">
-                        <input type="number" name="products[0][price]" class="form-control" placeholder="Sale Price" required>
-                    </div>
-                    <div class="col-md-2 p-1">
-                        <button type="button" class="btn btn-danger remove-product">X</button>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                    <td><input type="number" name="products[0][qty]" class="form-control qty" min="1" value="1" required></td>
+                    <td><input type="number" name="products[0][purchase_price]" class="form-control pprice" min="0" step="0.01" value="0" required></td>
+                    <td><input type="number" name="products[0][price]" class="form-control sprice" min="0" step="0.01" value="0" required></td>
+                    <td class="total">0.00</td>
+                    <td><button type="button" class="btn btn-danger remove-row">X</button></td>
+                </tr>
+            </tbody>
+        </table>
 
-            <button type="button" class="btn btn-sm btn-secondary mb-3" id="add-product">Add Product</button>
+        <button type="button" id="addRow" class="btn btn-secondary mb-3">Add Product</button>
 
-            <hr>
+        <div class="mb-3">
+            <label>Sub Total</label>
+            <input type="number" name="totals[subTotal]" id="subTotal" class="form-control" placeholder="Subtotal" readonly required>
+        </div>
 
-            {{-- Totals --}}
-            <div class="row mb-3">
-                <div class="col-md-2 p-1">
-                    <input type="number" name="totals[subTotal]" class="form-control" placeholder="Subtotal" required readonly>
-                </div>
-                <div class="col-md-2 p-1">
-                    <input type="number" name="totals[tax]" class="form-control" placeholder="Tax">
-                </div>
-                <div class="col-md-2 p-1">
-                    <input type="number" name="totals[discount]" class="form-control" placeholder="Discount">
-                </div>
-                <div class="col-md-2 p-1">
-                    <input type="number" name="totals[shipping]" class="form-control" placeholder="Shipping">
-                </div>
-                <div class="col-md-2 p-1">
-                    <input type="number" name="totals[grandTotal]" class="form-control" placeholder="Grand Total" required readonly>
-                </div>
-            </div>
+        <div class="mb-3">
+            <label>Tax</label>
+            <input type="number" name="totals[tax]" id="tax" class="form-control" placeholder="Tax">
+        </div>
 
-            <button type="submit" class="btn btn-primary">Make Purchase</button>
-        </form>
-    </div>
+        <div class="mb-3">
+            <label>Discount</label>
+            <input type="number" name="totals[discount]" id="discount" class="form-control" placeholder="Discount">
+        </div>
+
+        <div class="mb-3">
+            <label>Shipping</label>
+            <input type="number" name="totals[shipping]" id="shipping" class="form-control" placeholder="Shipping">
+        </div>
+
+        <div class="mb-3">
+            <label>Grand Total</label>
+            <input type="number" name="totals[grandTotal]" id="grandTotal" class="form-control" placeholder="Grand Total" readonly required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Make Purchase</button>
+    </form>
 </div>
-@endsection
 
-@push('script')
 <script>
-function calculateTotals() {
-    let subtotal = 0;
-    document.querySelectorAll('#products-wrapper .product-row').forEach(row => {
-        const qty = parseFloat(row.querySelector('input[name*="[qty]"]').value) || 0;
-        const price = parseFloat(row.querySelector('input[name*="[purchase_price]"]').value) || 0;
-        subtotal += qty * price;
-    });
-
-    document.querySelector('input[name="totals[subTotal]"]').value = subtotal.toFixed(2);
-
-    const tax = parseFloat(document.querySelector('input[name="totals[tax]"]').value) || 0;
-    const discount = parseFloat(document.querySelector('input[name="totals[discount]"]').value) || 0;
-    const shipping = parseFloat(document.querySelector('input[name="totals[shipping]"]').value) || 0;
-
-    const grandTotal = subtotal + tax + shipping - discount;
-    document.querySelector('input[name="totals[grandTotal]"]').value = grandTotal.toFixed(2);
-}
-
-// Recalculate totals on input
-document.addEventListener('input', function(e){
-    if (e.target.matches('input[name*="[qty]"], input[name*="[purchase_price]"], input[name="totals[tax]"], input[name="totals[discount]"], input[name="totals[shipping]"]')) {
-        calculateTotals();
+document.addEventListener('input', function (e) {
+    if (e.target.classList.contains('qty') || 
+        e.target.classList.contains('pprice') || 
+        e.target.id === 'tax' || 
+        e.target.id === 'discount' || 
+        e.target.id === 'shipping') {
+        updateTotals();
     }
 });
 
-// Add product row
-document.getElementById('add-product').addEventListener('click', function(){
-    const wrapper = document.getElementById('products-wrapper');
-    const rows = wrapper.querySelectorAll('.product-row');
-    const lastRow = rows[rows.length - 1];
-    const newRow = lastRow.cloneNode(true);
+function updateTotals() {
+    let subTotal = 0;
+    document.querySelectorAll('#productBody tr').forEach(tr => {
+        let qty = parseFloat(tr.querySelector('.qty').value) || 0;
+        let pprice = parseFloat(tr.querySelector('.pprice').value) || 0;
+        let total = qty * pprice;
+        tr.querySelector('.total').textContent = total.toFixed(2);
+        subTotal += total;
+    });
 
-    // Clear values
-    newRow.querySelectorAll('input, select').forEach(input => input.value = '');
+    const tax = parseFloat(document.querySelector('#tax').value) || 0;
+    const discount = parseFloat(document.querySelector('#discount').value) || 0;
+    const shipping = parseFloat(document.querySelector('#shipping').value) || 0;
 
-    // Update input names with new index
-    const index = rows.length;
-    newRow.querySelector('select[name*="[id]"]').name = `products[${index}][id]`;
-    newRow.querySelector('input[name*="[qty]"]').name = `products[${index}][qty]`;
-    newRow.querySelector('input[name*="[purchase_price]"]').name = `products[${index}][purchase_price]`;
-    newRow.querySelector('input[name*="[price]"]').name = `products[${index}][price]`;
+    document.querySelector('#subTotal').value = subTotal.toFixed(2);
+    document.querySelector('#grandTotal').value = (subTotal + tax + shipping - discount).toFixed(2);
+}
 
-    wrapper.appendChild(newRow);
-    newRow.querySelector('select').focus(); // focus newly added select
-    calculateTotals();
+document.querySelector('#addRow').addEventListener('click', function() {
+    let rowCount = document.querySelectorAll('#productBody tr').length;
+    let row = `
+    <tr>
+        <td>
+            <select name="products[${rowCount}][id]" class="form-control" required>
+                <option value="">Select Product</option>
+                @foreach($products as $product)
+                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                @endforeach
+            </select>
+        </td>
+        <td><input type="number" name="products[${rowCount}][qty]" class="form-control qty" min="1" value="1" required></td>
+        <td><input type="number" name="products[${rowCount}][purchase_price]" class="form-control pprice" min="0" step="0.01" value="0" required></td>
+        <td><input type="number" name="products[${rowCount}][price]" class="form-control sprice" min="0" step="0.01" value="0" required></td>
+        <td class="total">0.00</td>
+        <td><button type="button" class="btn btn-danger remove-row">X</button></td>
+    </tr>`;
+    document.querySelector('#productBody').insertAdjacentHTML('beforeend', row);
 });
 
-// Remove product row (delegate click to wrapper to avoid interfering with selects)
-document.getElementById('products-wrapper').addEventListener('click', function(e){
-    if(e.target.classList.contains('remove-product')){
-        const rows = document.querySelectorAll('#products-wrapper .product-row');
-        if(rows.length > 1){ // always keep at least one row
-            e.target.closest('.product-row').remove();
-            calculateTotals();
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-row')) {
+        const rows = document.querySelectorAll('#productBody tr');
+        if (rows.length > 1) {
+            e.target.closest('tr').remove();
+            updateTotals();
         }
     }
 });
 </script>
-@endpush
+@endsection

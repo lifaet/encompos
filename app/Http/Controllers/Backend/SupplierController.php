@@ -30,7 +30,7 @@ class SupplierController extends Controller
                     // Edit button
                     if (auth()->user()->can('supplier_update')) {
                         $buttons .= '<a href="' . route('backend.admin.suppliers.edit', $data->id) . '" 
-                                        class="btn btn-sm btn-primary ' . ($data->id == 1 ? 'disabled' : '') . '">
+                                        class="btn btn-sm bg-primary ' . ($data->id == 1 ? 'disabled' : '') . '">
                                         <i class="fas fa-edit"></i> Edit
                                     </a> ';
                     }
@@ -40,7 +40,7 @@ class SupplierController extends Controller
                         $buttons .= '<form action="' . route('backend.admin.suppliers.destroy', $data->id) . '" 
                                         method="POST" style="display:inline;">
                                         ' . csrf_field() . method_field("DELETE") . '
-                                        <button type="submit" class="btn btn-sm btn-danger" ' . ($data->id == 1 ? 'disabled' : '') . ' 
+                                        <button type="submit" class="btn btn-sm bg-danger" ' . ($data->id == 1 ? 'disabled' : '') . ' 
                                             onclick="return confirm(\'Are you sure?\')">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
@@ -50,7 +50,7 @@ class SupplierController extends Controller
                     // // Purchase button
                     // if (auth()->user()->can('supplier_purchase')) {
                     //     $buttons .= '<a href="' . route('backend.admin.purchase.create', ['supplier_id' => $data->id]) . '" 
-                    //                     class="btn btn-sm btn-success">
+                    //                     class="btn btn-sm bg-success">
                     //                     <i class="fas fa-shopping-basket"></i> Purchase
                     //                 </a>';
                     // }

@@ -48,7 +48,7 @@ class CategoryController extends Controller
                     if (auth()->user()->can('category_update')) {
                         $actions .= '
                             <a href="' . route('backend.admin.categories.edit', $data->id) . '" 
-                            class="btn btn-sm btn-primary">
+                            class="btn btn-sm bg-primary">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                         ';
@@ -62,7 +62,7 @@ class CategoryController extends Controller
                                 ' . csrf_field() . '
                                 ' . method_field("DELETE") . '
                                 <button type="submit" 
-                                        class="btn btn-sm btn-danger" 
+                                        class="btn btn-sm bg-danger" 
                                         onclick="return confirm(\'Are you sure ?\')">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
