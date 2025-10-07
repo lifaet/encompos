@@ -34,7 +34,7 @@ class CurrencyController extends Controller
                     if (auth()->user()->can('currency_update')) {
                         $actions .= '
                             <a href="' . route('backend.admin.currencies.edit', $data->id) . '" 
-                            class="btn btn-sm btn-primary">
+                            class="btn btn-sm bg-primary">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                         ';
@@ -47,7 +47,7 @@ class CurrencyController extends Controller
                                 method="POST" style="display:inline;" 
                                 onsubmit="return confirm(\'Are you sure ?\')">
                                 ' . csrf_field() . method_field('DELETE') . '
-                                <button type="submit" class="btn btn-sm btn-danger">
+                                <button type="submit" class="btn btn-sm bg-danger">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </form>
@@ -58,7 +58,7 @@ class CurrencyController extends Controller
                     if (auth()->user()->can('currency_update') && !$data->active) {
                         $actions .= '
                             <a href="' . route('backend.admin.currencies.setDefault', $data->id) . '" 
-                            class="btn btn-sm btn-success"
+                            class="btn btn-sm bg-success"
                             onclick="return confirm(\'Are you sure to set Default ?\')">
                                 <i class="fas fa-star"></i> Set Default
                             </a>
