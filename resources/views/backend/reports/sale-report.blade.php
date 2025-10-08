@@ -127,7 +127,7 @@
     ],
     dom: 'lBfrtip',
     buttons: [
-      'copy', 'csv', 'excel',
+      'excel',
       {
         extend: 'pdfHtml5',
         text: 'PDF',

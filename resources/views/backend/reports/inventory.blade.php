@@ -76,8 +76,8 @@
       ],
       dom: 'lBfrtip',
       buttons: [
-        { extend: 'excel', text: 'Export to Excel', className: 'btn' },
-        { extend: 'pdf', text: 'Export to PDF', className: 'btn' },
+        { extend: 'excel', text: 'Excel', className: 'btn' },
+        { extend: 'pdf', text: 'PDF', className: 'btn' },
         { extend: 'print', text: 'Print', className: 'btn' }
       ],
       initComplete: function() {
