@@ -15,6 +15,7 @@
                 <th>Name</th>
                 <th>SKU</th>
                 <th>Purchase Price</th>
+                <th>Discount</th>
                 <th>Sale Price</th>
                 <th>Stock</th>
                 <th>Expire Date</th>
@@ -68,6 +69,7 @@
         { data: 'name', name: 'name' },
         { data: 'sku', name: 'sku' },
         { data: 'purchase_price', name: 'purchase_price' },
+        { data: 'discount', name: 'discount' },
         { data: 'sale_price', name: 'sale_price' },
         { data: 'quantity', name: 'quantity' },
         { data: 'expire_date', name: 'expire_date' },

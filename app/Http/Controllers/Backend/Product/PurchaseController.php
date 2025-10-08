@@ -19,8 +19,7 @@ class PurchaseController extends Controller
         abort_if(!auth()->user()->can('purchase_view'), 403);
 
         if ($request->ajax()) {
-            $purchases = Purchase::with('supplier')->latest()->get();
-
+            $purchases = Purchase::with('supplier:id,name')->select(['id', 'supplier_id', 'grand_total', 'date', 'created_at'])->latest();
             return DataTables::of($purchases)
                 ->addIndexColumn()
                 ->addColumn('supplier', fn($data) => $data->supplier->name)

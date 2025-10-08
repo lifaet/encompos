@@ -81,13 +81,13 @@ class ReportController extends Controller
         abort_if(!auth()->user()->can('reports_inventory'), 403);
 
         if ($request->ajax()) {
-            $products = Product::latest()->active()->get();
-
+            $products = Product::with('unit:id,short_name')->select(['id', 'name', 'sku', 'purchase_price', 'expire_date', 'quantity', 'unit_id'])->active()->latest();
             return DataTables::of($products)
                 ->addIndexColumn()
                 ->addColumn('name', fn($data) => $data->name)
                 ->addColumn('sku', fn($data) => $data->sku)
                 ->addColumn('purchase_price', fn($data) => number_format($data->purchase_price ?? 0, 2))
+                ->addColumn('discount', fn($data) => number_format($data->discounted_price ?? 0, 2))
                 ->addColumn('sale_price', fn($data) => number_format($data->discounted_price ?? 0, 2))
                 ->addColumn('expire_date', function($data) {
                     return $data->expire_date ? Carbon::parse($data->expire_date)->format('Y-m-d') : '-';

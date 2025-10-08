@@ -18,8 +18,7 @@ class CurrencyController extends Controller
         abort_if(!auth()->user()->can('currency_view'), 403);
 
         if ($request->ajax()) {
-            $currencies = Currency::latest()->get();
-
+            $currencies = Currency::select(['id', 'name', 'code', 'symbol', 'created_at'])->latest();
             return DataTables::of($currencies)
                 ->addIndexColumn()
                 ->addColumn('name', fn($data) => $data->name)

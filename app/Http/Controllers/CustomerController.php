@@ -16,7 +16,7 @@ class CustomerController extends Controller
         abort_if(!auth()->user()->can('customer_view'), 403);
 
         if ($request->ajax()) {
-            $customers = Customer::latest()->get();
+            $customers = Customer::select(['id', 'name', 'phone', 'address', 'created_at'])->latest();
             return DataTables::of($customers)
                 ->addIndexColumn()
                 ->addColumn('name', fn($data) => $data->name)
