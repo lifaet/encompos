@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $orders = Order::with('customer')->get();
+            $orders = Order::with('customer')->latest();
             return DataTables::of($orders)
                 ->addIndexColumn()
                 ->addColumn('saleId', fn($data) => "#" . $data->id)
