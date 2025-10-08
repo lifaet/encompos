@@ -43,7 +43,7 @@
                       <th>Customer</th>
                       <th>Date</th>
                       <th>Item</th>
-                      <th>Sub Total {{currency()->symbol??''}}</th>
+                      <th>SubTotal {{currency()->symbol??''}}</th>
                       <th>Discount {{currency()->symbol??''}}</th>
                       <th>Total {{currency()->symbol??''}}</th>
                       <th>Paid {{currency()->symbol??''}}</th>
@@ -52,43 +52,7 @@
                       <th>Status</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    @forelse($orders as $index => $order)
-                    <tr>
-                      <td>{{ $index + 1 }}</td>
-                      <td>#{{$order->id}}</td>
-                      <td>{{ $order->customer->name ?? '-' }}</td>
-                      <td>{{ $order->created_at->format('d-m-Y') }}</td>
-                      <td>{{$order->total_item}}</td>
-                      <td>{{number_format($order->sub_total,2,'.',',')}}</td>
-                      <td>{{number_format($order->discount,2,'.',',')}}</td>
-                      <td>{{number_format($order->total,2,'.',',')}}</td>
-                      <td>{{number_format($order->paid,2,'.',',')}}</td>
-                      <td>{{number_format($order->due,2,'.',',')}}</td>
-                      <td>{{number_format($order->profit,2,'.',',')}}</td>
-                      <td>
-                        @if ($order->status)
-                        Paid
-                        @else
-                        Due
-                        @endif
-                      </td>
-                    </tr>
-                    @empty
-                    <tr>
-                      <td colspan="12" class="text-center">No sells found.</td>
-                    </tr>
-                    @endforelse
-                  </tbody>
                 </table>
-              </div>
-            </div>
-
-            <div class="row no-print">
-              <div class="col-12">
-                <button type="button" onclick="window.print()" class="btn btn-success float-right">
-                  <i class="fas fa-print"></i> Print
-                </button>
               </div>
             </div>
           </section>
@@ -98,41 +62,95 @@
   </div>
 </div>
 @endsection
-
 @push('style')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 <style>
   .invoice {
     border: none !important;
+  }
+  .dataTables_length select {
+    margin-right: 6px;
+    height: 37px !important;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+  .dataTables_length label {
+    display: flex;
+    align-items: center;
   }
 </style>
 @endpush
 
 @push('script')
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
 <script>
   $(function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const startDate = urlParams.get('start_date') || moment().subtract(29, 'days').format('YYYY-MM-DD');
-    const endDate = urlParams.get('end_date') || moment().format('YYYY-MM-DD');
+  const orders = @json($orders); // Laravel will inject your PHP data as JSON
 
-    $('#daterange-btn').daterangepicker({
-        ranges: {
-          'Today': [moment(), moment()],
-          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
-          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+  const tableData = orders.map((order, index) => ({
+    index: index + 1,
+    id: '#' + order.id,
+    customer: order.customer?.name ?? '-',
+    date: moment(order.created_at).format('DD-MM-YYYY'),
+    total_item: order.total_item,
+    sub_total: Number(order.sub_total).toFixed(2),
+    discount: Number(order.discount).toFixed(2),
+    total: Number(order.total).toFixed(2),
+    paid: Number(order.paid).toFixed(2),
+    due: Number(order.due).toFixed(2),
+    profit: Number(order.profit).toFixed(2),
+    status: order.status ? 'Paid' : 'Due'
+  }));
+
+  $('#datatables').DataTable({
+    data: tableData,
+    columns: [
+      { data: 'index', title: '#' },
+      { data: 'id', title: 'SaleId' },
+      { data: 'customer', title: 'Customer' },
+      { data: 'date', title: 'Date' },
+      { data: 'total_item', title: 'Item' },
+      { data: 'sub_total', title: 'Sub Total' },
+      { data: 'discount', title: 'Discount' },
+      { data: 'total', title: 'Total' },
+      { data: 'paid', title: 'Paid' },
+      { data: 'due', title: 'Due' },
+      { data: 'profit', title: 'Profit' },
+      { data: 'status', title: 'Status' }
+    ],
+    dom: 'lBfrtip',
+    buttons: [
+      'copy', 'csv', 'excel',
+      {
+        extend: 'pdfHtml5',
+        text: 'PDF',
+        exportOptions: {
+          columns: ':visible'
         },
-        startDate: moment(startDate, "YYYY-MM-DD"),
-        endDate: moment(endDate, "YYYY-MM-DD")
+        customize: function (doc) {
+          for (let i = 0; i < doc.content[1].table.body.length; i++) {
+            for (let j = 0; j < doc.content[1].table.body[i].length; j++) {
+              if (typeof doc.content[1].table.body[i][j].text === 'string') {
+                doc.content[1].table.body[i][j].text =
+                  doc.content[1].table.body[i][j].text.replace(/[৳$€£¥₹]/g, '');
+              }
+            }
+          }
+        }
       },
-      function(start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        window.location.href = '{{ route("backend.admin.sale.report") }}?start_date=' + start.format('YYYY-MM-DD') + '&end_date=' + end.format('YYYY-MM-DD');
-      }
-    );
-
-    $('#daterange-btn span').html(moment(startDate, "YYYY-MM-DD").format('MMMM D, YYYY') + ' - ' + moment(endDate, "YYYY-MM-DD").format('MMMM D, YYYY'));
+      'print'
+    ],
+    order: [[3, 'desc']],
+    pageLength: 25,
+    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
   });
+});
 </script>
 @endpush
