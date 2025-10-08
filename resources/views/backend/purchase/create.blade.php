@@ -1,10 +1,9 @@
 @extends('backend.master')
 
-@section('title', 'Product Purchase')
+@section('title', 'Create New Purchase')
 
 @section('content')
 <div class="container">
-    <h4>Create New Purchase</h4>
     <form action="{{ route('backend.admin.purchase.store') }}" method="POST">
         @csrf
 

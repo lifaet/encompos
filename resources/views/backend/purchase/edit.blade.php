@@ -1,8 +1,9 @@
 @extends('backend.master')
 
+@section('title', 'Edit Purchase #' . $purchase->id)
+
 @section('content')
 <div class="container">
-    <h4>Edit Purchase #{{ $purchase->id }}</h4>
     <form action="{{ route('backend.admin.purchase.update', $purchase->id) }}" method="POST">
         @csrf
         @method('PUT')
