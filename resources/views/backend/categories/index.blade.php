@@ -21,7 +21,6 @@
             <thead>
               <tr>
                 <th data-orderable="false">#</th>
-                <!-- <th></th> -->
                 <th>Name</th>
                 <th>Status</th>
                 <th data-orderable="false">Action</th>

@@ -6,9 +6,6 @@
       <!-- HEADER -->
       <div class="invoice-header" style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid #ccc; padding-bottom:15px; margin-bottom:10px;">
           <div class="company-info" style="display:flex; align-items:center;">
-              <!-- @if(readConfig('is_show_logo_invoice'))
-              <img src="{{ assetImage(readConfig('site_logo')) }}" height="60" style="max-width:80px; margin-right:15px;" alt="Logo">
-              @endif -->
               <div>
                   <h2 style="margin:0; font-size:24px;">{{ readConfig('site_name_extended') }}</h2>
                     <p style="margin: 2px 0; color: #333;">
@@ -80,10 +77,10 @@
       <div style="display:flex; justify-content:flex-end;">
           <div style="width:40%;">
               <table style="width:100%; border-collapse:collapse;">
-                  <!-- <tr>
+                  <tr>
                       <th style="text-align:right; padding:3px;">Subtotal:</th>
                       <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->sub_total,2) }}</td>
-                  </tr> -->
+                  </tr>
                   <tr>
                       <th style="text-align:right; padding:3px;">Discount:</th>
                       <td style="text-align:right; padding:3px;">{{ currency()->symbol.' '.number_format($order->discount,2) }}</td>
